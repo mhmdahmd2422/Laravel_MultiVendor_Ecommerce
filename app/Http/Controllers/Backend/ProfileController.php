@@ -40,7 +40,8 @@ class ProfileController extends Controller
         $user->phone = $request->phone;
         $user->save();
 
-        return redirect()->back()->with('success', 'You Had Changed Your Profile Info!');
+        toastr()->success('You Had Changed Your Profile Info!');
+        return redirect()->back();
     }
 
     public function updatePassword(Request $request){
@@ -53,6 +54,7 @@ class ProfileController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        return redirect()->back()->with('success', 'You Had Changed Your Password!');
+        toastr()->success('You Had Changed Your Password!');
+        return redirect()->back();
     }
 }

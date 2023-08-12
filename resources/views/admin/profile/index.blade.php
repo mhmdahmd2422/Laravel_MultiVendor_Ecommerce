@@ -11,20 +11,12 @@
             </div>
         </div>
         <div class="section-body">
-            @if($errors->all())
-                @foreach($errors->all() as $error)
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <strong>{{ $error }}</strong>
-                        <button type="button" class="close" data-bs-dismiss="alert" style="float: right; background: transparent;">×</button>
-                    </div>
-                @endforeach
-            @endif
-            @if ($message = Session::get('success'))
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <strong style=" color: black;">{{ $message }}</strong>
-                    <button type="button" class="close" data-bs-dismiss="alert" style="float: right; background: transparent;">×</button>
-                </div>
-            @endif
+{{--            @if ($message = Session::get('success'))--}}
+{{--                <div class="alert alert-success alert-dismissible" role="alert">--}}
+{{--                    <strong style=" color: black;">{{ $message }}</strong>--}}
+{{--                    <button type="button" class="close" data-bs-dismiss="alert" style="float: right; background: transparent;">×</button>--}}
+{{--                </div>--}}
+{{--            @endif--}}
             <h2 class="section-title">Hi, {{Auth::user()->name}}!</h2>
             <p class="section-lead">
                 Change Your Profile Details On This Page.
