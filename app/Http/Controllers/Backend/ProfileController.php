@@ -16,9 +16,9 @@ class ProfileController extends Controller
     public function updateProfile(Request $request){
         $request->validate([
             'name' => ['required', 'max:100'],
-            'username' => ['required'],
+            'username' => ['required', 'unique:App\Models\User,username,'.Auth::user()->id],
             'email' => ['required', 'email', 'unique:App\Models\User,email,'.Auth::user()->id],
-            'phone' => ['nullable', 'numeric', 'max:20'],
+            'phone' => ['nullable', 'numeric', 'max:20', 'unique:App\Models\User,phone,'.Auth::user()->id],
             'image' => ['image', 'max:2040']
         ]);
 

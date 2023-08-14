@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-12 col-md-12 col-lg-12">
                                 <div class="d-flex align-items-center justify-content-center m-4">
-                                    <img alt="image" src="{{asset(Auth::user()->image)}}" class="rounded-circle profile-widget-picture " style="width: 4rem; height: 4rem;">
+                                    <img alt="image" src="{{Auth::user()->image ? asset(Auth::user()->image) : asset('backend/assets/img/avatar/avatar-1.png')}}" class="rounded-circle profile-widget-picture " style="width: 4rem; height: 4rem;">
                                     <label class="ml-4">Change Photo -></label>
                                     <input type="file" name="image" class="form-control ml-4">
                                 </div>
