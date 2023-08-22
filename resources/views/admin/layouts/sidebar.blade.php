@@ -22,6 +22,7 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Manage Categories</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{route('admin.category.index')}}">Category</a></li>
+                    <li><a class="nav-link" href="{{route('admin.sub-category.index')}}">Sub-Category</a></li>
                 </ul>
             </li>
 {{--            <li class="dropdown">--}}
@@ -36,7 +37,7 @@
         </ul>
 
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-            <a href="" class="btn btn-primary btn-lg btn-block btn-icon-split">
+            <a href="{{route('home')}}" class="btn btn-primary btn-lg btn-block btn-icon-split">
                 <i class="fas fa-rocket"></i> FrontEnd
             </a>
         </div>

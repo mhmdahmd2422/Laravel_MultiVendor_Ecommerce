@@ -88,8 +88,9 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
+        toastr()->success('Sub-Category Has Been Deleted');
 
-        return response(['stats' => 'success', 'message' => 'Category Has Been Deleted Successfully!']);
+        return response(['status' => 'success', 'message' => 'Category Has Been Deleted Successfully!']);
     }
 
     public function submitForm(Request $request, $category, $alert, $route): \Illuminate\Http\RedirectResponse
