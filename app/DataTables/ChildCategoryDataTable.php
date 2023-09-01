@@ -22,7 +22,34 @@ class ChildCategoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'childcategory.action')
+            ->addColumn('sub-parent', function ($query){
+                $icon = "<span>{$query->subcategory->name}</span>";
+                return $icon;
+            })
+            ->addColumn('parent', function ($query){
+                $icon = "<span>{$query->subcategory->category->name}</span>";
+                return $icon;
+            })
+            ->addColumn('status', function ($query){
+                if($query->status){
+                    $button = "<label class='custom-switch'>
+                          <input type='checkbox' name='custom-switch-checkbox' checked data-id='".$query->id."' class='custom-switch-input change-checkbox'>
+                          <span class='custom-switch-indicator'></span>
+                        </label>";
+                }else{
+                    $button = "<label class='custom-switch'>
+                          <input type='checkbox' name='custom-switch-checkbox' data-id='".$query->id."' class='custom-switch-input change-checkbox'>
+                          <span class='custom-switch-indicator'></span>
+                        </label>";
+                }
+                return $button;
+            })
+            ->addColumn('action', function ($query){
+                $editButton = "<a href='".route('admin.child-category.edit', $query->id)."' style='color: white;' class='btn-sm btn-warning'><i class='far fa-edit mr-1'></i></a>";
+                $deleteButton = "<a href='".route('admin.child-category.destroy', $query->id)."' style='color: white;' class='btn-sm btn-danger ml-1 delete-item'><i class='fas fa-trash-alt mr-1'></i></a>";
+                return $editButton.$deleteButton;
+            })
+            ->rawColumns(['parent', 'action', 'status', 'sub-parent'])
             ->setRowId('id');
     }
 
@@ -62,15 +89,16 @@ class ChildCategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')->width(40),
+            Column::make('parent')->width(50),
+            Column::make('sub-parent')->width(80),
+            Column::make('name'),
+            Column::make('status')->width(80),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(80)
+                ->addClass('text-center'),
         ];
     }
 

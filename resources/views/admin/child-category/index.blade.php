@@ -3,13 +3,13 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Sub-Categories</h1>
+            <h1>Child-Categories</h1>
         </div>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Created Sub-Categories</h4>
+                        <h4>Created Child-Categories</h4>
                         <div class="card-header-action">
                             <a href="{{route('admin.child-category.create')}}" class="btn btn-primary" style="font-weight: bolder; font-size: 1rem"><i class="fas fa-plus mr-1"></i> Create New</a>
                         </div>
@@ -33,7 +33,7 @@
                 let id = $(this).data('id');
 
                 $.ajax({
-                    url: '{{route('admin.sub-category.change-status')}}',
+                    url: '{{route('admin.child-category.change-status')}}',
                     method: 'put',
                     data : {
                         status : isChecked,

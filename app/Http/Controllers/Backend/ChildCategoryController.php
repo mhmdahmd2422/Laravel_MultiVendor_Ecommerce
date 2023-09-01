@@ -62,7 +62,10 @@ class ChildCategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categories = Category::all();
+        $child_category = ChildCategory::findOrFail($id);
+        $sub_categories = SubCategory::where('category_id', $child_category->category_id)->get();
+        return view('admin.child-category.edit', compact('categories', 'sub_categories', 'child_category'));
     }
 
     /**
@@ -70,7 +73,19 @@ class ChildCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $child_category = ChildCategory::findOrFail($id);
+
+        $request->validate([
+            'category_id' => ['required', 'integer', 'max:50', 'exists:categories,id'],
+            'sub_category_id' => ['required', 'integer', 'max:50', 'exists:sub_categories,id'],
+            'name' => ['required', 'string', 'max:50', 'unique:App\Models\ChildCategory,name,'.$child_category->id],
+            'status' => ['required', 'boolean',],
+        ]);
+
+        $alert = 'Child-Category Has Been Updated!';
+        $route = 'admin.child-category.index';
+
+        return $this->submitForm($request, $child_category, $alert, $route);
     }
 
     /**
@@ -78,7 +93,10 @@ class ChildCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $child_category = ChildCategory::findOrFail($id);
+        $child_category->delete();
+
+        return response(['status' => 'success', 'message' => 'Child-Category Has Been Deleted Successfully!']);
     }
 
     public function submitForm(Request $request, $child_category, $alert, $route): \Illuminate\Http\RedirectResponse
@@ -103,5 +121,13 @@ class ChildCategoryController extends Controller
         $subCategories = SubCategory::where('category_id', $request->id)->where('status', 1)->get();
 
         return $subCategories;
+    }
+
+    public function changeStatus(Request $request){
+        $child_category = ChildCategory::findOrFail($request->id);
+        $child_category->status = $request->status == 'true' ? 1 : 0;
+        $child_category->save();
+
+        return response(['message' => 'Status Has Been Changed']);
     }
 }
