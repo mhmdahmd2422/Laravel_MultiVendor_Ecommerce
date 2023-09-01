@@ -118,11 +118,13 @@
                             if(data.status == 'success'){
                                 Swal.fire(
                                     'Deleted!',
-                                    data.message
+                                    data.message,
+                                    'success'
                                 )
                             }else if (data.status == 'error'){
                                 'Failed To Delete',
-                                data.message
+                                data.message,
+                                    'error'
                             }
                             window.location.reload();
                         },
