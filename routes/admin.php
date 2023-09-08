@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\AdminVendorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AdminController;
 
@@ -36,4 +37,8 @@ Route::resource('child-category', ChildCategoryController::class);
 Route::put('brand/change-status', [BrandController::class, 'changeStatus'])->name('brand.change-status');
 Route::put('brand/change-featured', [BrandController::class, 'changeFeatured'])->name('brand.change-featured');
 Route::resource('brand', BrandController::class);
+
+//Admin vendor routes
+Route::put('vendor/change-status', [AdminVendorController::class, 'changeStatus'])->name('vendor.change-status');
+Route::resource('vendor', AdminVendorController::class);
 
