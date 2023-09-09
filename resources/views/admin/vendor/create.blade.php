@@ -23,9 +23,15 @@
                                 <input name="name" type="text" class="form-control" value="{{old('name')}}">
                             </div>
                             <div class="form-group">
-                                <label>Phone</label>
-                                <input name="phone" type="number" class="form-control" value="{{old('phone')}}">
-                            </div>
+                                <label>Phone Number</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fas fa-phone"></i>
+                                        </div>
+                                    </div>
+                                    <input name="phone" type="text" class="form-control phone-number" value="{{old('phone')}}">
+                                </div>
                             <div class="form-group">
                                 <label>E-Mail</label>
                                 <input name="email" type="email" class="form-control" value="{{old('email')}}">

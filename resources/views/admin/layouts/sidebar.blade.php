@@ -18,10 +18,11 @@
                     <li class="{{setActive(['admin.slider.*'])}}"><a class="nav-link" href="{{route('admin.slider.index')}}">Slider</a></li>
                 </ul>
             </li>
-            <li class="dropdown {{setActive(['admin.brand.*',])}}">
+            <li class="dropdown {{setActive(['admin.brand.*', 'admin.product.*'])}}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Products</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.brand.*'])}}"><a class="nav-link" href="{{route('admin.brand.index')}}">Brands</a></li>
+                    <li class="{{setActive(['admin.product.*'])}}"><a class="nav-link" href="{{route('admin.product.index')}}">Products</a></li>
                 </ul>
             </li>
             <li class="dropdown {{setActive(['admin.vendor.*',])}}">
