@@ -47,4 +47,5 @@ Route::resource('vendor', AdminVendorController::class);
 Route::get('get-childcategories', [ProductController::class, 'getChildCategories'])->name('get-childcategories');
 Route::put('product/change-status', [ProductController::class, 'changeStatus'])->name('product.change-status');
 Route::resource('product', ProductController::class);
+//TODO: create dedicated subcategory fetch route
 

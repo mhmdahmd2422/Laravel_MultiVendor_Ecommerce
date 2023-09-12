@@ -8,9 +8,11 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ChildCategory;
 use App\Models\Product;
+use App\Models\SubCategory;
 use App\Models\Vendor;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -32,9 +34,8 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $brands = Brand::all();
-        $vendors = Vendor::all();
 
-        return view('admin.product.create', compact('categories', 'brands', 'vendors'));
+        return view('admin.product.create', compact('categories', 'brands'));
     }
 
     /**
@@ -42,10 +43,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+//        dd(Auth::user()->vendor->id);
         $request->validate([
             'thumb_image' => ['required', 'image', 'max:2048'],
             'name' => ['required', 'string', 'max:200'],
-            'vendor_id' => ['required', 'integer'],
             'category_id' => ['required', 'integer'],
             'sub_category_id' => ['required', 'integer'],
             'child_category_id' => ['required', 'integer'],
@@ -59,9 +60,7 @@ class ProductController extends Controller
             'offer_price' => ['nullable', 'decimal:0,2'],
             'offer_start_date' => ['nullable', 'date'],
             'offer_end_date' => ['nullable', 'date'],
-            'is_top' => ['nullable', 'boolean'],
-            'is_best' => ['nullable', 'boolean'],
-            'is_featured' => ['nullable', 'boolean'],
+            'list_type' => ['nullable', 'string'],
             'status' => ['required', 'boolean'],
             'seo_title' => ['nullable', 'string', 'max:200'],
             'seo_description' => ['nullable', 'string', 'max:1000'],
@@ -69,6 +68,8 @@ class ProductController extends Controller
 
         $product = new Product();
         $imagePath = $this->uploadImage($request, 'thumb_image', 'uploads');
+        $product->is_approved = 1;
+        $product->vendor_id = Auth::user()->vendor->id;
         $alert = 'New Product Has Been Created!';
         $route = 'admin.product.index';
 
@@ -88,7 +89,13 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        $sub_categories = SubCategory::where('category_id', $product->category_id)->get();
+        $child_categories = ChildCategory::where('sub_category_id', $product->sub_category_id)->get();
+        $brands = Brand::all();
+
+        return view('admin.product.edit', compact('product', 'categories', 'sub_categories', 'child_categories', 'brands'));
     }
 
     /**
@@ -96,7 +103,35 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+//        dd($request->all());
+        $request->validate([
+            'thumb_image' => ['nullable', 'image', 'max:2048'],
+            'name' => ['required', 'string', 'max:200'],
+            'category_id' => ['required', 'integer'],
+            'sub_category_id' => ['nullable', 'integer'],
+            'child_category_id' => ['nullable', 'integer'],
+            'brand_id' => ['required', 'integer'],
+            'quantity' => ['required', 'integer'],
+            'short_description' => ['required', 'string', 'max:1000'],
+            'long_description' => ['required', 'string', 'max:2000'],
+            'video_link' => ['nullable', 'url'],
+            'sku' => ['required', 'string', 'max:200'],
+            'price' => ['required', 'decimal:0,2'],
+            'offer_price' => ['nullable', 'decimal:0,2'],
+            'offer_start_date' => ['nullable', 'date'],
+            'offer_end_date' => ['nullable', 'date'],
+            'list_type' => ['nullable', 'string'],
+            'status' => ['required', 'boolean'],
+            'seo_title' => ['nullable', 'string', 'max:200'],
+            'seo_description' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $product = Product::findOrFail($id);
+        $imagePath = $this->updateImage($request, 'thumbnail', 'uploads', $product->thumb_image);
+        $alert = 'Product Has Been Updated!';
+        $route = 'admin.product.index';
+
+        return $this->submitForm($request, $product, $imagePath, $alert, $route);
     }
 
     /**
@@ -118,10 +153,17 @@ class ProductController extends Controller
         if($imagePath != null){$product->thumb_image = $imagePath;}
         $product->name = $request->name;
         $product->slug = Str::slug($request->name);
-        $product->vendor_id = $request->vendor_id;
         $product->category_id = $request->category_id;
-        $product->sub_category_id = $request->sub_category_id;
-        $product->child_category_id = $request->child_category_id;
+        if($request->sub_category_id == null){
+            $product->sub_category_id = 0;
+        }else{
+            $product->sub_category_id = $request->sub_category_id;
+        }
+        if($request->child_category_id == null){
+            $product->child_category_id = 0;
+        }else{
+            $product->child_category_id = $request->child_category_id;
+        }
         $product->brand_id = $request->brand_id;
         $product->quantity = $request->quantity;
         $product->short_description = $request->short_description;
@@ -132,11 +174,8 @@ class ProductController extends Controller
         $product->offer_price = $request->offer_price;
         $product->offer_start_date = $request->offer_start_date;
         $product->offer_end_date = $request->offer_end_date;
-        $product->is_top = $request->is_top;
-        $product->is_best = $request->is_best;
-        $product->is_featured = $request->is_featured;
+        $product->list_type = $request->list_type;
         $product->status = $request->status;
-        $product->is_approved = $request->is_approved;
         $product->seo_title = $request->seo_title;
         $product->seo_description = $request->seo_description;
         $product->save();
@@ -148,5 +187,13 @@ class ProductController extends Controller
         }else{
             return redirect()->back();
         }
+    }
+
+    public function changeStatus(Request $request){
+        $product = Product::findOrFail($request->id);
+        $product->status = $request->status == 'true' ? 1 : 0;
+        $product->save();
+
+        return response(['message' => 'Status Has Been Changed']);
     }
 }
