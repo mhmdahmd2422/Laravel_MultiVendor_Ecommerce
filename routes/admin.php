@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
@@ -48,4 +49,9 @@ Route::get('get-childcategories', [ProductController::class, 'getChildCategories
 Route::put('product/change-status', [ProductController::class, 'changeStatus'])->name('product.change-status');
 Route::resource('product', ProductController::class);
 //TODO: create dedicated subcategory fetch route
+
+//products image gallery routes
+Route::get('products-image-gallery/{id}', [ProductImageGalleryController::class, 'showTable'])
+    ->name('products-image-gallery.showTable');
+Route::resource('products-image-gallery', ProductImageGalleryController::class);
 

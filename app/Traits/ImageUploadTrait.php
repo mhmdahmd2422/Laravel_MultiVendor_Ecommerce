@@ -8,14 +8,26 @@ use Illuminate\Support\Facades\File;
 trait ImageUploadTrait{
     public function uploadImage(Request $request, $inputName, $path){
         if($request->hasFile($inputName)){
-//            if(File::exists(public_path($user->image))){
-//                File::delete(public_path($user->image));
-//            }
             $image = $request->{$inputName};
             $extension = $image->getClientOriginalExtension();
             $imageName = 'media_'.uniqid().'.'.$extension;
             $image->move(public_path($path), $imageName);
             return $path.'/'.$imageName;
+        }
+    }
+
+    public function uploadMultiImage(Request $request, $inputName, $path){
+        $imagePaths = [];
+        if($request->hasFile($inputName)){
+            $images = $request->{$inputName};
+
+            foreach ($images as $image) {
+                $extension = $image->getClientOriginalExtension();
+                $imageName = 'media_' . uniqid() . '.' . $extension;
+                $image->move(public_path($path), $imageName);
+                $imagePaths[] = $path.'/'.$imageName;
+            }
+            return $imagePaths;
         }
     }
 
