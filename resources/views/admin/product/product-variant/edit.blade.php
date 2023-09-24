@@ -23,7 +23,7 @@
                                 <label for="inputState">Status</label>
                                 <select name="status" id="inputState" class="form-control">
                                     <option {{$variant->status == 1 ? 'selected': ''}} value="1">Active</option>
-                                    <option {{$variant->status == 1 ? 'selected': ''}} value="0">Inactive</option>
+                                    <option {{$variant->status == 0 ? 'selected': ''}} value="0">Inactive</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Update</button>

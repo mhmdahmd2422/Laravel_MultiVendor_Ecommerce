@@ -57,7 +57,8 @@ Route::get('products-image-gallery/{id}', [ProductImageGalleryController::class,
 Route::resource('products-image-gallery', ProductImageGalleryController::class);
 
 //product variants routes
-Route::put('product-variant/change-status', [ProductVariantController::class, 'changeStatus'])->name('product-variant.change-status');
-Route::resource('products-variant', ProductVariantController::class);
 Route::get('product-variant/{id}', [ProductVariantController::class, 'showTable'])
     ->name('products-variant.showTable');
+Route::put('product-variant/change-status', [ProductVariantController::class, 'changeStatus'])->name('product-variant.change-status');
+Route::resource('products-variant', ProductVariantController::class);
+

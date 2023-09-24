@@ -25,6 +25,7 @@ class ProductVariantController extends Controller
      */
     public function create(Request $request)
     {
+//        dd($request->all());
         $product = Product::findOrFail($request->product_id);
         return view('admin.product.product-variant.create', compact('product'));
     }
@@ -48,7 +49,7 @@ class ProductVariantController extends Controller
 
         toastr()->success('Product Variant Created Successfully!');
 
-        return redirect()->route('admin.products-variant.index', ['product_id' => $request->product_id]);
+        return redirect()->route('admin.products-variant.showTable', $request->product_id);
 
     }
 
@@ -86,7 +87,7 @@ class ProductVariantController extends Controller
 
         toastr()->success('Product Variant Created Successfully!');
 
-        return redirect()->route('admin.products-variant.showTable', ['id' => $request->products_variant]);
+        return redirect()->route('admin.products-variant.showTable', $variant->product_id);
 
     }
 
@@ -95,7 +96,10 @@ class ProductVariantController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $variant = ProductVariant::findOrFail($id);
+        $variant->delete();
+
+        return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
     }
 
     public function changeStatus(Request $request){

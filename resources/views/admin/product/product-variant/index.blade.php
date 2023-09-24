@@ -14,7 +14,7 @@
                     <div class="card-header">
                         <h4>Created Product Variants For: {{$product->name}}</h4>
                         <div class="card-header-action">
-                            <a href="{{route('admin.products-variant.create', $product->id)}}" class="btn btn-primary" style="font-weight: bolder; font-size: 1rem"><i class="fas fa-plus mr-1"></i> Create New</a>
+                            <a href="{{route('admin.products-variant.create', ['product_id' => $product->id])}}" class="btn btn-primary" style="font-weight: bolder; font-size: 1rem"><i class="fas fa-plus mr-1"></i> Create New</a>
                         </div>
                     </div>
                     <div class="card-body">
