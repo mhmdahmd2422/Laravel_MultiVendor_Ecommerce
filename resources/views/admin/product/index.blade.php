@@ -35,6 +35,9 @@
                 $.ajax({
                     url: '{{route('admin.product.change-status')}}',
                     method: 'put',
+                    'headers': {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
                     data : {
                         status : isChecked,
                         id : id,

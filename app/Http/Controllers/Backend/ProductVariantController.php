@@ -6,6 +6,7 @@ use App\DataTables\ProductVariantDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Models\ProductVariantItem;
 use Illuminate\Http\Request;
 
 class ProductVariantController extends Controller
@@ -97,6 +98,12 @@ class ProductVariantController extends Controller
     public function destroy(string $id)
     {
         $variant = ProductVariant::findOrFail($id);
+        $variant_items = ProductVariantItem::where('variant_id', $variant->id)->count();
+        if($variant_items > 0){
+            toastr()->error('Variant Cannot Be Deleted');
+
+            return response(['status' => 'error', 'message' => 'This Variant contains Sub-Items!!']);
+        }
         $variant->delete();
 
         return response(['status' => 'success', 'message' => 'Deleted Successfully!']);

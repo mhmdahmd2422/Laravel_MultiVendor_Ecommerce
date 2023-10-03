@@ -10,4 +10,7 @@ class ProductVariantItem extends Model
     use HasFactory;
 
 
+    public function variant(){
+        return $this->belongsTo(ProductVariant::class);
+    }
 }

@@ -34,6 +34,9 @@
 
                 $.ajax({
                     url: '{{route('admin.sub-category.change-status')}}',
+                    'headers': {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
                     method: 'put',
                     data : {
                         status : isChecked,

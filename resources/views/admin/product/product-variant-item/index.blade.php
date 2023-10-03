@@ -14,7 +14,7 @@
                     <div class="card-header">
                         <h4>Items In Variant: {{$variant->name}}</h4>
                         <div class="card-header-action">
-                            <a href="{{route('admin.product-variant-items.create', $variant->id)}}" class="btn btn-primary" style="font-weight: bolder; font-size: 1rem"><i class="fas fa-plus mr-1"></i> Create New</a>
+                            <a href="{{route('admin.product-variant-items.create', [$product->id, $variant->id])}}" class="btn btn-primary" style="font-weight: bolder; font-size: 1rem"><i class="fas fa-plus mr-1"></i> Create New</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -36,8 +36,11 @@
                 let id = $(this).data('id');
 
                 $.ajax({
-                    url: '{{route('admin.product-variant.change-status')}}',
+                    url: '{{route('admin.product-variant-items.change-status')}}',
                     method: 'put',
+                    'headers': {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
                     data : {
                         status : isChecked,
                         id : id,

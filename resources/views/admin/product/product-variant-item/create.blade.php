@@ -18,6 +18,7 @@
                                 <label>Variant Name</label>
                                 <input name="variant_name" type="text" class="form-control" value="{{$variant->name}}" readonly>
                                 <input name="variant_id" type="hidden" class="form-control" value="{{$variant->id}}">
+                                <input name="product_id" type="hidden" class="form-control" value="{{$product->id}}">
                             </div>
                             <div class="form-group">
                                 <label>Variant Item Name</label>

@@ -38,6 +38,9 @@
                 $.ajax({
                     url: '{{route('admin.product-variant.change-status')}}',
                     method: 'put',
+                    'headers': {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
                     data : {
                         status : isChecked,
                         id : id,
