@@ -106,7 +106,7 @@ class ProductVariantController extends Controller
         }
         $variant->delete();
 
-        return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        return response(['status' => 'success', 'message' => 'Product Variant Deleted Successfully!']);
     }
 
     public function changeStatus(Request $request){
