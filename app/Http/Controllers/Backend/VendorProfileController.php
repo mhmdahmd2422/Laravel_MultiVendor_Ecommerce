@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\File;
 class VendorProfileController extends Controller
 {
     public function profile(){
-        return view('frontend.dashboard.profile');
+        return view('vendor.dashboard.profile');
     }
 
     public function updateProfile(Request $request){

@@ -130,7 +130,7 @@ class ProductController extends Controller
         ]);
 
         $product = Product::findOrFail($id);
-        $imagePath = $this->updateImage($request, 'thumbnail', 'uploads', $product->thumb_image);
+        $imagePath = $this->updateImage($request, 'thumb_image', 'uploads', $product->thumb_image);
         $alert = 'Product Has Been Updated!';
         $route = 'admin.product.index';
 

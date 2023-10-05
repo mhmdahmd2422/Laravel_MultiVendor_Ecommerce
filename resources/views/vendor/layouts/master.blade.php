@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <title>One Shop || e-Commerce HTML Template</title>
+    <title>Vendor</title>
     <link rel="icon" type="image/png" href="{{asset('frontend/images/favicon.png')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/bootstrap.min.css')}}">
@@ -21,7 +21,12 @@
     <link rel="stylesheet" href="{{asset('frontend/css/ranger_style.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/jquery.classycountdown.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/venobox.min.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/modules/summernote/summernote-bs4.css')}}">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}">
 
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/responsive.css')}}">
@@ -68,6 +73,9 @@
 <!--jquery library js-->
 <script src="{{asset('frontend/js/jquery-3.6.0.min.js')}}"></script>
 <!--bootstrap js-->
+<script src="{{asset('backend/assets/modules/popper.js')}}"></script>
+<script src="{{asset('backend/assets/modules/bootstrap/js/bootstrap.min.js')}}"></script>
+
 <script src="{{asset('frontend/js/bootstrap.bundle.min.js')}}"></script>
 <!--font-awesome js-->
 <script src="{{asset('frontend/js/Font-Awesome.js')}}"></script>
@@ -100,10 +108,26 @@
 <!--classycountdown js-->
 <script src="{{asset('frontend/js/jquery.classycountdown.js')}}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="{{asset('frontend/modules/summernote/summernote-bs4.js')}}"></script>
+<script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="{{asset('backend/assets/modules/moment.min.js')}}"></script>
+<script src="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('backend/assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
 
 <!--main/custom js-->
 <script src="{{asset('frontend/js/main.js')}}"></script>
-
+<script>
+    $('.summernote').summernote({
+        height : 100
+    })
+    $('.datepicker').daterangepicker({
+        locale: {
+            format: 'YYYY-MM-DD'
+        },
+        singleDatePicker: true
+    });
+</script>
 <script>
     @if($errors->all())
     @foreach($errors->all() as $error)
@@ -111,6 +135,8 @@
     @endforeach
     @endif
 </script>
+
+@stack('scripts')
 </body>
 
 </html>
