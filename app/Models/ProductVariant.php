@@ -9,6 +9,9 @@ class ProductVariant extends Model
 {
     use HasFactory;
 
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
     public function variantItems(){
         return $this->hasMany(ProductVariantItem::class, 'variant_id');
     }

@@ -121,7 +121,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'DELETE',
-                        url: deleteUrl,
+                        url: deleteUrl+'?_token=' + '{{ csrf_token() }}',
 
                         success: function (data) {
                             if(data.status == 'success'){
@@ -129,11 +129,19 @@
                                     'Deleted!',
                                     data.message,
                                     'success'
-                                )
+                                ).then((result) => {
+                                    // Reload the Page
+                                    location.reload();
+                                });
                             }else if (data.status == 'error'){
-                                'Failed To Delete',
-                                data.message,
+                                Swal.fire(
+                                    'Failed To Delete',
+                                    data.message,
                                     'error'
+                                ).then((result) => {
+                                    // Reload the Page
+                                    location.reload();
+                                });
                             }
                             window.location.reload();
                         },
