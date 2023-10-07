@@ -18,11 +18,20 @@
                     <li class="{{setActive(['admin.slider.*'])}}"><a class="nav-link" href="{{route('admin.slider.index')}}">Slider</a></li>
                 </ul>
             </li>
-            <li class="dropdown {{setActive(['admin.brand.*', 'admin.product.*'])}}">
+            <li class="dropdown {{setActive([
+                'admin.brand.*',
+                'admin.product.*',
+                'admin.products-image-gallery.*',
+                'admin.seller-products.*',
+                'admin.products-variant.*',
+                'admin.product-variant-items.*'
+                ])}}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Products</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.brand.*'])}}"><a class="nav-link" href="{{route('admin.brand.index')}}">Brands</a></li>
                     <li class="{{setActive(['admin.product.*'])}}"><a class="nav-link" href="{{route('admin.product.index')}}">Products</a></li>
+                    <li class="{{setActive(['admin.seller-products.index'])}}"><a class="nav-link" href="{{route('admin.seller-products.index')}}">Seller Products</a></li>
+                    <li class="{{setActive(['admin.seller-products.pending'])}}"><a class="nav-link" href="{{route('admin.seller-products.pending')}}">Pending Products</a></li>
                 </ul>
             </li>
             <li class="dropdown {{setActive(['admin.vendor.*',])}}">
@@ -39,15 +48,6 @@
                     <li class="{{setActive(['admin.child-category.*'])}}"><a class="nav-link" href="{{route('admin.child-category.index')}}">Child-Category</a></li>
                 </ul>
             </li>
-{{--            <li class="dropdown">--}}
-{{--                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Layout</span></a>--}}
-{{--                <ul class="dropdown-menu">--}}
-{{--                    <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>--}}
-{{--                    <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>--}}
-{{--                    <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>--}}
-{{--                </ul>--}}
-{{--            </li>--}}
-            <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>
         </ul>
 
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">

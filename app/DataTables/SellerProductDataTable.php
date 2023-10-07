@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Product;
+use App\Models\SellerProduct;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
@@ -13,7 +14,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ProductDataTable extends DataTable
+class SellerProductDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -25,7 +26,7 @@ class ProductDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
                 $editButton = "<a href='".route('admin.product.edit', $query->id)."' style='color: white;' class='btn btn-warning'><i class='far fa-edit mr-1'></i></a>";
-                $deleteButton = "<a href='".route('admin.product.destroy', $query->id)."' style='color: white;' class='btn btn-danger ml-1 delete-item'><i class='fas fa-trash-alt mr-1'></i></a>";
+                $deleteButton = "<a href='".route('admin.product.destroy', $query->id)."' style='color: white;' class='btn btn-danger ml-1 delete-item'><i class='fas fa-times-circle'></i></a>";
                 $moreButton = '<div class="btn-group dropleft">
                       <button type="button" class="btn btn-primary ml-1 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-wrench"></i>
@@ -36,6 +37,10 @@ class ProductDataTable extends DataTable
                       </div>
                     </div>';
                 return $editButton.$deleteButton.$moreButton;
+            })
+            ->addColumn('approve', function ($query){
+                $approveButton = "<a href='".route('admin.seller-products.approve', $query->id)."' style='color: white;' class='btn btn-dark approve-item'><i class='fas fa-times-circle' style='margin-right: 1rem'></i>Send To Pending</a>";
+                return $approveButton;
             })
             ->addColumn('thumbnail', function ($query){
                 return $image = "<img style='height: 5rem; width: 5rem;' src='".asset($query->thumb_image)."'></img>";
@@ -73,8 +78,14 @@ class ProductDataTable extends DataTable
                         break;
                 }
             })
+            ->addColumn('vendor name', function ($query){
+                return $query->vendor->user->name;
+            })
+            ->addColumn('vendor username', function ($query){
+                return $query->vendor->user->username;
+            })
 
-            ->rawColumns(['thumbnail', 'action', 'status', 'listing'])
+            ->rawColumns(['thumbnail', 'action', 'status', 'listing', 'approve'])
             ->setRowId('id');
     }
 
@@ -83,7 +94,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->where('vendor_id', Auth::user()->vendor->id)->newQuery();
+        return $model->where('vendor_id', '!=', Auth::user()->vendor->id)->where('is_approved', 1)->newQuery();
     }
 
     /**
@@ -92,7 +103,7 @@ class ProductDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('product-table')
+                    ->setTableId('sellerproduct-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -117,9 +128,12 @@ class ProductDataTable extends DataTable
             Column::make('id')->width(30),
             Column::make('thumbnail')->width(100),
             Column::make('name'),
+            Column::make('vendor name'),
+            Column::make('vendor username'),
             Column::make('price'),
             Column::make('listing'),
             Column::make('status'),
+            Column::make('approve'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -133,6 +147,6 @@ class ProductDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Product_' . date('YmdHis');
+        return 'SellerProduct_' . date('YmdHis');
     }
 }

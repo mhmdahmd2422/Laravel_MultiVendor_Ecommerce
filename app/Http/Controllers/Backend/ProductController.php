@@ -106,7 +106,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-//        dd($request->all());
         $request->validate([
             'thumb_image' => ['nullable', 'image', 'max:2048'],
             'name' => ['required', 'string', 'max:200'],

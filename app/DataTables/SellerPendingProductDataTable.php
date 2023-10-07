@@ -3,8 +3,8 @@
 namespace App\DataTables;
 
 use App\Models\Product;
+use App\Models\SellerPendingProduct;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ProductDataTable extends DataTable
+class SellerPendingProductDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -36,6 +36,10 @@ class ProductDataTable extends DataTable
                       </div>
                     </div>';
                 return $editButton.$deleteButton.$moreButton;
+            })
+            ->addColumn('approve', function ($query){
+                $approveButton = "<a href='".route('admin.seller-products.approve', $query->id)."' style='color: white;' class='btn btn-success approve-item'><i class='fas fa-check-square' style='margin-right: 1rem'></i>Approve</a>";
+                return $approveButton;
             })
             ->addColumn('thumbnail', function ($query){
                 return $image = "<img style='height: 5rem; width: 5rem;' src='".asset($query->thumb_image)."'></img>";
@@ -73,8 +77,14 @@ class ProductDataTable extends DataTable
                         break;
                 }
             })
+            ->addColumn('vendor name', function ($query){
+                return $query->vendor->user->name;
+            })
+            ->addColumn('vendor username', function ($query){
+                return $query->vendor->user->username;
+            })
 
-            ->rawColumns(['thumbnail', 'action', 'status', 'listing'])
+            ->rawColumns(['thumbnail', 'action', 'status', 'listing', 'approve'])
             ->setRowId('id');
     }
 
@@ -83,7 +93,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->where('vendor_id', Auth::user()->vendor->id)->newQuery();
+        return $model->where('is_approved', 0)->newQuery();
     }
 
     /**
@@ -92,7 +102,7 @@ class ProductDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('product-table')
+                    ->setTableId('sellerpendingproduct-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -117,9 +127,12 @@ class ProductDataTable extends DataTable
             Column::make('id')->width(30),
             Column::make('thumbnail')->width(100),
             Column::make('name'),
+            Column::make('vendor name'),
+            Column::make('vendor username'),
             Column::make('price'),
             Column::make('listing'),
             Column::make('status'),
+            Column::make('approve'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -133,6 +146,6 @@ class ProductDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Product_' . date('YmdHis');
+        return 'SellerPendingProduct_' . date('YmdHis');
     }
 }

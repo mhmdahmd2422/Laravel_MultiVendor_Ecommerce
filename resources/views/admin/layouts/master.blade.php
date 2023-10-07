@@ -143,7 +143,53 @@
                                     location.reload();
                                 });
                             }
-                            window.location.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(error);
+                        }
+                    })
+                }
+            })
+        })
+        $('body').on('click', '.approve-item', function (event){
+            event.preventDefault();
+
+            let approveUrl = $(this).attr('href');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Approve!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'PUT',
+                        url: approveUrl+'?_token=' + '{{ csrf_token() }}',
+
+                        success: function (data) {
+                            if(data.status == 'success'){
+                                Swal.fire(
+                                    'Approved!',
+                                    data.message,
+                                    'success'
+                                ).then((result) => {
+                                    // Reload the Page
+                                    location.reload();
+                                });
+                            }else if (data.status == 'error'){
+                                Swal.fire(
+                                    'Failed To Approve',
+                                    data.message,
+                                    'error'
+                                ).then((result) => {
+                                    // Reload the Page
+                                    location.reload();
+                                });
+                            }
                         },
                         error: function (xhr, status, error) {
                             console.log(error);

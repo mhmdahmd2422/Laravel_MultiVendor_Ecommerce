@@ -6,7 +6,7 @@
             <h1>Products Image Gallery</h1>
         </div>
     <div class="mb-3">
-        <a href="{{route('admin.product.index')}}" class="btn btn-warning"><i class="fas fa-chevron-left"  style="margin-right: 0.8rem">Back</a>
+        <a href="{{route('admin.product.index')}}" class="btn btn-warning"><i class="fas fa-chevron-left"  style="margin-right: 0.8rem"></i>Back</a>
     </div>
     <div class="row">
         <div class="col-12 col-md-6 col-lg-12">

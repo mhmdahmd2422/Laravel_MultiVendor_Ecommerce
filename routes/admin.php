@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
 use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\ProfileController;
+use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\AdminVendorController;
@@ -77,5 +78,13 @@ Route::put('product-variant-items-update/{variant_item_id}', [ProductVariantItem
     ->name('product-variant-items.update');
 Route::delete('product-variant-items-delete/{variant_item_id}', [ProductVariantItemController::class, 'destroy'])
     ->name('product-variant-items.destroy');
+
+//Seller products routes
+Route::get('seller-products', [SellerProductController::class, 'index'])
+    ->name('seller-products.index');
+Route::get('seller-pending-products', [SellerProductController::class, 'pendingProducts'])
+    ->name('seller-products.pending');
+Route::put('seller-pending-products/{product_id}', [SellerProductController::class, 'approveProduct'])
+    ->name('seller-products.approve');
 
 
