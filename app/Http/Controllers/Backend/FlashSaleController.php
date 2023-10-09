@@ -64,6 +64,7 @@ class FlashSaleController extends Controller
 
         return response(['status' => 'success', 'message' => 'Flash Sale Item Has Been Deleted Successfully!']);
     }
+
     public function changeStatus(Request $request)
     {
         $sale_item = FlashSaleItem::findOrFail($request->id);

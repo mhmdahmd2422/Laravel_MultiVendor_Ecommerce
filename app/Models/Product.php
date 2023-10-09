@@ -12,4 +12,12 @@ class Product extends Model
     public function vendor(){
         return $this->belongsTo(Vendor::class);
     }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+
+    public function gallery(){
+        return $this->hasMany(ProductImageGallery::class);
+    }
 }

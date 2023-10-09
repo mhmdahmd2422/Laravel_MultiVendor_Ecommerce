@@ -2,10 +2,42 @@
 
 // Set Sidebar Item Active
 
+use App\Models\Product;
+use Illuminate\Support\Str;
+
 function setActive(array $route){
     foreach ($route as $r){
         if(request()->routeIs($r)){
             return 'active';
         }
     }
+}
+
+//Check if product in discount
+
+function checkDiscount(Product $product)
+{
+    $currentDate = date('Y-m-d');
+
+    if($product->offer_price > 0 &&
+        $currentDate >= $product->offer_start_date &&
+        $currentDate <= $product->offer_end_date
+    ){
+        return true;
+    }
+    return false;
+}
+
+function discountPercent(int $price_before, int $price_after){
+
+    return ceil(($price_before - $price_after)/$price_before *100);
+}
+
+function productListing(Product $product){
+    if(isset($product->list_type)){
+        $listing = Str::upper(Str::before($product->list_type, '_'));
+
+        return $listing;
+    }
+    return false;
 }

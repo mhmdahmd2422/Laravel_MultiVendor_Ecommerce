@@ -11,6 +11,10 @@ class FlashSaleItem extends Model
 
     protected $fillable = ['product_id'];
 
+    public function scopeShowActive($query){
+        return $query->where('show_at_home', 1)->where('status', 1)->orderBy('id', 'DESC');
+    }
+
     public function product(){
         return $this->belongsTo(Product::class);
     }

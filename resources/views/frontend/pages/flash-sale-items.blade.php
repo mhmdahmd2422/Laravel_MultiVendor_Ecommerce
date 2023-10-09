@@ -1,22 +1,28 @@
+@extends('frontend.layouts.master')
+
+@section('content')
+
 <!--============================
-    FLASH SELL START
-==============================-->
-<section id="wsus__flash_sell" class="wsus__flash_sell_2">
+        DAILY DEALS START
+    ==============================-->
+<section id="wsus__daily_deals">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
-                <div class="offer_time" style="background-image: url({{asset('frontend/images/flash_sell_bg.jpg')}})">
-                    <div class="wsus__flash_coundown">
-                        <span class=" end_text">flash Sale</span>
+                <div class="wsus__section_header rounded-0">
+                    <h3>flash sale</h3>
+                    <div class="wsus__offer_countdown">
+                        <span class="end_text">ends time :</span>
                         <div class="simply-countdown simply-countdown-one"></div>
-                        <a class="common_btn" href="{{route('flash-sale.details')}}">see more <i class="fas fa-caret-right"></i></a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row flash_sell_slider">
+
+        <div class="row">
             @foreach($flash_sale_items as $item)
-                <div class="col-xl-3 col-sm-6 col-lg-4">
+            <div class="col-xl-3">
+                <div class="wsus__offer_det_single">
                     <div class="wsus__product_item">
                         @if(productListing($item->product))
                             <span class="wsus__new">{{productListing($item->product)}}</span>
@@ -32,12 +38,6 @@
                                 <img src="{{asset($item->product->thumb_image)}}" alt="product" class="img-fluid w-100 img_2" />
                             @endif
                         </a>
-                        <ul class="wsus__single_pro_icon">
-                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                        class="far fa-eye"></i></a></li>
-                            <li><a href="#"><i class="far fa-heart"></i></a></li>
-                            <li><a href="#"><i class="far fa-random"></i></a>
-                        </ul>
                         <div class="wsus__product_details">
                             <a class="wsus__category" href="#">{{$item->product->category->name}}</a>
                             <p class="wsus__pro_rating">
@@ -46,7 +46,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star-half-alt"></i>
-                                <span>(133 review)</span>
+                                <span>(120 review)</span>
                             </p>
                             <a class="wsus__pro_name" href="#">{{$item->product->name}}</a>
                             @if(checkDiscount($item->product))
@@ -60,12 +60,29 @@
                             <a class="add_cart" href="#">add to cart</a>
                         </div>
                     </div>
+                    <div class="wsus__offer_progress">
+                        <p><span>Remaining {{$item->product->quantity}}</span></p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65"
+                                 aria-valuemin="0" aria-valuemax="100">65%</div>
+                        </div>
+                    </div>
                 </div>
+            </div>
             @endforeach
         </div>
+        @if($flash_sale_items->hasPages())
+            <div class="mt-5">
+                {{$flash_sale_items->links()}}
+            </div>
+        @endif
     </div>
 </section>
+<!--============================
+    DAILY DEALS END
+==============================-->
 
+@endsection
 @push('scripts')
     <script>
         var d = new Date(),
@@ -82,6 +99,3 @@
         })
     </script>
 @endpush
-<!--============================
-    FLASH SELL END
-==============================-->
