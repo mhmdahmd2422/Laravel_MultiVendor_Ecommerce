@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Brand;
+use App\Models\FlashSaleItem;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BrandDataTable extends DataTable
+class FlashSaleItemDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,26 +23,11 @@ class BrandDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
-                $editButton = "<a href='".route('admin.brand.edit', $query->id)."' style='color: white;' class='btn-sm btn-warning'><i class='far fa-edit mr-1'></i></a>";
-                $deleteButton = "<a href='".route('admin.brand.destroy', $query->id)."' style='color: white;' class='btn-sm btn-danger ml-1 delete-item'><i class='fas fa-trash-alt mr-1'></i></a>";
-                return $editButton.$deleteButton;
+                $deleteButton = "<a href='".route('admin.flash-sale.destroy', $query->id)."' style='color: white;' class='btn btn-danger ml-1 delete-item'><i class='fas fa-trash-alt mr-1'></i></a>";
+                return $deleteButton;
             })
-            ->addColumn('logo', function ($query){
-                return $image = "<img style='height: 5rem; width: 7rem;' src='".asset($query->logo)."'>";
-            })
-            ->addColumn('featured', function ($query){
-                if($query->status){
-                    $button = "<label class='custom-switch'>
-                          <input type='checkbox' name='custom-switch-checkbox' checked data-id='".$query->id."' class='custom-switch-input change-featured'>
-                          <span class='custom-switch-indicator'></span>
-                        </label>";
-                }else{
-                    $button = "<label class='custom-switch'>
-                          <input type='checkbox' name='custom-switch-checkbox' data-id='".$query->id."' class='custom-switch-input change-featured'>
-                          <span class='custom-switch-indicator'></span>
-                        </label>";
-                }
-                return $button;
+            ->addColumn('product name', function ($query){
+                return "<a href='".route('admin.product.edit', $query->product->id)."'>".$query->product->name."</a>";
             })
             ->addColumn('status', function ($query){
                 if($query->status){
@@ -58,15 +43,31 @@ class BrandDataTable extends DataTable
                 }
                 return $button;
             })
-
-            ->rawColumns(['logo', 'action', 'status', 'featured'])
-            ->setRowId('id');
+            ->addColumn('show at home', function ($query){
+                if($query->show_at_home){
+                    $button = "<label class='custom-switch'>
+                          <input type='checkbox' name='custom-switch-checkbox' checked data-id='".$query->id."' class='custom-switch-input change-show'>
+                          <span class='custom-switch-indicator'></span>
+                        </label>";
+                }else{
+                    $button = "<label class='custom-switch'>
+                          <input type='checkbox' name='custom-switch-checkbox' data-id='".$query->id."' class='custom-switch-input change-show'>
+                          <span class='custom-switch-indicator'></span>
+                        </label>";
+                }
+                return $button;
+            })
+            ->addColumn('product image', function ($query){
+                return $image = "<img style='height: 5rem; width: 7rem;' src='".asset($query->product->thumb_image)."'>";
+            })
+            ->setRowId('id')
+            ->rawColumns(['status', 'show at home', 'action', 'product image', 'product name']);
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Brand $model): QueryBuilder
+    public function query(FlashSaleItem $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -77,11 +78,11 @@ class BrandDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('brand-table')
+                    ->setTableId('flashsaleitem-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -99,17 +100,15 @@ class BrandDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(30),
-            Column::make('logo')->width(150),
-            Column::make('name'),
-            Column::make('featured'),
+            Column::make('id'),
+            Column::make('product image'),
+            Column::make('product name'),
+            Column::make('show at home'),
             Column::make('status'),
-//            Column::make('created_at'),
-//            Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(100)
+                ->width(60)
                 ->addClass('text-center'),
         ];
     }
@@ -119,6 +118,6 @@ class BrandDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Brand_' . date('YmdHis');
+        return 'FlashSaleItem_' . date('YmdHis');
     }
 }

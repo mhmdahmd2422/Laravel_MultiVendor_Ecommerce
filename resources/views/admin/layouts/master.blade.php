@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{asset('backend/assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/css/components.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/modules/jquery-selectric/selectric.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/assets/modules/select2/dist/css/select2.min.css')}}">
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
@@ -79,7 +80,9 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-iconpicker/1.10.0/js/bootstrap-iconpicker-iconset-all.min.js"></script>
 <script src="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('backend/assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
+
 <script src="{{asset('backend/assets/modules/jquery-selectric/jquery.selectric.min.js')}}"></script>
+<script src="{{asset('backend/assets/modules/select2/dist/js/select2.full.min.js')}}"></script>
 <script src="{{asset('backend/assets/modules/upload-preview/assets/js/jquery.uploadPreview.js')}}"></script>
 
 
