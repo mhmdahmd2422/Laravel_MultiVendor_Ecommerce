@@ -41,3 +41,11 @@ function productListing(Product $product){
     }
     return false;
 }
+
+function checkStock(Product $product){
+    if($product->quantity > 0){
+        return true;
+    }else{
+        return false;
+    }
+}

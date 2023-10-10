@@ -30,7 +30,7 @@
                         @if(checkDiscount($item->product))
                             <span class="wsus__minus">-{{discountPercent($item->product->price, $item->product->offer_price)}}%</span>
                         @endif
-                        <a class="wsus__pro_link" href="product_details.html">
+                        <a class="wsus__pro_link" href="{{route('product-detail.index', $item->product->slug)}}">
                             <img src="{{asset($item->product->thumb_image)}}" alt="product" class="img-fluid w-100 img_1" />
                             @if(isset($item->product->gallery[1]))
                                 <img src="{{asset($item->product->gallery->last()->image)}}" alt="product" class="img-fluid w-100 img_2" />
@@ -48,7 +48,7 @@
                                 <i class="fas fa-star-half-alt"></i>
                                 <span>(120 review)</span>
                             </p>
-                            <a class="wsus__pro_name" href="#">{{$item->product->name}}</a>
+                            <a class="wsus__pro_name" href="{{route('product-detail.index', $item->product->slug)}}">{{$item->product->name}}</a>
                             @if(checkDiscount($item->product))
                                 <p class="wsus__price">${{$item->product->offer_price}}
                                     <del>${{$item->product->price}}</del>

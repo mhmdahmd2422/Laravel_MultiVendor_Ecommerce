@@ -9,6 +9,10 @@ class Product extends Model
 {
     use HasFactory;
 
+    public function scopeActiveApproved($query){
+        return $query->where('is_approved', 1)->where('status', 1);
+    }
+
     public function vendor(){
         return $this->belongsTo(Vendor::class);
     }
@@ -20,4 +24,9 @@ class Product extends Model
     public function gallery(){
         return $this->hasMany(ProductImageGallery::class);
     }
+
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
+
 }
