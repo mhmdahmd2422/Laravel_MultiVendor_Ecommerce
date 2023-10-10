@@ -51,9 +51,9 @@
                                 <span>({{$product->quantity}} item)</span>
                             </p>
                             @if(checkDiscount($product))
-                                <h4>${{$product->offer_price}}.00 <del>${{$product->price}}.00</del></h4>
+                                <h4>{{$settings->currency_icon}}{{$product->offer_price}}.00 <del>{{$settings->currency_icon}}{{$product->price}}.00</del></h4>
                             @else
-                                <h4>${{$product->price}}</h4>
+                                <h4>{{$settings->currency_icon}}{{$product->price}}</h4>
                             @endif
                             <p class="review">
                                 <i class="fas fa-star"></i>
@@ -97,7 +97,7 @@
                                             <h5 class="mb-2">select {{$variant->name}}:</h5>
                                             <select class="select_2" name="state">
                                                 @foreach($variant->variantItems as $item)
-                                                    <option {{$item->is_default == 1 ? 'selected' : ''}} value="{{$item->id}}">{{$item->name}} (${{$item->price}})</option>
+                                                    <option {{$item->is_default == 1 ? 'selected' : ''}} value="{{$item->id}}">{{$item->name}} ({{$settings->currency_icon}}{{$item->price}})</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -599,16 +599,16 @@
             });
         })
     </script>
-    <script>
-        $(document).ready(function (){
-            $('body').on('change', '.spinner', function (e){
-                let quantity = $(this).val();
-                let pricePerItem = {{checkDiscount($product) ? $product->offer_price : $product->price}};
-                let result = document.getElementById("result");
-                let totalPrice = pricePerItem * quantity;
-                console.log(result);
-                result.innerText = "Total Price: $" + totalPrice;
-            })
-        })
-    </script>
+{{--    <script>--}}
+{{--        $(document).ready(function (){--}}
+{{--            $('body').on('change', '.spinner', function (e){--}}
+{{--                let quantity = $(this).val();--}}
+{{--                let pricePerItem = {{checkDiscount($product) ? $product->offer_price : $product->price}};--}}
+{{--                let result = document.getElementById("result");--}}
+{{--                let totalPrice = pricePerItem * quantity;--}}
+{{--                console.log(result);--}}
+{{--                result.innerText = "Total Price: $" + totalPrice;--}}
+{{--            })--}}
+{{--        })--}}
+{{--    </script>--}}
 @endpush

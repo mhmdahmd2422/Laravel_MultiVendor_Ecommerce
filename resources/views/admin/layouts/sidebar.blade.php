@@ -50,6 +50,7 @@
                     <li class="{{setActive(['admin.child-category.*'])}}"><a class="nav-link" href="{{route('admin.child-category.index')}}">Child-Category</a></li>
                 </ul>
             </li>
+            <li class="{{setActive(['admin.child-category.*'])}}"><a class="nav-link" href="{{route('admin.settings.index')}}"><i class="fas fa-wrench"></i>Settings</a></li>
         </ul>
 
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
