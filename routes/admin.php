@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
@@ -103,7 +104,12 @@ Route::put('flash-sale/change-status', [FlashSaleController::class, 'changeStatu
 Route::put('flash-sale/change-show', [FlashSaleController::class, 'changeShow'])
     ->name('flash-sale.change-show');
 
-//Setting Routes
+//Coupons Routes
+Route::resource('coupons', CouponController::class);
+Route::put('coupon/change-status', [CouponController::class, 'changeStatus'])
+    ->name('coupons.change-status');
+
+//Settings Routes
 Route::get('settings', [SettingsController::class, 'index'])
     ->name('settings.index');
 Route::put('general-settings-update', [SettingsController::class, 'generalSettingsUpdate'])

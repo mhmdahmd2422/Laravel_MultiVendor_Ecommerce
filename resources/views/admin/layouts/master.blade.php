@@ -22,10 +22,10 @@
     <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}">
     <!-- Template CSS -->
+    <link rel="stylesheet" href="{{asset('backend/assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/css/components.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/modules/jquery-selectric/selectric.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/modules/select2/dist/css/select2.min.css')}}">
-    <link rel="stylesheet" href="{{asset('backend/assets/css/style.css')}}">
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
