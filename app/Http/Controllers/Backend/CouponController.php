@@ -66,7 +66,7 @@ class CouponController extends Controller
     public function update(Request $request, string $id)
     {
         $coupon = Coupon::findOrFail($id);
-        $alert = 'This Coupon Has Been Updated';
+        $alert = 'Coupon Has Been Updated';
         $route = 'admin.coupons.index';
 
         return $this->submitForm($request, $coupon, $alert, $route);
@@ -80,7 +80,7 @@ class CouponController extends Controller
         $coupon = Coupon::findOrFail($id);
         $coupon->delete();
 
-        return response(['status' => 'success', 'message' => 'Flash Sale Item Has Been Deleted Successfully!']);
+        return response(['status' => 'success', 'message' => 'Coupon Has Been Deleted Successfully!']);
 
     }
 

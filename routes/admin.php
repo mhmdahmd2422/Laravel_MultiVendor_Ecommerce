@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SettingsController;
+use App\Http\Controllers\Backend\ShippingRuleController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\AdminVendorController;
@@ -109,11 +110,16 @@ Route::resource('coupons', CouponController::class);
 Route::put('coupon/change-status', [CouponController::class, 'changeStatus'])
     ->name('coupons.change-status');
 
+//Shipping Routes
+Route::put('shipping/change-status', [ShippingRuleController::class, 'changeStatus'])
+    ->name('shipping.change-status');
+Route::resource('shipping', ShippingRuleController::class);
+
 //Settings Routes
-Route::get('settings', [SettingsController::class, 'index'])
-    ->name('settings.index');
 Route::put('general-settings-update', [SettingsController::class, 'generalSettingsUpdate'])
     ->name('general-settings.update');
+Route::get('settings', [SettingsController::class, 'index'])
+    ->name('settings.index');
 
 
 

@@ -2,9 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\Coupon;
 use App\Models\GeneralSetting;
-use Carbon\Carbon;
+use App\Models\ShippingRule;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class CouponDataTable extends DataTable
+class ShippingRuleDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -25,22 +24,21 @@ class CouponDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query){
-                $editButton = "<a href='".route('admin.coupons.edit', $query->id)."' style='color: white;' class='btn btn-warning'><i class='far fa-edit mr-1'></i></a>";
-                $deleteButton = "<a href='".route('admin.coupons.destroy', $query->id)."' style='color: white; margin-left: 0.5rem;' class='btn btn-danger ml-2 delete-item'><i class='fas fa-trash-alt mr-1'></i></a>";
+                $editButton = "<a href='".route('admin.shipping.edit', $query->id)."' style='color: white;' class='btn btn-warning'><i class='far fa-edit mr-1'></i></a>";
+                $deleteButton = "<a href='".route('admin.shipping.destroy', $query->id)."' style='color: white; margin-left: 0.5rem;' class='btn btn-danger ml-2 delete-item'><i class='fas fa-trash-alt mr-1'></i></a>";
                 return $editButton.$deleteButton;
-            })
-            ->addColumn('discount', function ($query){
-                if($query->discount_type == 'percent'){
-                    return $query->discount_value.'%';
-                }else{
-                    return GeneralSetting::first()->currency_icon.$query->discount_value;
+            })            ->addColumn('type', function ($query){
+                if($query->type == 'flat_cost'){
+                    return '<span class="badge badge-primary">Flat Cost</span>';
+                }else {
+                    return '<span class="badge badge-info">Minimum Order Amount</span>';
                 }
             })
-            ->addColumn('end_date', function ($query){
-                return $query->end_date.' (Duration: '.Carbon::parse($query->start_date)->diffInDays($query->end_date).' Days)';
+            ->addColumn('cost', function ($query){
+                return $query->currency.$query->cost;
             })
-            ->addColumn('time left', function ($query){
-                return ' ('.now(GeneralSetting::first()->timezone)->diffInDays($query->end_date).' Days)';
+            ->addColumn('min_cost', function ($query){
+                return $query->currency.$query->min_cost;
             })
             ->addColumn('status', function ($query){
                 if($query->status){
@@ -56,14 +54,14 @@ class CouponDataTable extends DataTable
                 }
                 return $button;
             })
-            ->rawColumns(['status', 'action'])
+            ->rawColumns(['type', 'action', 'status'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Coupon $model): QueryBuilder
+    public function query(ShippingRule $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -74,11 +72,11 @@ class CouponDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('coupon-table')
+                    ->setTableId('shippingrule-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(0)
+                    ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -98,16 +96,14 @@ class CouponDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
-            Column::make('code'),
-            Column::make('discount'),
-            Column::make('start_date'),
-            Column::make('end_date'),
-            Column::make('time left'),
+            Column::make('type'),
+            Column::make('min_cost'),
+            Column::make('cost'),
             Column::make('status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(120)
+                ->width(100)
                 ->addClass('text-center'),
         ];
     }
@@ -117,6 +113,6 @@ class CouponDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Coupon_' . date('YmdHis');
+        return 'ShippingRule_' . date('YmdHis');
     }
 }
