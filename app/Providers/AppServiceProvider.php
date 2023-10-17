@@ -35,5 +35,8 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) use ($generalSettings){
             $view->with('settings', $generalSettings);
         });
+        View::composer('frontend.dashboard.address.*', function ($view){
+            $view->with('countries', config('countries.countries'));
+        });
     }
 }
