@@ -1,9 +1,5 @@
 @extends('frontend.layouts.master')
 
-@section('title')
-    {{$settings->site_name}} || Login
-@endsection
-
 @section('content')
 <!--============================
    LOGIN/REGISTER PAGE START

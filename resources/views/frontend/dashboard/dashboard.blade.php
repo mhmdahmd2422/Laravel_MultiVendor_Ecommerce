@@ -1,9 +1,5 @@
 @extends('frontend.dashboard.layouts.master')
 
-@section('title')
-    {{$settings->site_name}} || Dashboard
-@endsection
-
 @section('content')
 <!--=============================
   DASHBOARD START
