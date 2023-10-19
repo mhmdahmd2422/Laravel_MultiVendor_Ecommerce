@@ -1,5 +1,7 @@
 @extends('frontend.layouts.master')
-
+@section('title')
+    {{$settings->site_name}} || Product Details
+@endsection
 @section('content')
     <!--============================
         PRODUCT DETAILS START
@@ -63,7 +65,9 @@
                                 <i class="fas fa-star-half-alt"></i>
                                 <span>20 review</span>
                             </p>
-                            <p class="description">{{$product->short_description}}</p>
+                            <p class="description" style="font-style: italic; font-size: large">{{$product->short_description}}</p>
+                            <p class="brand_model"><span style="font-weight: bold">model :</span> {{$product->sku?? 'Not Provided'}}</p>
+                            <p class="brand_model mb-4"><span style="font-weight: bold">brand :</span> {{$product->brand->name}}</p>
 
                             @if(checkDiscount($product))
                                 <div class="wsus_pro_hot_deals">
@@ -90,35 +94,39 @@
 {{--                                    <li><a href="#">XL</a></li>--}}
 {{--                                </ul>--}}
 {{--                            </div>--}}
-                            @foreach($variants as $variant)
-                                <div class="wsus__selectbox">
-                                    <div class="row">
-                                        <div class="col-xl-6 col-sm-6">
-                                            <h5 class="mb-2">select {{$variant->name}}:</h5>
-                                            <select class="select_2" name="state">
-                                                @foreach($variant->variantItems as $item)
-                                                    <option {{$item->is_default == 1 ? 'selected' : ''}} value="{{$item->id}}">{{$item->name}} ({{$settings->currency_icon}}{{$item->price}})</option>
-                                                @endforeach
-                                            </select>
+
+                            <form class="shopping-cart-form">
+                                <input type="hidden" name="product_id" value="{{$product->id}}">
+                                @foreach($variants as $variant)
+                                    <div class="wsus__selectbox">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-sm-6">
+                                                <h5 class="mb-2">select {{$variant->name}}:</h5>
+                                                <select class="select_2" name="variant_items[]">
+                                                    @foreach($variant->variantItems as $item)
+                                                        <option {{$item->is_default == 1 ? 'selected' : ''}} value="{{$item->id}}">{{$item->name}} ({{$settings->currency_icon}}{{$item->price}})</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
+                                @endforeach
+
+                                <div class="wsus__quentity">
+                                    <h5>quantity :</h5>
+                                    <div class="select_number">
+                                        <input name="quantity" class="number_area" type="text" min="1" max="{{$product->quantity}}" value="1" />
+                                    </div>
+                                    <h3 id="result">$50.00</h3>
                                 </div>
-                            @endforeach
-                            <div class="wsus__quentity">
-                                <h5>quantity :</h5>
-                                <form class="select_number">
-                                    <input class="number_area" type="text" min="1" max="{{$product->quantity}}" value="1" />
-                                </form>
-                                <h3 id="result">$50.00</h3>
-                            </div>
-                            <ul class="wsus__button_area">
-                                <li><a class="add_cart" href="#">add to cart</a></li>
-                                <li><a class="buy_now" href="#">buy now</a></li>
-                                <li><a href="#"><i class="fal fa-heart"></i></a></li>
-                                <li><a href="#"><i class="far fa-random"></i></a></li>
-                            </ul>
-                            <p class="brand_model"><span>model :</span> {{$product->sku}}</p>
-                            <p class="brand_model"><span>brand :</span> {{$product->brand->name}}</p>
+
+                                <ul class="wsus__button_area">
+                                    <li><button type="submit" class="add_cart" href="#">add to cart</button></li>
+                                    <li><a class="buy_now" href="#">buy now</a></li>
+                                    <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="far fa-random"></i></a></li>
+                                </ul>
+                            </form>
                             <div class="wsus__pro_det_share">
                                 <h5>share :</h5>
                                 <ul class="d-flex">
@@ -599,16 +607,47 @@
             });
         })
     </script>
-{{--    <script>--}}
-{{--        $(document).ready(function (){--}}
-{{--            $('body').on('change', '.spinner', function (e){--}}
-{{--                let quantity = $(this).val();--}}
-{{--                let pricePerItem = {{checkDiscount($product) ? $product->offer_price : $product->price}};--}}
-{{--                let result = document.getElementById("result");--}}
-{{--                let totalPrice = pricePerItem * quantity;--}}
-{{--                console.log(result);--}}
-{{--                result.innerText = "Total Price: $" + totalPrice;--}}
-{{--            })--}}
-{{--        })--}}
-{{--    </script>--}}
+    <script>
+        $(document).ready(function (){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('.shopping-cart-form').on('submit', function (e){
+                e.preventDefault();
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    method: 'POST',
+                    data: formData,
+                    url: '{{route('add-to-cart')}}',
+                    success: function (data) {
+                        if(data.status == 'success'){
+                            getCartCount();
+                            toastr.success(data.message);
+                        }else if (data.status == 'error') {
+                            toastr.success(data.message);
+                        }
+                    },
+                    error: function (data) {
+                        console.log(error);
+                    }
+                })
+            })
+
+            function getCartCount() {
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('cart-count')}}',
+                    success: function (data) {
+                        $('#cart-count').text(data);
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                })
+            }
+        })
+    </script>
 @endpush

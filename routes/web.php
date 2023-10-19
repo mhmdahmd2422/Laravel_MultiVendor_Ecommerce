@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -29,6 +30,20 @@ Route::get('flash-sale/all', [FlashSaleController::class, 'ShowAllFlashItems'])
 //product detail routes
 Route::get('product-detail/{slug}', [FrontendProductController::class, 'index'])
     ->name('product-detail.index');
+
+//Add to cart routes
+Route::post('add-to-cart', [CartController::class, 'addToCart'])
+    ->name('add-to-cart');
+Route::get('cart-details', [CartController::class, 'cartDetails'])
+    ->name('cart-details');
+Route::post('cart/update-quantity', [CartController::class, 'updateQuantity'])
+    ->name('update-quantity');
+Route::get('cart/clear', [CartController::class, 'clearCart'])
+    ->name('clear-cart');
+Route::post('cart/remove-item', [CartController::class, 'removeItem'])
+    ->name('remove-item');
+Route::get('cart-count', [CartController::class, 'getCartCount'])
+    ->name('cart-count');
 
 
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 'user.'], function (){
