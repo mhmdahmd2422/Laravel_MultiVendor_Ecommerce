@@ -3,6 +3,7 @@
 // Set Sidebar Item Active
 
 use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Str;
 
 function setActive(array $route){
@@ -72,4 +73,14 @@ function checkLowStock(Product $product)
     } else {
         return false;
     }
+}
+
+function getCartTotal()
+{
+    $products = Cart::content();
+    $total = 0;
+    foreach ($products as $product) {
+        $total += ($product->price + $product->options->variants_totalPrice)* $product->qty;
+    }
+    return $total;
 }

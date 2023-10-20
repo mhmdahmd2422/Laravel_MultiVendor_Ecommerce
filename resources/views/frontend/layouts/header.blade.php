@@ -47,66 +47,133 @@
     </div>
     <div class="wsus__mini_cart">
         <h4>shopping cart <span class="wsus_close_mini_cart"><i class="far fa-times"></i></span></h4>
-        <ul>
+        <ul class="mini_cart_wrapper">
+            @foreach(Cart::content() as $SidebarCartItem)
             <li>
                 <div class="wsus__cart_img">
-                    <a href="#"><img src="{{asset('frontend/images/tab_2.jpg')}}" alt="product" class="img-fluid w-100"></a>
-                    <a class="wsis__del_icon" href="#"><i class="fas fa-minus-circle"></i></a>
+                    <a href="{{route('product-detail.index', $SidebarCartItem->options->slug)}}"><img src="{{asset($SidebarCartItem->options->image)}}" alt="product" class="img-fluid w-100"></a>
+                    <a id="{{$SidebarCartItem->rowId}}" class="wsis__del_icon remove-sidebar-item" href="#"><i class="fas fa-minus-circle"></i></a>
                 </div>
                 <div class="wsus__cart_text">
-                    <a class="wsus__cart_title" href="#">apple 9.5" 7 serise tab with full view display</a>
-                    <p>$140 <del>$150</del></p>
+                    <a class="wsus__cart_title" href="{{route('product-detail.index', $SidebarCartItem->options->slug)}}">
+                        {{$SidebarCartItem->name}}
+                        <small>({{$SidebarCartItem->qty}} Item)</small>
+                    </a>
+                    <p>{{$settings->currency_icon}}{{$SidebarCartItem->price}}</p>
+                    <small>Variants Per Item: {{$settings->currency_icon}}{{$SidebarCartItem->options->variants_totalPrice}}</small>
                 </div>
             </li>
-            <li>
-                <div class="wsus__cart_img">
-                    <a href="#"><img src="{{asset('frontend/images/pro4.jpg')}}" alt="product" class="img-fluid w-100"></a>
-                    <a class="wsis__del_icon" href="#"><i class="fas fa-minus-circle"></i></a>
-                </div>
-                <div class="wsus__cart_text">
-                    <a class="wsus__cart_title" href="#">men's fashion casual watch</a>
-                    <p>$130</p>
-                </div>
-            </li>
-            <li>
-                <div class="wsus__cart_img">
-                    <a href="#"><img src="{{asset('frontend/images/pro2.jpg')}}" alt="product" class="img-fluid w-100"></a>
-                    <a class="wsis__del_icon" href="#"><i class="fas fa-minus-circle"></i></a>
-                </div>
-                <div class="wsus__cart_text">
-                    <a class="wsus__cart_title" href="#">men's casual shoes</a>
-                    <p>$140 <del>$150</del></p>
-                </div>
-            </li>
-            <li>
-                <div class="wsus__cart_img">
-                    <a href="#"><img src="{{asset('frontend/images/pro9.jpg')}}" alt="product" class="img-fluid w-100"></a>
-                    <a class="wsis__del_icon" href="#"><i class="fas fa-minus-circle"></i></a>
-                </div>
-                <div class="wsus__cart_text">
-                    <a class="wsus__cart_title" href="#">men's fashion casual sholder bag</a>
-                    <p>$140</p>
-                </div>
-            </li>
-            <li>
-                <div class="wsus__cart_img">
-                    <a href="#"><img src="{{asset('frontend/images/tab_2.jpg')}}" alt="product" class="img-fluid w-100"></a>
-                    <a class="wsis__del_icon" href="#"><i class="fas fa-minus-circle"></i></a>
-                </div>
-                <div class="wsus__cart_text">
-                    <a class="wsus__cart_title" href="#">apple 9.5" 7 serise tab with full view display</a>
-                    <p>$140 <del>$150</del></p>
-                </div>
-            </li>
+            @endforeach
+            @if(Cart::content()->isEmpty())
+                <li class="text-center">Cart Is Empty!</li>
+            @endif
         </ul>
-        <h5>sub total <span>$3540</span></h5>
-        <div class="wsus__minicart_btn_area">
-            <a class="common_btn" href="{{route('cart-details')}}">view cart</a>
-            <a class="common_btn" href="check_out.html">checkout</a>
+        <div class="mini_cart_actions {{Cart::content()->isEmpty()? 'd-none' : ''}}">
+            <h5>sub total <span id="mini_cart_subtotal">{{$settings->currency_icon}}{{getCartTotal()}}</span></h5>
+            <div class="wsus__minicart_btn_area">
+                <a class="common_btn" href="{{route('cart-details')}}">view cart</a>
+                <a class="common_btn" href="check_out.html">checkout</a>
+            </div>
         </div>
     </div>
 
 </header>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            //update sidebar on change
+            function fetchSidebarCartProducts(){
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('cart-products')}}',
+                    success: function (data) {
+                        let miniCart = $('.mini_cart_wrapper');
+                        miniCart.html('');
+                        var html = '';
+                        for(let item in data){
+                            let product = data[item];
+                            html += `<li>
+                                    <div class="wsus__cart_img">
+                                    <a href="${product.options.slug}"><img src="{{asset('/')}}${product.options.image}" alt="product" class="img-fluid w-100"></a>
+                                    <a id="${product.rowId}" class="wsis__del_icon remove-sidebar-item" href="#"><i class="fas fa-minus-circle"></i></a>
+                                    </div>
+                                    <div class="wsus__cart_text">
+                                    <a class="wsus__cart_title" href="${product.options.slug}">
+                                    ${product.name}
+                                    (${product.qty} item)
+                                    </a>
+                                    <p>{{$settings->currency_icon}}${product.price}</p>
+                                    <small>Variants Per Item: {{$settings->currency_icon}}${product.options.variants_totalPrice}</small>
+                                    </div>
+                                    </li>`
+                        }
+                        miniCart.html(html);
+                        if(miniCart.find('li').length === 0){
+                            $('.mini_cart_actions').addClass('d-none');
+                            miniCart.html('<li class="text-center">Cart Is Empty!</li>');
+                        }else{
+                            $('.mini_cart_actions').removeClass('d-none');
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                })
+            }
+            //update bag icon counter
+            function getCartCount() {
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('cart-count')}}',
+                    success: function (data) {
+                        $('#cart-count').text(data);
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                })
+            }
+            //remove item from sidebar cart
+            $('body').on('click', '.remove-sidebar-item', function (e){
+                e.preventDefault();
+                let row_id = $(this).attr('id');
+                $.ajax({
+                    url: '{{route('remove-item')}}',
+                    method: 'POST',
+                    data: {
+                        row_id: row_id,
+                    },
+                    success: function (data) {
+                        fetchSidebarCartProducts();
+                        getSidebarCartSubtotal();
+                        getCartCount();
+                        toastr.success(data.message);
+                    },
+                    error: function (data) {
+                    }
+                })
+            })
+            function getSidebarCartSubtotal(){
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('cart-products-total')}}',
+                    success: function (data) {
+                        $('#mini_cart_subtotal').text("{{$settings->currency_icon}}"+data);
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                })
+            }
+        })
+    </script>
+@endpush
 <!--============================
     HEADER END
 ==============================-->

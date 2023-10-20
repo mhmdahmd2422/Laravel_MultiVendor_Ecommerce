@@ -57,7 +57,20 @@
                                 <p class="wsus__price">{{$settings->currency_icon}}{{$item->product->price}}
                                 </p>
                             @endif
-                            <a class="add_cart" href="#">add to cart</a>
+                            <form class="shopping-cart-form">
+                                <input type="hidden" name="product_id" value="{{$item->product->id}}">
+                                @foreach($item->product->variants as $variant)
+                                    <div class="d-none">
+                                        <select class="select_2" name="variant_items[]">
+                                            @foreach($variant->ActiveVariantItems as $item)
+                                                <option {{$item->is_default == 1 ? 'selected' : ''}} value="{{$item->id}}">{{$item->name}} ({{$settings->currency_icon}}{{$item->price}})</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endforeach
+                                <input name="quantity" type="hidden" min="1" max="100" value="1" />
+                                <button class="add_cart" href="#" type="submit">add to cart</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -137,14 +150,12 @@
                                     <p class="description" style="font-style: italic; font-size: large">“ {{$item->product->short_description}} ”</p>
                                     <p class="brand_model"><span style="font-weight: bold">model :</span> {{$item->product->sku?? 'Not Provided'}} </p>
                                     <p class="brand_model mb-4"><span style="font-weight: bold">brand :</span> {{$item->product->brand->name}}</p>
-
                                     @if(checkDiscount($item->product))
                                         <div class="wsus_pro_hot_deals">
                                             <h5>offer ending In : </h5>
                                             <div class="simply-countdown simply-countdown-one"></div>
                                         </div>
                                     @endif
-
                                     <form class="shopping-cart-form">
                                         <input type="hidden" name="product_id" value="{{$item->product->id}}">
                                         @foreach($item->product->variants as $variant)
@@ -153,7 +164,7 @@
                                                     <div class="col-xl-6 col-sm-6">
                                                         <h5 class="mb-2">select {{$variant->name}}:</h5>
                                                         <select class="select_2" name="variant_items[]">
-                                                            @foreach($variant->variantItems as $variantItem)
+                                                            @foreach($variant->ActiveVariantItems as $variantItem)
                                                                 <option {{$variantItem->is_default == 1 ? 'selected' : ''}} value="{{$variantItem->id}}">{{$variantItem->name}} ({{$settings->currency_icon}}{{$variantItem->price}})</option>
                                                             @endforeach
                                                         </select>
@@ -218,20 +229,26 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+            //add product to cart
             $('.shopping-cart-form').on('submit', function (e){
                 e.preventDefault();
                 let formData = $(this).serialize();
-
                 $.ajax({
                     method: 'POST',
                     data: formData,
                     url: '{{route('add-to-cart')}}',
                     success: function (data) {
-
+                        if(data.status == 'success'){
+                            getCartCount();
+                            fetchSidebarCartProducts();
+                            getSidebarCartSubtotal();
+                            toastr.success(data.message);
+                        }else if (data.status == 'error') {
+                            toastr.error(data.message);
+                        }
                     },
                     error: function (data) {
-
+                        toastr.error(data.message);
                     }
                 })
             })

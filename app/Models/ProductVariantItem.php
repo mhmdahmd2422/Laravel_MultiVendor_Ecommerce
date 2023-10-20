@@ -9,6 +9,9 @@ class ProductVariantItem extends Model
 {
     use HasFactory;
 
+    public function scopeActiveVariantItems($query){
+        return $query->where('status', 1);
+    }
 
     public function variant(){
         return $this->belongsTo(ProductVariant::class);

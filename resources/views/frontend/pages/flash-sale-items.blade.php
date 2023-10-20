@@ -1,7 +1,9 @@
 @extends('frontend.layouts.master')
+
 @section('title')
     {{$settings->site_name}} || Flash Sale
 @endsection
+
 @section('content')
 
 <!--============================
@@ -20,7 +22,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             @foreach($flash_sale_items as $item)
             <div class="col-xl-3">
@@ -59,15 +60,24 @@
                                 <p class="wsus__price">{{$settings->currency_icon}}{{$item->product->price}}
                                 </p>
                             @endif
-                            <a class="add_cart" href="#">add to cart</a>
+                            <form class="shopping-cart-form">
+                                <input type="hidden" name="product_id" value="{{$item->product->id}}">
+                                @foreach($item->product->variants as $variant)
+                                    <div class="d-none">
+                                        <select class="select_2" name="variant_items[]">
+                                            @foreach($variant->ActiveVariantItems as $VariantItem)
+                                                <option {{$VariantItem->is_default == 1 ? 'selected' : ''}} value="{{$VariantItem->id}}">{{$VariantItem->name}} ({{$settings->currency_icon}}{{$VariantItem->price}})</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endforeach
+                                <input name="quantity" type="hidden" min="1" max="100" value="1" />
+                                <button class="add_cart" href="#" type="submit">add to cart</button>
+                            </form>
                         </div>
                     </div>
                     <div class="wsus__offer_progress">
-                        <p><span>Remaining {{$item->product->quantity}}</span></p>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65"
-                                 aria-valuemin="0" aria-valuemax="100">65%</div>
-                        </div>
+                        <p><span>{{$item->product->quantity}} items left!</span></p>
                     </div>
                 </div>
             </div>

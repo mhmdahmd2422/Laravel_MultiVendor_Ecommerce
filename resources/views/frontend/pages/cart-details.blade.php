@@ -20,24 +20,18 @@
                                     <th class="wsus__pro_img">
                                         product item
                                     </th>
-
                                     <th class="wsus__pro_name">
                                         product details
                                     </th>
-
                                     <th class="wsus__pro_tk">
                                         unit price
                                     </th>
-
                                     <th class="wsus__pro_tk">
                                         total
                                     </th>
-
                                     <th class="wsus__pro_select">
                                         quantity
                                     </th>
-
-
                                     <th class="wsus__pro_icon">
                                         <a href="" class="common_btn clear-cart">clear cart</a>
                                     </th>
@@ -88,7 +82,7 @@
                 <div class="col-xl-3">
                     <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                         <h6>total cart</h6>
-                        <p>subtotal: <span>$124.00</span></p>
+                        <p>subtotal: <span class="cart_subtotal">{{$settings->currency_icon}}{{getCartTotal()}}</span></p>
                         <p>delivery: <span>$00.00</span></p>
                         <p>discount: <span>$10.00</span></p>
                         <p class="total"><span>total:</span> <span>$134.00</span></p>
@@ -154,7 +148,6 @@
                 let input = $(this).siblings('.product-qty');
                 let qty = parseInt(input.val()) +1;
                 let row_id = input.data('rowid');
-                input.val(qty);
                 $.ajax({
                     url: '{{route('update-quantity')}}',
                     method: 'POST',
@@ -163,17 +156,24 @@
                         quantity: qty,
                     },
                     success: function (data) {
-                        let productId = '#'+row_id;
-                        let totalAmount = "{{$settings->currency_icon}}"+data.product_total;
-                        $(productId).text(totalAmount);
-                        getCartCount();
-                        toastr.success(data.message);
+                        if(data.status === 'success'){
+                            input.val(qty);
+                            let productId = '#'+row_id;
+                            let totalAmount = "{{$settings->currency_icon}}"+data.product_total;
+                            $(productId).text(totalAmount);
+                            getCartSubtotal();
+                            getCartCount();
+                            fetchSidebarCartProducts()
+                            toastr.success(data.message);
+                        }else if(data.status === 'error'){
+                            toastr.error(data.message);
+                        }
                     },
                     error: function (data) {
                     }
                 })
             })
-            // Increment product quantity and calc total onclick
+            // decrement product quantity and calc total onclick
             $('.product-decrement').on('click', function(e){
                 e.preventDefault();
                 let input = $(this).siblings('.product-qty');
@@ -195,7 +195,9 @@
                         let productId = '#'+row_id;
                         let totalAmount = "{{$settings->currency_icon}}"+data.product_total;
                         $(productId).text(totalAmount);
+                        getCartSubtotal();
                         getCartCount();
+                        fetchSidebarCartProducts()
                         toastr.success(data.message);
                     },
                     error: function (data) {
@@ -221,15 +223,33 @@
                                 // Reload the Page
                                 location.reload();
                             });
+                            fetchSidebarCartProducts()
                         },
                         error: function (data) {
                         }
                 })
             })
+            //remove item from sidebar cart
+            $('body').on('click', '.remove-sidebar-item', function (e){
+                e.preventDefault();
+                let row_id = $(this).attr('id');
+                $.ajax({
+                    url: '{{route('remove-item')}}',
+                    method: 'POST',
+                    data: {
+                        row_id: row_id,
+                    },
+                    success: function (data) {
+                        // Reload the Page
+                        location.reload();
+                    },
+                    error: function (data) {
+                    }
+                })
+            })
             //clear cart button
             $('body').on('click', '.clear-cart', function (event){
                 event.preventDefault();
-
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "Are You Sure You Want To Clear Cart?",
@@ -270,6 +290,70 @@
                     url: '{{route('cart-count')}}',
                     success: function (data) {
                         $('#cart-count').text(data);
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                })
+            }
+            //update sidebar on change
+            function fetchSidebarCartProducts(){
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('cart-products')}}',
+                    success: function (data) {
+                        let miniCart = $('.mini_cart_wrapper');
+                        miniCart.html('');
+                        var html = '';
+                        for(let item in data){
+                            let product = data[item];
+                            html += `<li>
+                                    <div class="wsus__cart_img">
+                                    <a href="${product.options.slug}"><img src="{{asset('/')}}${product.options.image}" alt="product" class="img-fluid w-100"></a>
+                                    <a id="${product.rowId}" class="wsis__del_icon remove-sidebar-item" href="#"><i class="fas fa-minus-circle"></i></a>
+                                    </div>
+                                    <div class="wsus__cart_text">
+                                    <a class="wsus__cart_title" href="${product.options.slug}">
+                                    ${product.name}
+                                    (${product.qty} item)
+                                    </a>
+                                    <p>{{$settings->currency_icon}}${product.price}</p>
+                                    <smallVariants Per Item: {{$settings->currency_icon}}${product.options.variants_totalPrice}</small>
+                                    </div>
+                                    </li>`
+                        }
+                        miniCart.html(html);
+                        getSidebarCartSubtotal();
+                        if(miniCart.find('li').length === 0){
+                            $('.mini_cart_actions').addClass('d-none');
+                            miniCart.html('<li class="text-center">Cart Is Empty!</li>');
+                        }else{
+                            $('.mini_cart_actions').removeClass('d-none');
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                })
+            }
+            function getSidebarCartSubtotal(){
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('cart-products-total')}}',
+                    success: function (data) {
+                        $('#mini_cart_subtotal').text("{{$settings->currency_icon}}"+data);
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                })
+            }
+            function getCartSubtotal(){
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('cart-products-total')}}',
+                    success: function (data) {
+                        $('.cart_subtotal').text("{{$settings->currency_icon}}"+data);
                     },
                     error: function (data) {
                         console.log(data)

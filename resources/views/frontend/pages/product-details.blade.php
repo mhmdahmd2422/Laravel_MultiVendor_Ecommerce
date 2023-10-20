@@ -103,7 +103,7 @@
                                             <div class="col-xl-6 col-sm-6">
                                                 <h5 class="mb-2">select {{$variant->name}}:</h5>
                                                 <select class="select_2" name="variant_items[]">
-                                                    @foreach($variant->variantItems as $item)
+                                                    @foreach($variant->ActiveVariantItems as $item)
                                                         <option {{$item->is_default == 1 ? 'selected' : ''}} value="{{$item->id}}">{{$item->name}} ({{$settings->currency_icon}}{{$item->price}})</option>
                                                     @endforeach
                                                 </select>
@@ -111,7 +111,6 @@
                                         </div>
                                     </div>
                                 @endforeach
-
                                 <div class="wsus__quentity">
                                     <h5>quantity :</h5>
                                     <div class="select_number">
@@ -605,49 +604,6 @@
                 day: {{date('d', strtotime($product->offer_end_date))}},
                 enableUtc: true
             });
-        })
-    </script>
-    <script>
-        $(document).ready(function (){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('.shopping-cart-form').on('submit', function (e){
-                e.preventDefault();
-                let formData = $(this).serialize();
-
-                $.ajax({
-                    method: 'POST',
-                    data: formData,
-                    url: '{{route('add-to-cart')}}',
-                    success: function (data) {
-                        if(data.status == 'success'){
-                            getCartCount();
-                            toastr.success(data.message);
-                        }else if (data.status == 'error') {
-                            toastr.success(data.message);
-                        }
-                    },
-                    error: function (data) {
-                        console.log(error);
-                    }
-                })
-            })
-
-            function getCartCount() {
-                $.ajax({
-                    method: 'GET',
-                    url: '{{route('cart-count')}}',
-                    success: function (data) {
-                        $('#cart-count').text(data);
-                    },
-                    error: function (data) {
-                        console.log(data)
-                    }
-                })
-            }
         })
     </script>
 @endpush

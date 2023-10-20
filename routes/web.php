@@ -31,7 +31,7 @@ Route::get('flash-sale/all', [FlashSaleController::class, 'ShowAllFlashItems'])
 Route::get('product-detail/{slug}', [FrontendProductController::class, 'index'])
     ->name('product-detail.index');
 
-//Add to cart routes
+//Cart routes
 Route::post('add-to-cart', [CartController::class, 'addToCart'])
     ->name('add-to-cart');
 Route::get('cart-details', [CartController::class, 'cartDetails'])
@@ -44,6 +44,10 @@ Route::post('cart/remove-item', [CartController::class, 'removeItem'])
     ->name('remove-item');
 Route::get('cart-count', [CartController::class, 'getCartCount'])
     ->name('cart-count');
+Route::get('cart-products', [CartController::class, 'getCartProducts'])
+    ->name('cart-products');
+Route::get('cart-products-total', [CartController::class, 'getCartTotal'])
+    ->name('cart-products-total');
 
 
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 'user.'], function (){

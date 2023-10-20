@@ -11,10 +11,32 @@ use function PHPUnit\Framework\isEmpty;
 
 class CartController extends Controller
 {
-    public function addToCart(Request $request)
+    public function cartDetails(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    {
+        $cartItems = Cart::content();
+        if($cartItems->isEmpty()){
+            toastr('Cart Is Cleared!', 'warning', 'Warning');
+            return redirect()->route('home');
+        }
+
+        return view('frontend.pages.cart-details',compact('cartItems'));
+    }
+    public function addToCart(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         $product = Product::findOrFail($request->product_id);
-
+        // Check if sufficient stock
+        if($product->quantity === 0){
+            return response(['status' => 'error', 'message' => 'Out Of Stock']);
+        }elseif($product->quantity < $request->quantity){
+            return response(['status' => 'error', 'message' => 'No Sufficient Stock']);
+        }
+        foreach(Cart::content() as $cartItem){
+            if($cartItem->id == $product->id){
+                if($cartItem->qty >= $product->quantity){
+                    return response(['status' => 'error', 'message' => 'No Sufficient Stock']);
+                }
+            }
+        }
         $variantItems = [];
         $variantTotalPrice = 0;
         if($request->has('variant_items')){
@@ -25,7 +47,6 @@ class CartController extends Controller
                 $variantTotalPrice += $item->price;
             }
         }
-
         $cartData = [];
         $cartData['id'] = $product->id;
         $cartData['name'] = $product->name;
@@ -36,28 +57,28 @@ class CartController extends Controller
         $cartData['options']['variants_totalPrice'] = $variantTotalPrice;
         $cartData['options']['image'] = $product->thumb_image;
         $cartData['options']['slug'] = $product->slug;
-
         Cart::add($cartData);
 
         return response(['status' => 'success', 'message' => 'Added To Cart']);
     }
 
-    public function cartDetails()
+    public function updateQuantity(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        $cartItems = Cart::content();
-
-        return view('frontend.pages.cart-details',compact('cartItems'));
-    }
-
-    public function updateQuantity(Request $request)
-    {
+        $product_id = Cart::get($request->row_id)->id;
+        $product = Product::findOrFail($product_id);
+        // Check if sufficient stock
+        if($product->quantity === 0){
+            return response(['status' => 'error', 'message' => 'Out Of Stock']);
+        }elseif($product->quantity < $request->quantity){
+            return response(['status' => 'error', 'message' => 'No Sufficient Stock']);
+        }
         Cart::update($request->row_id, $request->quantity);
         $productTotal = $this->getProductTotal($request->row_id);
 
         return response(['status' => 'success', 'message' => 'Product Quantity Is Updated', 'product_total' => $productTotal]);
     }
 
-    public function getProductTotal(String $rowId)
+    public function getProductTotal(String $rowId): float|int
     {
         $product = Cart::get($rowId);
         $total = ($product->price + $product->options->variants_totalPrice)* $product->qty;
@@ -65,14 +86,14 @@ class CartController extends Controller
         return $total;
     }
 
-    public function removeItem(Request $request)
+    public function removeItem(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         Cart::remove($request->row_id);
 
         return response(['status' => 'success', 'message'=> 'Product Is Removed From Cart']);
     }
 
-    public function clearCart()
+    public function clearCart(): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
        if(Cart::content()->isEmpty()){
            return response(['status' => 'error', 'message' => 'Your Cart Is Already Cleared!']);
@@ -85,5 +106,20 @@ class CartController extends Controller
     public function getCartCount()
     {
         return Cart::count();
+    }
+
+    public function getCartProducts(): \Illuminate\Support\Collection
+    {
+        return Cart::content();
+    }
+
+    public function getCartTotal(): float|int
+    {
+        $products = Cart::content();
+        $total = 0;
+        foreach ($products as $product) {
+            $total += ($product->price + $product->options->variants_totalPrice)* $product->qty;
+        }
+        return $total;
     }
 }
