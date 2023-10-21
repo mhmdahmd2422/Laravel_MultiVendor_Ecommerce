@@ -36,7 +36,12 @@ class UserAddressController extends Controller
         $address = new UserAddress();
 
         $alert = 'Address Has Been Added To Your Account';
-        $route = 'user.address.index';
+        //if request from checkout page
+        if($request->has('route')){
+            $route = $request->route;
+        }else{
+            $route = 'user.address.index';
+        }
 
         return $this->submitForm($request, $address, $alert, $route);
     }

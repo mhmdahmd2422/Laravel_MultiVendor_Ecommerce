@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\CheckoutController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
@@ -65,5 +66,11 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
         ->name('profile.update');
     Route::post('profile/update/password', [UserProfileController::class, 'updatePassword'])
         ->name('password.update');
+    //User multiple addresses
     Route::resource('address', UserAddressController::class);
+    //Cart Checkout
+    Route::get('checkout', [CheckoutController::class, 'index'])
+        ->name('checkout');
+    Route::get('apply-shipping', [CheckoutController::class, 'applyShipping'])
+        ->name('apply-shipping');
 });

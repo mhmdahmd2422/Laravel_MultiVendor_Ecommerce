@@ -35,7 +35,7 @@
                                                 <select class="select_2" name="country">
                                                     <option value="">Select</option>
                                                     @foreach($countries as $country_code => $country)
-                                                        <option value="{{$country}}">{{$country}}</option>
+                                                        <option {{old('country') == $country ? 'selected' : ''}} value="{{$country}}">{{$country}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -59,9 +59,9 @@
                                             <div class="wsus__topbar_select">
                                                 <select name="type" class="select_2">
                                                     <option value="">Select</option>
-                                                    <option value="office">Office</option>
-                                                    <option value="home">Home</option>
-                                                    <option value="other">Other</option>
+                                                    <option {{old('type') == 'home' ? 'selected' : ''}} value="home">Home</option>
+                                                    <option {{old('type') == 'office' ? 'selected' : ''}} value="office">Office</option>
+                                                    <option {{old('type') == 'other' ? 'selected' : ''}} value="other">Other</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -75,7 +75,7 @@
                                     <div class="col-xl-12">
                                         <div class="wsus__add_address_single">
                                             <label>comment</label>
-                                            <textarea name="comment" cols="3" rows="3"></textarea>
+                                            <textarea name="comment" cols="3" rows="3">{{old('comment')}}</textarea>
                                         </div>
                                     </div>
                                     <div class="col-xl-6">

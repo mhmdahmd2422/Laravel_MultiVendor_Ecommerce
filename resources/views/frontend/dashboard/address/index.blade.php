@@ -25,7 +25,7 @@
                                                 <li><span>city :</span> {{$address->city}}</li>
                                                 <li><span>zip code :</span> {{$address->zip_code? : 'Not Provided'}}</li>
                                                 <li><span>address :</span> {{$address->address}}</li>
-                                                <li><span>comment :</span> {{$address->comment}}</li>
+                                                <li><span>comment :</span> {{$address->comment? : 'Not Provided'}}</li>
                                             </ul>
                                             <div class="wsus__address_btn">
                                                 <a href="{{route('user.address.edit', $address->id)}}" class="edit"><i
