@@ -48,6 +48,12 @@ Route::get('cart-products', [CartController::class, 'getCartProducts'])
     ->name('cart-products');
 Route::get('cart-products-total', [CartController::class, 'getCartTotal'])
     ->name('cart-products-total');
+Route::post('apply-coupon', [CartController::class, 'ApplyCoupon'])
+    ->name('apply-coupon');
+Route::get('calculate-coupon', [CartController::class, 'calculateCouponDiscount'])
+    ->name('calculate-coupon');
+Route::get('remove-coupon', [CartController::class, 'removeCoupon'])
+    ->name('remove-coupon');
 
 
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 'user.'], function (){

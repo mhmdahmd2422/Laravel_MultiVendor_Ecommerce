@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\ProductVariantItem;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use function PHPUnit\Framework\isEmpty;
 
 class CartController extends Controller
@@ -15,6 +17,7 @@ class CartController extends Controller
     {
         $cartItems = Cart::content();
         if($cartItems->isEmpty()){
+            Session::forget('coupon');
             toastr('Cart Is Cleared!', 'warning', 'Warning');
             return redirect()->route('home');
         }
@@ -121,5 +124,82 @@ class CartController extends Controller
             $total += ($product->price + $product->options->variants_totalPrice)* $product->qty;
         }
         return $total;
+    }
+
+    public function applyCoupon(Request $request)
+    {
+        if($request->coupon_code === null){
+            return response(['status' => 'error', 'message' => 'Please Enter Coupon Code!']);
+        }
+        $coupon = Coupon::where('code', $request->coupon_code)
+            ->dateActiveCoupons()
+            ->quantityActiveCoupons()
+            ->first();
+        if($coupon === null){
+            return response(['status' => 'error',
+                'message' => 'Coupon Code Is Invalid'
+            ]);
+        }else{
+            Session::put('coupon', [
+                'coupon_name' => $coupon->name,
+                'coupon_code' => $coupon->code,
+                'discount_type' => $coupon->discount_type,
+                'discount_value' => $coupon->discount_value,
+            ]);
+            return response(['status' => 'success',
+                'message' => 'Coupon Has Been Applied',
+                'coupon_name' => $coupon->name,
+            ]);
+        }
+    }
+
+    public function calculateCouponDiscount()
+    {
+        if(Session::has('coupon')){
+            $coupon = collect(Session::get('coupon'));
+            if($coupon->get('discount_type') === 'amount'){
+                $cartTotal = $this->getCartTotal();
+                if($cartTotal > $coupon->get('discount_value')){
+                    $totalAfterDiscount = $cartTotal - $coupon->get('discount_value');
+                    return response([
+                        'status' => 'success',
+                        'new_cart_total' => $totalAfterDiscount,
+                        'discount_value' => $coupon->get('discount_value'),
+                    ]);
+                }
+            }elseif($coupon->get('discount_type') === 'percent'){
+                $cartTotal = $this->getCartTotal();
+                $discountValue = round($cartTotal * ($coupon->get('discount_value')/100),2);
+                $totalAfterDiscount = round($cartTotal - $discountValue, 2);
+                return response(['status' => 'success',
+                    'new_cart_total' => $totalAfterDiscount,
+                    'discount_value' => $discountValue
+                ]);
+            }else{
+                return response(['status' => 'error',
+                    'message' => 'Coupon Cannot Be Applied'
+                ]);
+            }
+        }else{
+            return response(['status' => 'success',
+                'new_cart_total' => $this->getCartTotal(),
+                'discount_value' => 0,
+            ]);
+        }
+    }
+    //TODO: prevent negative flat discounts
+    public function removeCoupon()
+    {
+        if(Session::has('coupon')){
+            Session::forget('coupon');
+            return response(['status' => 'success',
+                'message' => 'Coupon Is Removed From Cart',
+                'cart_total' => $this->getCartTotal(),
+            ]);
+        }else{
+            return response(['status' => 'error',
+                'message' => 'Cannot Remove Coupon Due To An Error'
+            ]);
+        }
     }
 }

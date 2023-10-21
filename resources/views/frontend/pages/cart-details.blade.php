@@ -84,16 +84,45 @@
                         <h6>total cart</h6>
                         <p>subtotal: <span class="cart_subtotal">{{$settings->currency_icon}}{{getCartTotal()}}</span></p>
                         <p>delivery: <span>$00.00</span></p>
-                        <p>discount: <span>$10.00</span></p>
-                        <p class="total"><span>total:</span> <span>$134.00</span></p>
-
-                        <form>
-                            <input type="text" placeholder="Coupon Code">
+                        <p>discount: <span id="discount_total">
+                                @if(Session::has('coupon'))
+                                    @if(Session::get('coupon')['discount_type'] === 'amount')
+                                        {{$settings->currency_icon}}{{Session::get('coupon')['discount_value']}}
+                                    @elseif(Session::get('coupon')['discount_type'] === 'percent')
+                                        {{$settings->currency_icon.round(getCartTotal() * (Session::get('coupon')['discount_value']/100),2)}}
+                                    @endif
+                                @else
+                                    {{$settings->currency_icon}}0
+                                @endif
+                            </span>
+                        </p>
+                        <p class="total"><span>total:</span>
+                            <span id="cart_total">
+                                @if(Session::has('coupon'))
+                                    @if(Session::get('coupon')['discount_type'] === 'amount')
+                                        {{$settings->currency_icon}}{{getCartTotal() - (Session::get('coupon')['discount_value'])}}
+                                    @elseif(Session::get('coupon')['discount_type'] === 'percent')
+                                        {{$settings->currency_icon.getCartTotal() - (round(getCartTotal() * (Session::get('coupon')['discount_value']/100),2))}}
+                                    @endif
+                                @else
+                                    {{$settings->currency_icon.getCartTotal()}}
+                                @endif
+                            </span></p>
+                        <form id="coupon_form">
+                            <input id="coupon-code" name="coupon_code" type="text" placeholder="Coupon Code">
                             <button type="submit" class="common_btn">apply</button>
                         </form>
+                        <div id="coupon_tag">
+                            @if(Session::has('coupon'))
+                                <p>Coupon Applied: {{Session::get('coupon')['coupon_name']}}
+                                    <a class="remove-item" id="remove-coupon" href="">
+                                        <i class="far fa-times"></i></a>
+                                </p>
+                            @endif
+                        </div>
                         <a class="common_btn mt-4 w-100 text-center" href="check_out.html">checkout</a>
-                        <a class="common_btn mt-1 w-100 text-center" href="product_grid_view.html"><i
-                                class="fab fa-shopify"></i> go shop</a>
+                        <a class="common_btn mt-1 w-100 text-center" href="{{route('home')}}"><i
+                                class="fab fa-shopify"></i>continue shopping</a>
                     </div>
                 </div>
             </div>
@@ -162,6 +191,7 @@
                             let totalAmount = "{{$settings->currency_icon}}"+data.product_total;
                             $(productId).text(totalAmount);
                             getCartSubtotal();
+                            calculateCouponDiscount();
                             getCartCount();
                             fetchSidebarCartProducts()
                             toastr.success(data.message);
@@ -196,6 +226,7 @@
                         let totalAmount = "{{$settings->currency_icon}}"+data.product_total;
                         $(productId).text(totalAmount);
                         getCartSubtotal();
+                        calculateCouponDiscount();
                         getCartCount();
                         fetchSidebarCartProducts()
                         toastr.success(data.message);
@@ -284,6 +315,81 @@
                     }
                 })
             })
+            //add coupon to cart
+            $('#coupon_form').on('submit', function (e){
+                e.preventDefault();
+                let formData = $(this).serialize();
+                $.ajax({
+                    method: 'POST',
+                    data: formData,
+                    url: '{{route('apply-coupon')}}',
+                    success: function (data) {
+                        if(data.status == 'success'){
+                            calculateCouponDiscount();
+                            $('#coupon_tag').html(
+                                `<p>Coupon Applied: ${data.coupon_name}
+                                <a class="remove-item" id="remove-coupon" href="">
+                                <i class="far fa-times"></i></a>
+                                </p>
+                                `);
+                            removeCoupon();
+                            toastr.success(data.message);
+                        }else if (data.status == 'error') {
+                            toastr.error(data.message);
+                        }
+                    },
+                    error: function (data) {
+                        toastr.error(data.message);
+                    }
+                })
+            })
+            //remove coupon from cart
+            function removeCoupon(){
+                var removeTag = $('#coupon_tag').find('a');
+                removeTag.on('click', function (e){
+                    e.preventDefault();
+                    $.ajax({
+                        method: 'GET',
+                        url: '{{route('remove-coupon')}}',
+                        success: function (data) {
+                            if(data.status == 'success'){
+                                $('#coupon_tag').html('');
+                                $('#coupon_code').val('');
+                                $('#discount_total').text("{{$settings->currency_icon}}" + '0');
+                                $('#cart_total').text("{{$settings->currency_icon}}"+data.cart_total);
+                                toastr.success(data.message);
+                            }else if (data.status == 'error') {
+                                toastr.error(data.message);
+                            }
+                        },
+                        error: function (data) {
+                            console.log(data.message);
+                        }
+                    })
+                })
+            }
+            var removeTag = $('#coupon_tag').find('a');
+            removeTag.on('click', function (e){
+                e.preventDefault();
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('remove-coupon')}}',
+                    success: function (data) {
+                        if(data.status == 'success'){
+                            $('#coupon_tag').html('');
+                            $('#coupon_code').val('');
+                            $('#discount_total').text("{{$settings->currency_icon}}" + '0');
+                            $('#cart_total').text("{{$settings->currency_icon}}"+data.cart_total);
+                            toastr.success(data.message);
+                        }else if (data.status == 'error') {
+                            toastr.error(data.message);
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data.message);
+                    }
+                })
+            })
             function getCartCount() {
                 $.ajax({
                     method: 'GET',
@@ -357,6 +463,19 @@
                     },
                     error: function (data) {
                         console.log(data)
+                    }
+                })
+            }
+            function calculateCouponDiscount(){
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('calculate-coupon')}}',
+                    success: function (data) {
+                        $('#discount_total').text("{{$settings->currency_icon}}"+data.discount_value);
+                        $('#cart_total').text("{{$settings->currency_icon}}"+data.new_cart_total);
+                    },
+                    error: function (data) {
+                        toastr.error(data.message);
                     }
                 })
             }
