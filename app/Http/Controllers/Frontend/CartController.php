@@ -136,8 +136,15 @@ class CartController extends Controller
             ->quantityActiveCoupons()
             ->first();
         if($coupon === null){
-            return response(['status' => 'error',
+            return response([
+                'status' => 'error',
                 'message' => 'Coupon Code Is Invalid'
+            ]);
+        }
+        if($this->getCartTotal() < $coupon->discount_value){
+            return response([
+                'status' => 'error',
+                'message' => 'Cannot Apply This Coupon'
             ]);
         }else{
             Session::put('coupon', [
@@ -166,6 +173,12 @@ class CartController extends Controller
                         'new_cart_total' => $totalAfterDiscount,
                         'discount_value' => $coupon->get('discount_value'),
                     ]);
+                }else{
+                    return response([
+                        'status' => 'error',
+                        'new_cart_total' => $cartTotal,
+                        'discount_value' => 0,
+                    ]);
                 }
             }elseif($coupon->get('discount_type') === 'percent'){
                 $cartTotal = $this->getCartTotal();
@@ -174,10 +187,6 @@ class CartController extends Controller
                 return response(['status' => 'success',
                     'new_cart_total' => $totalAfterDiscount,
                     'discount_value' => $discountValue
-                ]);
-            }else{
-                return response(['status' => 'error',
-                    'message' => 'Coupon Cannot Be Applied'
                 ]);
             }
         }else{

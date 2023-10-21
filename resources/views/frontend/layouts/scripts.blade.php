@@ -74,11 +74,11 @@
                         let product = data[item];
                         html += `<li>
                                     <div class="wsus__cart_img">
-                                    <a href="${product.options.slug}"><img src="{{asset('/')}}${product.options.image}" alt="product" class="img-fluid w-100"></a>
+                                    <a href="{{url('product-detail')}}/${product.options.slug}"><img src="{{asset('/')}}${product.options.image}" alt="product" class="img-fluid w-100"></a>
                                     <a id="${product.rowId}" class="wsis__del_icon remove-sidebar-item" href="#"><i class="fas fa-minus-circle"></i></a>
                                     </div>
                                     <div class="wsus__cart_text">
-                                    <a class="wsus__cart_title" href="${product.options.slug}">
+                                    <a class="wsus__cart_title" href="{{url('product-detail')}}/${product.options.slug}">
                                     ${product.name}
                                     (${product.qty} item)
                                     </a>

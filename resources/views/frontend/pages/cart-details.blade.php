@@ -246,6 +246,8 @@
                             row_id: row_id,
                         },
                         success: function (data) {
+                            fetchSidebarCartProducts();
+                            calculateCouponDiscount();
                             Swal.fire(
                                 'Removed',
                                 data.message,
@@ -254,7 +256,6 @@
                                 // Reload the Page
                                 location.reload();
                             });
-                            fetchSidebarCartProducts()
                         },
                         error: function (data) {
                         }
@@ -471,8 +472,29 @@
                     method: 'GET',
                     url: '{{route('calculate-coupon')}}',
                     success: function (data) {
-                        $('#discount_total').text("{{$settings->currency_icon}}"+data.discount_value);
-                        $('#cart_total').text("{{$settings->currency_icon}}"+data.new_cart_total);
+                        if(data.status == 'success'){
+                            $('#discount_total').text("{{$settings->currency_icon}}"+data.discount_value);
+                            $('#cart_total').text("{{$settings->currency_icon}}"+data.new_cart_total);
+                        }else if (data.status == 'error') {
+                            $.ajax({
+                                method: 'GET',
+                                url: '{{route('remove-coupon')}}',
+                                success: function (data) {
+                                    if (data.status == 'success') {
+                                        $('#coupon_tag').html('');
+                                        $('#coupon_code').val('');
+                                        $('#discount_total').text("{{$settings->currency_icon}}" + '0');
+                                        $('#cart_total').text("{{$settings->currency_icon}}" + data.cart_total);
+                                        toastr.success(data.message);
+                                    } else if (data.status == 'error') {
+                                        toastr.error(data.message);
+                                    }
+                                },
+                                error: function (data) {
+                                    console.log(data.message);
+                                }
+                            })
+                        }
                     },
                     error: function (data) {
                         toastr.error(data.message);
