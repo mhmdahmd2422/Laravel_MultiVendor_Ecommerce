@@ -4,6 +4,7 @@
 
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 function setActive(array $route){
@@ -83,4 +84,59 @@ function getCartTotal()
         $total += ($product->price + $product->options->variants_totalPrice)* $product->qty;
     }
     return $total;
+}
+
+function getMainCartTotal(){
+    if(Session::has('coupon')){
+        $coupon = collect(Session::get('coupon'));
+        if($coupon->get('discount_type') === 'amount'){
+            $cartTotal = getCartTotal();
+            if($cartTotal > $coupon->get('discount_value')){
+                $totalAfterDiscount = $cartTotal - $coupon->get('discount_value');
+                return $totalAfterDiscount;
+            }else{
+                return $cartTotal;
+            }
+        }elseif($coupon->get('discount_type') === 'percent'){
+            $cartTotal = getCartTotal();
+            $discountValue = round($cartTotal * ($coupon->get('discount_value')/100),2);
+            $totalAfterDiscount = round($cartTotal - $discountValue, 2);
+            return $totalAfterDiscount;
+        }
+    }else{
+        return getCartTotal();
+    }
+}
+
+//get shipping fees from session
+function getShippingFee()
+{
+    if(Session::has('shipping')){
+        return Session::get('shipping')['cost'];
+    }else{
+        return 0;
+    }
+}
+
+//get coupon discount from session
+function getCartDiscount()
+{
+    if(Cart::content()->isNotEmpty() && Session::has('coupon')){
+        $coupon = collect(Session::get('coupon'));
+        if($coupon->get('discount_type') === 'amount'){
+            return $coupon->get('discount_value');
+        }elseif($coupon->get('discount_type') === 'percent'){
+            $discountValue = round(($coupon->get('discount_value')/100),2);
+            return $discountValue;
+        }
+    }else{
+        Session::forget('coupon');
+        return 0;
+    }
+}
+
+//get payment amount (main total +shipping)
+function getPaymentAmount()
+{
+    return getMainCartTotal() + getShippingFee();
 }

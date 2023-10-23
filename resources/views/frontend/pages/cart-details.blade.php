@@ -83,18 +83,7 @@
                     <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                         <h6>total cart</h6>
                         <p>subtotal: <span class="cart_subtotal">{{$settings->currency_icon}}{{getCartTotal()}}</span></p>
-                        <p>delivery: <span>$00.00</span></p>
-                        <p>discount: <span id="discount_total">
-                                @if(Session::has('coupon'))
-                                    @if(Session::get('coupon')['discount_type'] === 'amount')
-                                        {{$settings->currency_icon}}{{Session::get('coupon')['discount_value']}}
-                                    @elseif(Session::get('coupon')['discount_type'] === 'percent')
-                                        {{$settings->currency_icon.round(getCartTotal() * (Session::get('coupon')['discount_value']/100),2)}}
-                                    @endif
-                                @else
-                                    {{$settings->currency_icon}}0
-                                @endif
-                            </span>
+                        <p>discount: <span id="discount_total">-{{$settings->currency_icon}}{{getCartDiscount()}}</span>
                         </p>
                         <p class="total"><span>total:</span>
                             <span id="cart_total">
@@ -473,7 +462,7 @@
                     url: '{{route('calculate-coupon')}}',
                     success: function (data) {
                         if(data.status == 'success'){
-                            $('#discount_total').text("{{$settings->currency_icon}}"+data.discount_value);
+                            $('#discount_total').text("-{{$settings->currency_icon}}"+data.discount_value);
                             $('#cart_total').text("{{$settings->currency_icon}}"+data.new_cart_total);
                         }else if (data.status == 'error') {
                             $.ajax({

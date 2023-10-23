@@ -10,66 +10,76 @@
     ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
-            <form class="wsus__checkout_form">
-                <div class="row">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="wsus__check_form">
-                            <h5>Billing Details <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">add
-                                    new address</a></h5>
-                            <div class="row mb-5 saved-address">
-                                @if($addresses->isEmpty())
-                                    <p style="margin-top: 3rem;">No Saved Addrress! Please <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Add
-                                            New Address</a></p>
-                                @endif
-                                @foreach($addresses as $address)
-                                <div class="col-xl-6">
-                                    <div class="wsus__checkout_single_address">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                   id="flexRadioDefault1" checked>
-                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                Select Address
-                                            </label>
-                                        </div>
-                                            <ul>
-                                                <li><span>name :</span> {{$address->name}}</li>
-                                                <li><span>Phone :</span> {{$address->phone}}</li>
-                                                <li><span>country :</span> {{$address->country}}</li>
-                                                <li><span>city :</span> {{$address->city}}</li>
-                                                <li><span>zip code :</span> {{$address->zip_code? : 'Not Provided'}}</li>
-                                                <li><span>address :</span> {{$address->address}}</li>
-                                                <li><span>comment :</span> {{$address->comment? : 'Not Provided'}}</li>
-                                            </ul>
+            <div class="row">
+                <div class="col-xl-8 col-lg-7">
+                    <div class="wsus__check_form">
+                        <h5>Shipping Details <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">add
+                                new address</a></h5>
+                        <div class="row mb-5 saved-address">
+                            @if($addresses->isEmpty())
+                                <p style="margin-top: 3rem;">No Saved Addrress! Please <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Add
+                                        New Address</a></p>
+                            @endif
+                            @foreach($addresses as $address)
+                            <div class="col-xl-6">
+                                <div class="wsus__checkout_single_address">
+                                    <div class="form-check">
+                                        <input class="form-check-input address-input" data-id="{{$address->id}}" type="radio" name="flexRadioDefault"
+                                               id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Select Address
+                                        </label>
                                     </div>
+                                        <ul>
+                                            <li><span>name :</span> {{$address->name}}</li>
+                                            <li><span>Phone :</span> {{$address->phone}}</li>
+                                            <li><span>country :</span> {{$address->country}}</li>
+                                            <li><span>city :</span> {{$address->city}}</li>
+                                            <li><span>zip code :</span> {{$address->zip_code? : 'Not Provided'}}</li>
+                                            <li><span>address :</span> {{$address->address}}</li>
+                                            <li><span>comment :</span> {{$address->comment? : 'Not Provided'}}</li>
+                                        </ul>
                                 </div>
-                                @endforeach
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="wsus__order_details" id="sticky_sidebar">
-                            <p class="wsus__product">shipping Methods</p>
-                            @foreach($shippings as $shipping)
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="shipping" id="{{$shipping->id}}"
-                                           value="{{$shipping->id}}" checked>
-                                    <label class="form-check-label" for="exampleRadios1">
-                                        {{$shipping->name}}
-                                        <span>(10 - 12 days)</span>
-                                    </label>
-                                </div>
                             @endforeach
-                            <div class="wsus__order_details_summery">
-                                <p>subtotal: <span>{{$settings->currency_icon}}{{getCartTotal()}}</span></p>
-                                <p>shipping fee: <span>$20.00</span></p>
-                                <p>tax: <span>$00.00</span></p>
-                                <p><b>total:</b> <span><b>$140.00</b></span></p>
-                            </div>
-                            <a href="payment.html" class="common_btn">Place Order</a>
                         </div>
                     </div>
                 </div>
-            </form>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="wsus__order_details" id="sticky_sidebar">
+                        <p class="wsus__product">shipping Method</p>
+                        @foreach($shippings as $shipping)
+                            <div class="form-check">
+                                <input class="form-check-input shipping-input" type="radio" name="shipping"
+                                       value="{{$shipping->id}}">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    {{$shipping->name}}
+                                    <span>(10 - 12 days)</span>
+                                </label>
+                            </div>
+                        @endforeach
+                        <div class="wsus__order_details_summery">
+                            <p>subtotal: <span id="cart_subtotal">{{$settings->currency_icon}}{{getCartTotal()}}</span></p>
+                            <p>discount: <span>-{{$settings->currency_icon}}{{getCartDiscount()}}</span></p>
+                            <p>shipping fee: <span id="shipping_fee">+$0</span></p>
+                            <p><b>total:</b> <span><b id="cart_total">{{$settings->currency_icon}}{{getMainCartTotal()}}</b></span></p>
+                        </div>
+                        <div class="terms_area">
+                            <div class="form-check">
+                                <input class="form-check-input agree-terms" type="checkbox" value="" id="flexCheckChecked3">
+                                <label class="form-check-label" for="flexCheckChecked3">
+                                    I have read and agree to the website <a href="#">terms and conditions *</a>
+                                </label>
+                            </div>
+                        </div>
+                        <form action="" id="checkoutForm">
+                            <input type="hidden" name="shipping_method_id" value="" id="shipping_method_id" >
+                            <input type="hidden" name="shipping_address_id" value="" id="shipping_address_id" >
+                        </form>
+                        <a href="" id="submitCheckoutForm" class="common_btn">Place Order</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -165,25 +175,73 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            // Increment product quantity and calc total onclick
-            $('.form-check-input').on('click', function (e) {
-                let shippingId = $('.form-check-input').val
+            //reset selectors and form values
+            $('input[type="radio"]').prop('checked', false);
+            $('#shipping_address_id').val("");
+            $('#shipping_method_id').val("");
+
+            //set chosen address
+            $('.address-input').on('click', function (e) {
+                $('#shipping_address_id').val($(this).data('id'));
+            })
+            // apply shipping method
+            $('.shipping-input').on('click', function (e) {
+                let shippingId = $(this).val();
                 $.ajax({
-                    url: '{{route('update-quantity')}}',
+                    url: '{{route('user.apply-shipping')}}',
                     method: 'POST',
                     data: {
                         shipping_id: shippingId,
                     },
                     success: function (data) {
                         if (data.status === 'success') {
-                            toastr.success(data.message);
+                            $('#shipping_method_id').val(shippingId);
+                            $('#cart_subtotal').text('{{$settings->currency_icon}}'+data.cart_total);
+                            $('#shipping_fee').text('+{{$settings->currency_icon}}'+data.shipping_cost);
+                            $('#cart_total').text('{{$settings->currency_icon}}'+data.new_cart_total);
                         } else if (data.status === 'error') {
+                            $('.shipping-input').prop('checked', false);
                             toastr.error(data.message);
                         }
                     },
                     error: function (data) {
                     }
                 })
+            })
+            //submit checkout form
+            $('#submitCheckoutForm').on('click', function(event){
+                event.preventDefault();
+                if($('#shipping_address_id').val() == '') {
+                    toastr.error('Please Select Shipping Address');
+                }else if(!$('.agree-terms').prop('checked')){
+                    toastr.error('Please Accept To Terms And Conditions');
+                }else if($('#shipping_method_id').val() == ''){
+                    toastr.error('Please Select Shipping Method');
+                }else{
+                    $.ajax({
+                        url: '{{route('user.checkout-submit')}}',
+                        method: 'POST',
+                        data: $('#checkoutForm').serialize(),
+                        beforeSend: function () {
+                            $('#submitCheckoutForm').html('<i class="fas fa-spinner fa-spin fa-1x"></i>');
+                        },
+                        success: function (data){
+                            if(data.status === 'success'){
+                                $('#submitCheckoutForm').css({'background' : '#198754'});
+                                $('#submitCheckoutForm').html('Going To Payment...');
+                                //redirect user to payment page
+                                window.location.href = data.redirect_url;
+                            } else if (data.status == 'error') {
+                                $('#submitCheckoutForm').css({'background' : '#dc3545'});
+                                $('#submitCheckoutForm').html('Something Went Wrong');
+                                toastr.error(data.message);
+                            }
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    })
+                }
             })
         })
     </script>

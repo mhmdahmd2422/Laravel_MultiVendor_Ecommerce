@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.8",
         "php-flasher/flasher-toastr-laravel": "^1.15",
         "propaganistas/laravel-phone": "^5.0",
+        "srmklive/paypal": "~3.0",
         "yajra/laravel-datatables": "10.0",
         "yoeunes/toastr": "^2.3"
     },

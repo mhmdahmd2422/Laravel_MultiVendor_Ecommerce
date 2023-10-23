@@ -196,7 +196,6 @@ class CartController extends Controller
             ]);
         }
     }
-    //TODO: prevent negative flat discounts
     public function removeCoupon()
     {
         if(Session::has('coupon')){
