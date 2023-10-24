@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\PaypalSetting;
 use App\Models\Product;
+use App\Models\StripeSetting;
 use App\Models\Transaction;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Srmklive\PayPal\Facades\PayPal;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
@@ -71,6 +74,10 @@ class PaymentController extends Controller
             $order_product->unit_price = $item->price;
             $order_product->quantity = $item->qty;
             $order_product->save();
+
+            //decrement product stock
+            $product->quantity -= $item->qty;
+            $product->save();
         }
 
         //save transaction details here
@@ -94,6 +101,8 @@ class PaymentController extends Controller
             'coupon',
         ]);
     }
+
+    //paypal payment
 
     public function paypalConfig()
     {
@@ -122,11 +131,6 @@ class PaymentController extends Controller
 
     public function payWithPaypal()
     {
-//        foreach (Cart::content() as $item){
-//            dd($item->options->variants_totalPrice);
-//            $order_product->product_variants_total = $item->options['variants_totalPrice'];
-//
-//        }
         $config = $this->paypalConfig();
         $paypalSettings = PaypalSetting::first();
         $appSettings = GeneralSetting::first();
@@ -194,4 +198,34 @@ class PaymentController extends Controller
         return redirect()->route('user.payment');
     }
 
+    //stripe payment
+    public function payWithStripe(Request $request)
+    {
+        $stripe_settings = StripeSetting::first();
+
+        //calculate payment amount depend on currency rate
+        $total = getPaymentAmount();
+        $payableAmount = round($total * $stripe_settings->currency_rate, 2);
+
+        Stripe::setApiKey($stripe_settings->secret_key);
+        $response = Charge::create([
+            'amount' => $payableAmount * 100, //convert to cents
+            'currency' => $stripe_settings->currency,
+            'source'=> $request->stripe_token,
+            'description' => 'Product Purchase',
+        ]);
+
+        //check payment success
+        if($response->status === 'succeeded'){
+            //Add transaction data to DB and empty cart
+            $this->storeOrder('stripe', 1, $response->id, $payableAmount, $stripe_settings->currency);
+            //clear session
+            $this->clearSession();
+            return redirect()->route('user.payment.success');
+        }else{
+            //redirect to purchase page with error message
+            flasher('Something Went Wrong!', 'error');
+            return redirect()->route('user.payment');
+        }
+    }
 }

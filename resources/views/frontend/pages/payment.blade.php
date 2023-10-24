@@ -84,28 +84,15 @@
                                     <div class="col-xl-12 m-auto">
                                         <div class="wsus__payment_area">
                                             <div class="wsus__pay_caed_header">
-                                                <h5>Pay With PayPal</h5>
+                                                <h5>PayPal Payment</h5>
                                                 <img style="height: 3rem; width: 3rem;" src="{{asset('frontend/images/paypal.png')}}" alt="payment" class="img-=fluid">
                                             </div>
-                                            <a href="{{route('user.paypal.payment')}}" class="nav-link common_btn text-center pay_button">PayPal Payment</a>
+                                            <a href="{{route('user.paypal.payment')}}" class="nav-link common_btn text-center pay_button">Pay With PayPal</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                                 aria-labelledby="v-pills-messages-tab">
-                                <div class="row">
-                                    <div class="col-xl-12 m-auto">
-                                        <div class="wsus__payment_area">
-                                            <div class="wsus__pay_caed_header">
-                                                <h5>Pay With Stripe</h5>
-                                                <img style="height: 3rem; width: 3rem;" src="{{asset('frontend/images/stripe.svg')}}" alt="payment" class="img-=fluid">
-                                            </div>
-                                            <button class="nav-link common_btn">Stripe Payment</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('frontend.pages.stripe-payment')
                             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
                                  aria-labelledby="v-pills-settings-tab">
                                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero, tempora cum optio
@@ -155,7 +142,7 @@
     $(document).ready(function() {
         $('.pay_button').on('click', function (){
             $(this).css({'background' : '#198754'});
-            $(this).html('Redirecting To Payment Page...');
+            $(this).html('<i class="fas fa-spinner fa-spin fa-1x"></i>');
         })
     })
 

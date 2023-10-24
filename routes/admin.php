@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\ShippingRuleController;
 use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Backend\StripeSettingsController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\AdminVendorController;
 use Illuminate\Support\Facades\Route;
@@ -128,6 +129,8 @@ Route::get('payment-settings', [PaymentSettingsController::class, 'index'])
     ->name('payment-settings.index');
 Route::put('/paypal-setting/{id}', [PaypalSettingsController::class, 'update'])
     ->name('paypal-setting.update');
+Route::put('/stripe-setting/{id}', [StripeSettingsController::class, 'update'])
+    ->name('stripe-setting.update');
 
 
 
