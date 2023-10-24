@@ -15,7 +15,8 @@
         "propaganistas/laravel-phone": "^5.0",
         "srmklive/paypal": "~3.0",
         "yajra/laravel-datatables": "10.0",
-        "yoeunes/toastr": "^2.3"
+        "yoeunes/toastr": "^2.3",
+      "ext-openssl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

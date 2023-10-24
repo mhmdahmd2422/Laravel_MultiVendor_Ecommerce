@@ -87,7 +87,7 @@
                                                 <h5>Pay With PayPal</h5>
                                                 <img style="height: 3rem; width: 3rem;" src="{{asset('frontend/images/paypal.png')}}" alt="payment" class="img-=fluid">
                                             </div>
-                                            <a href="{{route('user.paypal.payment')}}" class="nav-link common_btn text-center">PayPal Payment</a>
+                                            <a href="{{route('user.paypal.payment')}}" class="nav-link common_btn text-center pay_button">PayPal Payment</a>
                                         </div>
                                     </div>
                                 </div>
@@ -151,5 +151,13 @@
 
 @endsection
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.pay_button').on('click', function (){
+            $(this).css({'background' : '#198754'});
+            $(this).html('Redirecting To Payment Page...');
+        })
+    })
 
+</script>
 @endpush
