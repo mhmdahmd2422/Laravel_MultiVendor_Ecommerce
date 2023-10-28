@@ -48,7 +48,7 @@ class PaymentController extends Controller
         $order = new Order();
         $order->invoice_id = getToken();
         $order->user_id = Auth::user()->id;
-        $order->sub_total = getMainCartTotal();
+        $order->sub_total = getCartTotal();
         $order->total = getPaymentAmount();
         $order->currency = $settings->currency_name;
         $order->currency_icon = $settings->currency_icon;
@@ -58,7 +58,7 @@ class PaymentController extends Controller
         $order->order_address = json_encode(Session::get('address'));
         $order->order_shipping = json_encode(Session::get('shipping'));
         $order->order_coupon = json_encode(Session::get('coupon'));
-        $order->order_status = 0;
+        $order->order_status = 'pending';
         $order->save();
 
         //save product(s) in order here

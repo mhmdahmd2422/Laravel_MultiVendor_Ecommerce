@@ -49,6 +49,11 @@ function discountPercent(int $price_before, int $price_after){
     return ceil(($price_before - $price_after)/$price_before *100);
 }
 
+function getDiscountValueFromPercent(int $discountPercent, int $beforeDiscount){
+    $discountValue = round($beforeDiscount * ($discountPercent/100),2);
+    return $discountValue;
+}
+
 function productListing(Product $product){
     if(isset($product->list_type)){
         $listing = Str::upper(Str::before($product->list_type, '_'));

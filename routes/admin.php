@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\FlashSaleController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PaymentSettingsController;
 use App\Http\Controllers\Backend\PaypalSettingsController;
 use App\Http\Controllers\Backend\ProductController;
@@ -123,6 +124,29 @@ Route::put('general-settings-update', [SettingsController::class, 'generalSettin
     ->name('general-settings.update');
 Route::get('settings', [SettingsController::class, 'index'])
     ->name('settings.index');
+
+//order routes
+Route::get('order-status', [OrderController::class, 'changeOrderStatus'])
+    ->name('change-order-status');
+Route::get('payment-status', [OrderController::class, 'changePaymentStatus'])
+    ->name('change-payment-status');
+Route::get('pending-orders', [OrderController::class, 'pendingOrders'])
+    ->name('order.pending');
+Route::get('processed-orders', [OrderController::class, 'processedOrders'])
+    ->name('order.processed');
+Route::get('dropped-orders', [OrderController::class, 'droppedOrders'])
+    ->name('order.dropped');
+Route::get('shipped-orders', [OrderController::class, 'shippedOrders'])
+    ->name('order.shipped');
+Route::get('delivery-orders', [OrderController::class, 'deliveryOrders'])
+    ->name('order.delivery');
+Route::get('delivered-orders', [OrderController::class, 'deliveredOrders'])
+    ->name('order.delivered');
+Route::get('canceled-orders', [OrderController::class, 'canceledOrders'])
+    ->name('order.canceled');
+Route::resource('order', OrderController::class);
+Route::get('transactions', [OrderController::class, 'transactions'])
+    ->name('transactions.index');
 
 //payment settings routes
 Route::get('payment-settings', [PaymentSettingsController::class, 'index'])

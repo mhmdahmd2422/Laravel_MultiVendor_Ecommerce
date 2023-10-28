@@ -26,6 +26,20 @@
                     <li class="{{setActive(['admin.payment-settings.*'])}}"><a class="nav-link" href="{{route('admin.payment-settings.index')}}">Payment Methods</a></li>
                 </ul>
             </li>
+            <li class="dropdown {{setActive(['admin.order.*'])}}">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Orders</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{setActive(['admin.order.index'])}}"><a class="nav-link" href="{{route('admin.order.index')}}">All Orders</a></li>
+                    <li class="{{setActive(['admin.order.pending'])}}"><a class="nav-link" href="{{route('admin.order.pending')}}">Pending Orders</a></li>
+                    <li class="{{setActive(['admin.order.processed'])}}"><a class="nav-link" href="{{route('admin.order.processed')}}">Processed Orders</a></li>
+                    <li class="{{setActive(['admin.order.dropped'])}}"><a class="nav-link" href="{{route('admin.order.dropped')}}">Dropped-Off Orders</a></li>
+                    <li class="{{setActive(['admin.order.shipped'])}}"><a class="nav-link" href="{{route('admin.order.shipped')}}">Shipped Orders</a></li>
+                    <li class="{{setActive(['admin.order.delivery'])}}"><a class="nav-link" href="{{route('admin.order.delivery')}}">Out-For-Delivery Orders</a></li>
+                    <li class="{{setActive(['admin.order.delivered'])}}"><a class="nav-link" href="{{route('admin.order.delivered')}}">Delivered Orders</a></li>
+                    <li class="{{setActive(['admin.order.canceled'])}}"><a class="nav-link" href="{{route('admin.order.canceled')}}">Canceled Orders</a></li>
+                    </ul>
+            </li>
+            <li class="{{setActive(['admin.transactions.*'])}}"><a class="nav-link" href="{{route('admin.transactions.index')}}"><i class="fas fa-money-check-alt"></i>Transactions</a></li>
             <li class="dropdown {{setActive([
                 'admin.brand.*',
                 'admin.product.*',
