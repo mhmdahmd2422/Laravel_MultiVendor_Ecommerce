@@ -34,6 +34,12 @@ class TransactionDataTable extends DataTable
             ->addColumn('amount in paid currency', function ($query){
                 return $query->converted_amount.' '.$query->converted_amount_currency;
             })
+            //search for invoice id (relationship search)
+            ->filterColumn('invoice_id', function ($query, $keyword){
+                $query->whereHas('order', function ($query) use ($keyword){
+                    $query->where('invoice_id', 'like', "%$keyword");
+                });
+            })
             ->setRowId('id');
     }
 

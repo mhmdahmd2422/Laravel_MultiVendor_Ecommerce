@@ -34,11 +34,11 @@ return [
     'order_status_vendor' => [
         'pending' => [
             'status' => 'Pending',
-            'details' => 'Your order is currently pending'
+            'details' => 'Order is currently pending'
         ],
         'processed_and_ready_to_ship' => [
             'status' => 'Processed and ready to ship',
-            'details' => 'Your Package has been processed and will be with our delivery partner soon'
+            'details' => 'Package has been processed and will be with our delivery partner soon'
         ],
     ]
 ];

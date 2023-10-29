@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\VendorController;
+use App\Http\Controllers\Backend\VendorOrderController;
 use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\Backend\VendorProductImageGalleryController;
 use App\Http\Controllers\Backend\VendorProductVariantController;
@@ -51,4 +52,12 @@ Route::put('product-variant-items-update/{variant_item_id}', [VendorProductVaria
     ->name('product-variant-items.update');
 Route::delete('product-variant-items-delete/{variant_item_id}', [VendorProductVariantItemController::class, 'destroy'])
     ->name('product-variant-items.destroy');
+
+//order routes
+Route::get('orders', [VendorOrderController::class, 'index'])
+    ->name('orders');
+Route::get('orders/show/{id}', [VendorOrderController::class, 'show'])
+    ->name('orders.show');
+Route::get('orders/status', [VendorOrderController::class, 'orderStatus'])
+    ->name('orders.status');
 
