@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\FlashSaleController;
+use App\Http\Controllers\Backend\HomepageSettingsController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PaymentSettingsController;
 use App\Http\Controllers\Backend\PaypalSettingsController;
@@ -124,6 +125,11 @@ Route::put('general-settings-update', [SettingsController::class, 'generalSettin
     ->name('general-settings.update');
 Route::get('settings', [SettingsController::class, 'index'])
     ->name('settings.index');
+//home page settings routes
+Route::get('homepage-settings', [HomepageSettingsController::class, 'index'])
+    ->name('homepage-settings.index');
+Route::put('popular-category-section', [HomepageSettingsController::class, 'updatePopularCategorySection'])
+    ->name('popular-category-section.update');
 
 //order routes
 Route::get('order-status', [OrderController::class, 'changeOrderStatus'])

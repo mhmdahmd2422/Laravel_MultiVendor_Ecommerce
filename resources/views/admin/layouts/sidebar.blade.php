@@ -21,6 +21,7 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Website</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.slider.*'])}}"><a class="nav-link" href="{{route('admin.slider.index')}}">Slider</a></li>
+                    <li class="{{setActive(['admin.slider.*'])}}"><a class="nav-link" href="{{route('admin.homepage-settings.index')}}">Homepage Settings</a></li>
                     <li class="{{setActive(['admin.coupons.*'])}}"><a class="nav-link" href="{{route('admin.coupons.index')}}">Coupons</a></li>
                     <li class="{{setActive(['admin.shipping.*'])}}"><a class="nav-link" href="{{route('admin.shipping.index')}}">Shipping Methods</a></li>
                     <li class="{{setActive(['admin.payment-settings.*'])}}"><a class="nav-link" href="{{route('admin.payment-settings.index')}}">Payment Methods</a></li>

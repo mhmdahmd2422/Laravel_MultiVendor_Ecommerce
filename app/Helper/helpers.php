@@ -43,6 +43,19 @@ function returnPriceOrDiscount(Product $product)
     return $product->price;
 }
 
+function returnDiscountOrFalse(Product $product)
+{
+    $currentDate = date('Y-m-d');
+
+    if($product->offer_price > 0 &&
+        $currentDate >= $product->offer_start_date &&
+        $currentDate <= $product->offer_end_date
+    ){
+        return $product->offer_price;
+    }
+    return false;
+}
+
 
 function discountPercent(int $price_before, int $price_after){
 
@@ -166,4 +179,9 @@ function getToken()
     }
 
     return $token;
+}
+
+function limitText(string $text, $limit = 20)
+{
+    return Str::limit($text, $limit);
 }
