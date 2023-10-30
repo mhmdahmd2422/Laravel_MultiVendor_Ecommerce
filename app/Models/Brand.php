@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Brand extends Model
 {
     use HasFactory;
+
+    public function scopeActiveFeatured($query){
+        return $query->where('is_featured', 1)->where('status', 1);
+    }
 }

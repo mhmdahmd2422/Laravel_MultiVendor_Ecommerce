@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
 use App\Models\HomepageSetting;
@@ -16,12 +17,14 @@ class HomeController extends Controller
         $flash_sale_date = FlashSale::first();
         $flash_sale_items = FlashSaleItem::showActive()->get();
         $popular_category = HomepageSetting::where('key', 'popular_category_section')->first();
+        $brands = Brand::activeFeatured()->get();
         return view('frontend.home.home',
             compact(
                 'sliders',
                 'flash_sale_date',
                 'flash_sale_items',
                 'popular_category',
+                'brands',
             ));
     }
 }
