@@ -17,17 +17,27 @@ class HomeController extends Controller
         $sliders = Slider::where('status', 1)->orderBy('serial')->get();
         $flash_sale_date = FlashSale::first();
         $flash_sale_items = FlashSaleItem::showActive()->get();
-        $popular_category = HomepageSetting::where('key', 'popular_category_section')->first();
+        $popular_categories = HomepageSetting::where('key', 'popular_category_section')->first();
+        $popular_categories = json_decode($popular_categories->value, true);
         $brands = Brand::activeFeatured()->get();
         $type_base_products = $this->getTypeBaseProduct();
+        $single_cat_section = HomepageSetting::where('key', 'single_category_section')->first();
+        $single_cat_section = json_decode($single_cat_section->value, false);
+        $single_cat_section_two = HomepageSetting::where('key', 'single_category_section_two')->first();
+        $single_cat_section_two = json_decode($single_cat_section_two->value, false);
+        $product_slider_section = HomepageSetting::where('key', 'product_slider_section')->first();
+        $product_slider_section = json_decode($product_slider_section->value, true);
         return view('frontend.home.home',
             compact(
                 'sliders',
                 'flash_sale_date',
                 'flash_sale_items',
-                'popular_category',
+                'popular_categories',
                 'brands',
                 'type_base_products',
+                'single_cat_section',
+                'single_cat_section_two',
+                'product_slider_section',
             ));
     }
 
@@ -51,4 +61,5 @@ class HomeController extends Controller
 
         return $typeBaseProducts;
     }
+
 }

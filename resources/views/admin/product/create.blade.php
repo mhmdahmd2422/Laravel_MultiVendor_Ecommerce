@@ -95,10 +95,10 @@
                             </div>
                             <div class="form-group">
                                 <label>Short Description</label>
-                                <textarea name="short_description" class="summernote-simple"></textarea>
+                                <textarea name="short_description" class="summernote-simple">{{old('short_description')}}</textarea>
                             </div><div class="form-group">
                                 <label>Long Description</label>
-                                <textarea name="long_description" class="summernote-simple"></textarea>
+                                <textarea name="long_description" class="summernote-simple">{{old('long_description')}}</textarea>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
@@ -170,7 +170,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Product SEO Description</label>
-                                <textarea name="seo_description" class="summernote-simple"></textarea>
+                                <textarea name="seo_description" class="summernote-simple">{{old('seo_description')}}</textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Create</button>
                         </form>
@@ -193,7 +193,7 @@
                         id: id,
                     },
                     success : function (data) {
-                        $('.sub-category').html(`<option>Select Sub Category</option>`)
+                        $('.sub-category').html(`<option value=''>Select Sub Category</option>`)
                         $.each(data, function (i, item){
                             $('.sub-category').append(`<option value="${item.id}">${item.name}</option>`)
                         })
@@ -213,7 +213,7 @@
                         id: id,
                     },
                     success : function (data) {
-                        $('.child-category').html(`<option>Select Child Category</option>`)
+                        $('.child-category').html(`<option value=''>Select Child Category</option>`)
                         $.each(data, function (i, item){
                             $('.child-category').append(`<option value="${item.id}">${item.name}</option>`)
                         })

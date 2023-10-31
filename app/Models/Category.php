@@ -9,6 +9,10 @@ class Category extends Model
 {
     use HasFactory;
 
+    public function scopeActive($query){
+        return $query->where('status', 1);
+    }
+
     public function subCategories(){
         return $this->hasMany(SubCategory::class);
     }

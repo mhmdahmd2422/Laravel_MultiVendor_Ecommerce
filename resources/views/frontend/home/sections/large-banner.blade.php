@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="cl-xl-12">
-                <div class="wsus__large_banner_content" style="background: url(images/large_banner_img.jpg);">
+                <div class="wsus__large_banner_content" style="background: url({{asset('frontend/images/large_banner_img.jpg')}});">
                     <div class="wsus__large_banner_content_overlay">
                         <div class="row">
                             <div class="col-xl-6 col-12 col-md-6">

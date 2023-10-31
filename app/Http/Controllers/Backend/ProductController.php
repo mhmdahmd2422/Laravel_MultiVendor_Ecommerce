@@ -46,13 +46,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-//        dd(Auth::user()->vendor->id);
         $request->validate([
             'thumb_image' => ['required', 'image', 'max:2048'],
             'name' => ['required', 'string', 'max:200'],
             'category_id' => ['required', 'integer'],
-            'sub_category_id' => ['required', 'integer'],
-            'child_category_id' => ['required', 'integer'],
             'brand_id' => ['required', 'integer'],
             'quantity' => ['required', 'integer'],
             'short_description' => ['required', 'string', 'max:1000'],
@@ -110,8 +107,6 @@ class ProductController extends Controller
             'thumb_image' => ['nullable', 'image', 'max:2048'],
             'name' => ['required', 'string', 'max:200'],
             'category_id' => ['required', 'integer'],
-            'sub_category_id' => ['nullable', 'integer'],
-            'child_category_id' => ['nullable', 'integer'],
             'brand_id' => ['required', 'integer'],
             'quantity' => ['required', 'integer'],
             'short_description' => ['required', 'string', 'max:1000'],

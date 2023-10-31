@@ -65,7 +65,7 @@
                                 <i class="fas fa-star-half-alt"></i>
                                 <span>20 review</span>
                             </p>
-                            <p class="description" style="font-style: italic; font-size: large">{{$product->short_description}}</p>
+                            <p class="description" style="font-style: italic; font-size: large">{!! $product->short_description !!}</p>
                             <p class="brand_model"><span style="font-weight: bold">model :</span> {{$product->sku?? 'Not Provided'}}</p>
                             <p class="brand_model mb-4"><span style="font-weight: bold">brand :</span> {{$product->brand->name}}</p>
 
@@ -213,7 +213,7 @@
                                         <div class="col-xl-12">
                                             <div class="wsus__description_area">
 
-                                                <p>{{$product->long_description}}</p>
+                                                <p>{!! $product->long_description !!}</p>
                                             </div>
                                         </div>
                                         <div class="row">

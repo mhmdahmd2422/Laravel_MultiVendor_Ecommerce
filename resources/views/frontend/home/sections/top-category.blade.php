@@ -1,6 +1,3 @@
-@php
-    $popular_categories = json_decode($popular_category->value, true);
-@endphp
 <!--============================
    MONTHLY TOP PRODUCT START
 ==============================-->
@@ -10,7 +7,7 @@
             <div class="col-xl-12 col-lg-12">
                 <div class="wsus__monthly_top_banner">
                     <div class="wsus__monthly_top_banner_img">
-                        <img src="images/monthly_top_img3.jpg" alt="img" class="img-fluid w-100">
+                        <img src="{{asset('frontend/images/monthly_top_img3.jpg')}}" alt="img" class="img-fluid w-100">
                         <span></span>
                     </div>
                     <div class="wsus__monthly_top_banner_text">
@@ -75,7 +72,7 @@
                     @foreach($products as $key => $product)
                         @foreach($product as $item)
                             <div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3  category-{{$key}}">
-                                <a class="wsus__hot_deals__single" href="#">
+                                <a class="wsus__hot_deals__single" href="{{route('product-detail.index', $item->slug)}}">
                                     <div class="wsus__hot_deals__single_img">
                                         <img src="{{asset($item->thumb_image)}}" alt="bag" class="img-fluid w-100">
                                     </div>

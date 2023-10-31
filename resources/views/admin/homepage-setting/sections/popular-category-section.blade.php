@@ -1,7 +1,3 @@
-@php
-    $popular_cat_section = json_decode($popular_cat_section->value);
-@endphp
-
 <div class="tab-pane fade active show" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
     <div class="card border">
         <div class="card-body">
@@ -24,10 +20,10 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             @php
-                            $sub_categories = \App\Models\SubCategory::where('category_id', $popular_cat_section[0]->category)->get();
+                            $sub_categories = \App\Models\SubCategory::where('category_id', $popular_cat_section[0]->category)->active()->get();
                              @endphp
                             <label>Sub-Category</label>
-                            <select {{$category->id == $popular_cat_section[0]->sub_category? 'selected': ''}} name="sub_cat_one" class="form-control sub-category">
+                            <select name="sub_cat_one" class="form-control sub-category">
                                 <option value="">Select</option>
                                 @foreach($sub_categories as $sub_category)
                                     <option {{$sub_category->id == $popular_cat_section[0]->sub_category? 'selected': ''}} value="{{$sub_category->id}}">{{$sub_category->name}}</option>
@@ -38,7 +34,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             @php
-                                $child_categories = \App\Models\ChildCategory::where('sub_category_id', $popular_cat_section[0]->sub_category)->get();
+                                $child_categories = \App\Models\ChildCategory::where('sub_category_id', $popular_cat_section[0]->sub_category)->active()->get();
                             @endphp
                             <label>Child-Category</label>
                             <select name="child_cat_one" class="form-control child-category">
@@ -66,7 +62,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             @php
-                                $sub_categories = \App\Models\SubCategory::where('category_id', $popular_cat_section[1]->category)->get();
+                                $sub_categories = \App\Models\SubCategory::where('category_id', $popular_cat_section[1]->category)->active()->get();
                             @endphp
                             <label>Sub-Category</label>
                             <select {{$category->id == $popular_cat_section[1]->sub_category? 'selected': ''}} name="sub_cat_two" class="form-control sub-category">
@@ -80,7 +76,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             @php
-                                $child_categories = \App\Models\ChildCategory::where('sub_category_id', $popular_cat_section[1]->sub_category)->get();
+                                $child_categories = \App\Models\ChildCategory::where('sub_category_id', $popular_cat_section[1]->sub_category)->active()->get();
                             @endphp
                             <label>Child-Category</label>
                             <select name="child_cat_two" class="form-control child-category">
@@ -109,7 +105,7 @@
                         <div class="form-group">
                             <label>Sub-Category</label>
                             @php
-                                $sub_categories = \App\Models\SubCategory::where('category_id', $popular_cat_section[2]->category)->get();
+                                $sub_categories = \App\Models\SubCategory::where('category_id', $popular_cat_section[2]->category)->active()->get();
                             @endphp
                             <select name="sub_cat_three" class="form-control sub-category">
                                 <option value="">Select</option>
@@ -123,7 +119,7 @@
                         <div class="form-group">
                             <label>Child-Category</label>
                             @php
-                                $child_categories = \App\Models\ChildCategory::where('sub_category_id', $popular_cat_section[2]->sub_category)->get();
+                                $child_categories = \App\Models\ChildCategory::where('sub_category_id', $popular_cat_section[2]->sub_category)->active()->get();
                             @endphp
                             <select name="child_cat_three" class="form-control child-category">
                                 <option value="">Select</option>
@@ -151,7 +147,7 @@
                         <div class="form-group">
                             <label>Sub-Category</label>
                             @php
-                                $sub_categories = \App\Models\SubCategory::where('category_id', $popular_cat_section[3]->category)->get();
+                                $sub_categories = \App\Models\SubCategory::where('category_id', $popular_cat_section[3]->category)->active()->get();
                             @endphp
                             <select name="sub_cat_four" class="form-control sub-category">
                                 <option value="">Select</option>
@@ -165,7 +161,7 @@
                         <div class="form-group">
                             <label>Child-Category</label>
                             @php
-                                $child_categories = \App\Models\ChildCategory::where('sub_category_id', $popular_cat_section[3]->sub_category)->get();
+                                $child_categories = \App\Models\ChildCategory::where('sub_category_id', $popular_cat_section[3]->sub_category)->active()->get();
                             @endphp
                             <select name="child_cat_four" class="form-control child-category">
                                 <option value="">Select</option>
@@ -176,6 +172,7 @@
                         </div>
                     </div>
                 </div>
+                <input name="section" type="hidden" value="popular_category_section">
                 <button class="btn btn-primary" type="submit">Save</button>
             </form>
         </div>

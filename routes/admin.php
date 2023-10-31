@@ -130,6 +130,10 @@ Route::get('homepage-settings', [HomepageSettingsController::class, 'index'])
     ->name('homepage-settings.index');
 Route::put('popular-category-section', [HomepageSettingsController::class, 'updatePopularCategorySection'])
     ->name('popular-category-section.update');
+Route::put('single-category-section', [HomepageSettingsController::class, 'updateSingleCategorySection'])
+    ->name('single-category-section.update');
+Route::put('product-slider-section', [HomepageSettingsController::class, 'updateProductSliderSection'])
+    ->name('product-slider-section.update');
 
 //order routes
 Route::get('order-status', [OrderController::class, 'changeOrderStatus'])

@@ -11,4 +11,8 @@ class ChildCategory extends Model
     public function subcategory(){
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
+
+    public function scopeActive($query){
+        return $query->where('status', 1);
+    }
 }
