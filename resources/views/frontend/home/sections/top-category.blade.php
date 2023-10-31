@@ -42,13 +42,25 @@
                                 }
                                 if(array_keys($lastKey)[0] === 'category'){
                                     $category = \App\Models\Category::find($lastKey['category']);
-                                    $products[] = \App\Models\Product::where('category_id', $category->id)->orderBy('id', 'DESC')->take(12)->get();
+                                    $products[] = \App\Models\Product::setEagerLoads([])
+                                    ->where('category_id', $category->id)
+                                    ->orderBy('id', 'DESC')
+                                    ->take(12)
+                                    ->get();
                                 }elseif(array_keys($lastKey)[0] === 'sub_category'){
                                     $category = \App\Models\SubCategory::find($lastKey['sub_category']);
-                                    $products[] = \App\Models\Product::where('sub_category_id', $category->id)->orderBy('id', 'DESC')->take(12)->get();
+                                    $products[] = \App\Models\Product::setEagerLoads([])
+                                    ->where('sub_category_id', $category->id)
+                                    ->orderBy('id', 'DESC')
+                                    ->take(12)
+                                    ->get();
                                 }else{
                                     $category = \App\Models\ChildCategory::find($lastKey['child_category']);
-                                    $products[] = \App\Models\Product::where('child_category_id', $category->id)->orderBy('id', 'DESC')->take(12)->get();
+                                    $products[] = \App\Models\Product::setEagerLoads([])
+                                    ->where('child_category_id', $category->id)
+                                    ->orderBy('id', 'DESC')
+                                    ->take(12)
+                                    ->get();
                                 }
                             @endphp
                             <button class="{{$loop->index === 0? 'auto_click active': ''}}" data-filter=".category-{{$loop->index}}">{{$category->name}}</button>
@@ -76,7 +88,7 @@
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star-half-alt"></i>
                                         </p>
-                                        @if(returnDiscountOrFalse($item))
+                                        @if(checkDiscount($item))
                                             <p class="wsus__tk">{{$settings->currency_icon}}{{$item->offer_price}} <del class="text-danger">{{$settings->currency_icon}}{{$item->price}}</del></p>
                                         @else
                                             <p class="wsus__tk">{{$settings->currency_icon}}{{$item->price}}</p>

@@ -13,6 +13,10 @@ class Product extends Model
         return $query->where('is_approved', 1)->where('status', 1);
     }
 
+    public function scopeListType($query, $list_type){
+        return $query->where('list_type', $list_type);
+    }
+
     public function vendor(){
         return $this->belongsTo(Vendor::class);
     }
