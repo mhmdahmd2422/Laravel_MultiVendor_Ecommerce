@@ -1,5 +1,5 @@
 @php
-    $categories = App\Models\Category::where('status', 1)
+    $categories = App\Models\Category::active()
     ->with(['subCategories' => function($query){
         $query->where('status', 1)
         ->with(['childCategories' => function($query){
@@ -7,9 +7,7 @@
         }]);
     }])
     ->get();
-
 @endphp
-
 <!--============================
     MAIN MENU START
 ==============================-->
@@ -24,15 +22,15 @@
                     <ul class="wsus_menu_cat_item show_home toggle_menu">
 {{--                        <li><a href="#"><i class="fas fa-star"></i> hot promotions</a></li>--}}
                         @foreach($categories as $category)
-                        <li><a class="{{count($category->subCategories) > 0 ? 'wsus__droap_arrow' : ''}}" href="#"><i class="{{$category->icon}}"></i> {{$category->name}} </a>
+                        <li><a class="{{count($category->subCategories) > 0 ? 'wsus__droap_arrow' : ''}}" href="{{route('products.index', ['category' => $category->slug])}}"><i class="{{$category->icon}}"></i> {{$category->name}} </a>
                             @if(!$category->subCategories->isEmpty())
                             <ul class="wsus_menu_cat_droapdown">
                                 @foreach($category->subCategories as $subCategory)
-                                <li><a href="#">{{$subCategory->name}} <i class="{{count($subCategory->childCategories) > 0 ? 'fas fa-angle-right' : ''}}"></i></a>
+                                <li><a href="{{route('products.index', ['sub_category' => $subCategory->slug])}}">{{$subCategory->name}} <i class="{{count($subCategory->childCategories) > 0 ? 'fas fa-angle-right' : ''}}"></i></a>
                                     @if(!$subCategory->childCategories->isEmpty())
                                     <ul class="wsus__sub_category">
                                         @foreach($subCategory->childCategories as $childCategory)
-                                        <li><a href="#">{{$childCategory->name}}</a> </li>
+                                        <li><a href="{{route('products.index', ['child_category' => $childCategory->slug])}}">{{$childCategory->name}}</a> </li>
                                         @endforeach
                                     </ul>
                                     @endif
@@ -46,7 +44,7 @@
                     </ul>
 
                     <ul class="wsus__menu_item">
-                        <li><a class="active" href="index.html">home</a></li>
+                        <li><a class="active" href="{{route('home')}}">home</a></li>
                         <li><a href="product_grid_view.html">shop <i class="fas fa-caret-down"></i></a>
                             <div class="wsus__mega_menu">
                                 <div class="row">
@@ -138,8 +136,18 @@
                     </ul>
                     <ul class="wsus__menu_item wsus__menu_item_right">
                         <li><a href="contact.html">contact</a></li>
-                        <li><a href="dsahboard.html">my account</a></li>
-                        <li><a href="{{ route('login') }}">login</a></li>
+                        @if(\Illuminate\Support\Facades\Auth::check())
+                            <li><a href="{{route('user.dashboard')}}">my account</a></li>
+                            <li><form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    this.closest('form').submit();">Log out</a>
+                                </form>
+                            </li>
+                        @else
+                            <li><a href="{{route('login')}}">my account</a></li>
+                            <li><a href="{{ route('login') }}">login</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -163,7 +171,7 @@
         <li><a href="compare.html"><i class="far fa-random"></i> </i><span>3</span></a></li>
     </ul>
     <form>
-        <input type="text" placeholder="Search">
+        <input type="text" placeholder="Search a7aaaaa">
         <button type="submit"><i class="far fa-search"></i></button>
     </form>
 

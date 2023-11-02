@@ -12,4 +12,8 @@ class Brand extends Model
     public function scopeActiveFeatured($query){
         return $query->where('is_featured', 1)->where('status', 1);
     }
+
+    public function scopeActive($query){
+        return $query->where('status', 1);
+    }
 }

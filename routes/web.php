@@ -30,9 +30,13 @@ Route::get('admin/login', [AdminController::class, 'login'])
 Route::get('flash-sale/all', [FlashSaleController::class, 'ShowAllFlashItems'])
     ->name('flash-sale.details');
 
-//product detail routes
+//products routes
 Route::get('product-detail/{slug}', [FrontendProductController::class, 'index'])
     ->name('product-detail.index');
+Route::get('products', [FrontendProductController::class, 'productsIndex'])
+    ->name('products.index');
+Route::get('change-product-view', [FrontendProductController::class, 'changeListView'])
+    ->name('change-product-view');
 
 //Cart routes
 Route::post('add-to-cart', [CartController::class, 'addToCart'])

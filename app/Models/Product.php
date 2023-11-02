@@ -13,6 +13,34 @@ class Product extends Model
         return $query->where('is_approved', 1)->where('status', 1);
     }
 
+    public function scopePriceRange($query, $request){
+        return $query->when($request->has('price_slider') && $request->price_slider != null, function ($query) use ($request) {
+            $range = explode(';', $request->price_slider);
+            $from = $range[0];
+            $to = $range[1];
+
+            return $query->where('price', '>=', $from)->where('price', '<=', $to);
+        });
+    }
+
+    public function scopeSelectedBrand($query, $request){
+        return $query->when($request->has('brand'), function ($query) use ($request) {
+            $brand = Brand::where('slug', $request->brand)->firstOrFail();
+            return $query->where('brand_id', $brand->id);
+        });
+    }
+
+    public function scopeProductSearch($query, $request){
+        return $query->when($request->has('search'), function ($query) use ($request) {
+            return $query->where('name', 'like', '%'.$request->search.'%')
+                ->orWhere('long_description', 'like', '%'.$request->search.'%')
+                ->orWhereHas('category', function ($query) use ($request){
+                    $query->where('name', 'like', '%'.$request->search.'%')
+                        ->orWhere('long_description', 'like', '%'.$request->search.'%');
+                });
+        });
+    }
+
     public function scopeListType($query, $list_type){
         return $query->where('list_type', $list_type);
     }
