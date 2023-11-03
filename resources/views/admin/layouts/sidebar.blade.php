@@ -27,6 +27,14 @@
                     <li class="{{setActive(['admin.payment-settings.*'])}}"><a class="nav-link" href="{{route('admin.payment-settings.index')}}">Payment Methods</a></li>
                 </ul>
             </li>
+            <li class="dropdown {{setActive(
+                [
+                  ])}}">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i><span>Footer Data</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{setActive(['admin.slider.*'])}}"><a class="nav-link" href="{{route('admin.slider.index')}}">Contact Info</a></li>
+                </ul>
+            </li>
             <li class="dropdown {{setActive(['admin.order.*'])}}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Orders</span></a>
                 <ul class="dropdown-menu">

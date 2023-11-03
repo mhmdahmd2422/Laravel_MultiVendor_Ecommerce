@@ -9,7 +9,9 @@ use App\Models\FlashSaleItem;
 use App\Models\HomepageSetting;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {

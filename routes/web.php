@@ -11,6 +11,7 @@ use App\Http\Controllers\Frontend\UserAddressController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserOrderController;
 use App\Http\Controllers\Frontend\UserProfileController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,8 @@ require __DIR__.'/auth.php';
 
 Route::get('admin/login', [AdminController::class, 'login'])
     ->name('admin.login');
+Route::get('wishlist/add', [WishlistController::class, 'addToWishlist'])
+    ->name('wishlist.store');
 Route::get('flash-sale/all', [FlashSaleController::class, 'ShowAllFlashItems'])
     ->name('flash-sale.details');
 
@@ -37,6 +40,7 @@ Route::get('products', [FrontendProductController::class, 'productsIndex'])
     ->name('products.index');
 Route::get('change-product-view', [FrontendProductController::class, 'changeListView'])
     ->name('change-product-view');
+
 
 //Cart routes
 Route::post('add-to-cart', [CartController::class, 'addToCart'])
@@ -72,6 +76,13 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
         ->name('profile.update');
     Route::post('profile/update/password', [UserProfileController::class, 'updatePassword'])
         ->name('password.update');
+    //wishlist
+    Route::get('wishlist', [WishlistController::class, 'index'])
+        ->name('wishlist.index');
+    Route::post('wishlist/remove', [WishlistController::class, 'removeFromWishlist'])
+        ->name('wishlist.destroy');
+    Route::post('wishlist/add-to-cart', [WishlistController::class, 'addToCartFromWishlist'])
+        ->name('wishlist.add-to-cart');
     //User multiple addresses
     Route::resource('address', UserAddressController::class);
     //order routes

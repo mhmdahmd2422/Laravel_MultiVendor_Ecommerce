@@ -149,6 +149,39 @@
         $('.auto_click').click();
     })
 </script>
+<script>
+    $(document).ready(function (){
+        //add product to wishlist
+        $('.add-to-wishlist').on('click', function (event) {
+            event.preventDefault();
+            let id = $(this).data('id');
+            $('.product-increment').on('click', function(e){
+                e.preventDefault();
+                let input = $(this).siblings('.product-qty');
+                let qty = parseInt(input.val()) +1;
+                input.val(qty);
+            })
+            $.ajax({
+                method: 'GET',
+                url: '{{route('wishlist.store')}}',
+                data: {
+                    productId: id,
+                },
+                success: function (data) {
+                    if(data.status === 'success'){
+                        $('.wishlist_count').text(data.wishlistCount)
+                        toastr.success(data.message);
+                    }else if(data.status === 'error'){
+                        toastr.error(data.message);
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            })
+        })
+    })
+</script>
 @stack('scripts')
 </body>
 
