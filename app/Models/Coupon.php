@@ -15,8 +15,8 @@ class Coupon extends Model
 
     public function scopeDateActiveCoupons($query){
         return $query
-            ->where('end_date', '>' , date('Y-m-d'))
-            ->where('start_date', '<' , date('Y-m-d'));
+            ->where('end_date', '>=' , date('Y-m-d'))
+            ->where('start_date', '<=' , date('Y-m-d'));
     }
 
     public function scopeQuantityActiveCoupons($query){

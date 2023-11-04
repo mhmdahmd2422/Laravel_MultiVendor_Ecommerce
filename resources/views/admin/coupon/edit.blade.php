@@ -9,7 +9,7 @@
             <div class="col-12 col-md-6 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Create Coupon</h4>
+                        <h4>Edit Coupon</h4>
                     </div>
                     <div class="card-body">
                         <form action="{{route('admin.coupons.update', $coupon->id)}}" method="post">

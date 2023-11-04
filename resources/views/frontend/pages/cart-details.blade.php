@@ -123,7 +123,7 @@
                 <div class="col-xl-6 col-lg-6">
                     <div class="wsus__single_banner_content">
                         <div class="wsus__single_banner_img">
-                            <img src="images/single_banner_2.jpg" alt="banner" class="img-fluid w-100">
+                            <img src="{{asset('frontend/images/single_banner_2.jpg')}}" alt="banner" class="img-fluid w-100">
                         </div>
                         <div class="wsus__single_banner_text">
                             <h6>sell on <span>35% off</span></h6>
@@ -135,7 +135,7 @@
                 <div class="col-xl-6 col-lg-6">
                     <div class="wsus__single_banner_content single_banner_2">
                         <div class="wsus__single_banner_img">
-                            <img src="images/single_banner_3.jpg" alt="banner" class="img-fluid w-100">
+                            <img src="{{asset('frontend/images/single_banner_3.jpg')}}" alt="banner" class="img-fluid w-100">
                         </div>
                         <div class="wsus__single_banner_text">
                             <h6>New Collection</h6>

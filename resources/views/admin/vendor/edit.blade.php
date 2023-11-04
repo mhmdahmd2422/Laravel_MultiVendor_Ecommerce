@@ -27,6 +27,10 @@
                                 <input name="name" type="text" class="form-control" value="{{$vendor->name}}">
                             </div>
                             <div class="form-group">
+                                <label>User ID</label>
+                                <input name="user_id" type="text" class="form-control" value="{{$vendor->user_id}}">
+                            </div>
+                            <div class="form-group">
                                 <label>Phone Number</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">

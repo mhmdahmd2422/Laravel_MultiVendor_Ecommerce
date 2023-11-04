@@ -21,7 +21,7 @@
                    </select>
                </div>
                <div class="form-group">
-                   <label>Country Name</label>
+                   <label style="display: block">Country Name</label>
                    <select name="country" class="form-control select2">
                        <option value="">Select</option>
                        @foreach(config('countries.countries') as $country_code => $country_name)
@@ -30,7 +30,7 @@
                    </select>
                </div>
                <div class="form-group">
-                   <label>Currency</label>
+                   <label style="display: block">Currency</label>
                    <select name="currency" class="form-control select2">
                        <option value="">Select</option>
                        @foreach(config('settings.currency_list') as $currency_name => $currency_code)

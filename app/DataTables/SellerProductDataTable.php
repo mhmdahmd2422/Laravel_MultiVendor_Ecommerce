@@ -39,7 +39,11 @@ class SellerProductDataTable extends DataTable
                 return $editButton.$deleteButton.$moreButton;
             })
             ->addColumn('approve', function ($query){
-                $approveButton = "<a href='".route('admin.seller-products.approve', $query->id)."' style='color: white;' class='btn btn-dark approve-item'><i class='fas fa-times-circle' style='margin-right: 1rem'></i>Send To Pending</a>";
+                if($query->is_approved == 0){
+                    $approveButton = "<a href='".route('admin.seller-products.approve', $query->id)."' style='color: white;' class='btn btn-primary approve-item'><i class='fas fa-times-circle' style='margin-right: 1rem'></i>Approve</a>";
+                }else{
+                    $approveButton = "<span style='color: white;' class='badge bg-success'>Approved</span>";
+                }
                 return $approveButton;
             })
             ->addColumn('thumbnail', function ($query){

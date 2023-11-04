@@ -61,8 +61,7 @@ class OrderDataTable extends DataTable
             ->addColumn('action', function($query){
                 $showButton = "<a href='".route('admin.order.show', $query->id)."' style='color: white;' class='btn btn-primary'><i class='far fa-eye mr-1'></i></a>";
                 $deleteButton = "<a href='".route('admin.order.destroy', $query->id)."' style='color: white; margin-left: 0.5rem;' class='btn btn-danger ml-2 delete-item'><i class='fas fa-trash-alt mr-1'></i></a>";
-                $statusButton = "<a href='".route('admin.coupons.edit', $query->id)."' style='color: white; margin-left: 0.5rem;' class='btn btn-warning'><i class='fas fa-truck mr-1'></i></a>";
-                return $showButton.$statusButton.$deleteButton;
+                return $showButton.$deleteButton;
             })
             ->rawColumns(['action', 'order_status'])
             ->setRowId('id');

@@ -135,7 +135,7 @@ function getCartDiscount()
         if($coupon->get('discount_type') === 'amount'){
             return $coupon->get('discount_value');
         }elseif($coupon->get('discount_type') === 'percent'){
-            $discountValue = round(($coupon->get('discount_value')/100),2);
+            $discountValue = getCartTotal() * round(($coupon->get('discount_value')/100),2);
             return $discountValue;
         }
     }else{

@@ -39,7 +39,7 @@ class SliderController extends Controller
         $alert = 'New Slider Has Been Created!';
         $route = 'admin.slider.index';
 
-        return $this->submitForm($request, $slider, $alert, $route, $imagePath);
+        return $this->submitForm($request, $slider, $imagePath, $alert, $route);
     }
 
     public function show(string $id)

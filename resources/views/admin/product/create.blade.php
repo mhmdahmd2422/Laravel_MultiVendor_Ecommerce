@@ -14,15 +14,6 @@
                     <div class="card-body">
                         <form action="{{route('admin.product.store')}}" method="post" enctype="multipart/form-data">
                             @csrf
-{{--                            <div class="form-group">--}}
-{{--                                <label class="col-form-label mb-2">Thumbnail</label>--}}
-{{--                                <div class="col-sm-12 col-md-7">--}}
-{{--                                    <div id="image-preview" class="image-preview">--}}
-{{--                                        <label for="image-upload" id="image-label">Choose File</label>--}}
-{{--                                        <input type="file" name="thumb_image" id="image-upload" />--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
                             <div class="form-group">
                                 <label>Thumbnail</label>
                                 <input  name="thumb_image" type="file" class="form-control">
@@ -110,7 +101,7 @@
                                                     $
                                                 </div>
                                             </div>
-                                            <input name="price" type="number" class="form-control currency" value="{{old('price')}}">
+                                            <input name="price" type="text" class="form-control currency" value="{{old('price')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +114,7 @@
                                                     $
                                                 </div>
                                             </div>
-                                            <input name="offer_price" type="number" class="form-control currency" value="{{old('offer_price')}}">
+                                            <input name="offer_price" type="text" class="form-control currency" value="{{old('offer_price')}}">
                                         </div>
                                     </div>
                                 </div>

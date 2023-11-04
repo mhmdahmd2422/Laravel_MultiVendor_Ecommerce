@@ -23,6 +23,10 @@
                                 <input name="name" type="text" class="form-control" value="{{old('name')}}">
                             </div>
                             <div class="form-group">
+                                <label>User ID</label>
+                                <input name="user_id" type="text" class="form-control" value="{{old('user_id')}}">
+                            </div>
+                            <div class="form-group">
                                 <label>Phone Number</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -42,7 +46,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea name="description" class="summernote"></textarea>
+                                <textarea name="description" class="summernote">{{old('description')}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label>Facebook URL</label>
@@ -60,8 +64,8 @@
                                 <label for="inputState">Status</label>
                                 <select name="status" id="inputState" class="form-control">
                                     <option value="">Select</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option {{old('status') == 1? 'selected': ''}} value="1">Active</option>
+                                    <option {{old('status') == 0? 'selected': ''}} value="0">Inactive</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Create</button>

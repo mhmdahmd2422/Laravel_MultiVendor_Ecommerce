@@ -213,12 +213,11 @@
     var d = new Date(),
         countUpDate = new Date();
     d.setDate(d.getDate() + 90);
-    console.log({{date('d', strtotime($flash_sale_date->end_date))}});
     $(document).ready(function (){
         simplyCountdown('.simply-countdown-one', {
-            year: {{date('Y', strtotime($flash_sale_date->end_date))}},
-            month: {{date('m', strtotime($flash_sale_date->end_date))}},
-            day: {{date('d', strtotime($flash_sale_date->end_date))}},
+            year: {{date('Y', strtotime($flash_sale_date?->end_date))}},
+            month: {{date('m', strtotime($flash_sale_date?->end_date))}},
+            day: {{date('d', strtotime($flash_sale_date?->end_date))}},
         });
     })
 </script>

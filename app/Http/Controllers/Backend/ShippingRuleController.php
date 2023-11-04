@@ -107,7 +107,6 @@ class ShippingRuleController extends Controller
         }
         $rule->cost = $request->cost;
         $rule->status = $request->status;
-        $rule->currency = $request->currency;
         $rule->save();
 
         flash()->addSuccess($alert);

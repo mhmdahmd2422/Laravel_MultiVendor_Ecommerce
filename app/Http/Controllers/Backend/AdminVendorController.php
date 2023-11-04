@@ -36,7 +36,7 @@ class AdminVendorController extends Controller
         $request->validate([
             'banner' => ['required', 'image', 'max:2048'],
             'name' => ['required','string', 'max:200'],
-            'phone' => ['required', 'numeric', 'max:500'],
+            'phone' => ['required', 'numeric'],
             'email' => ['Email', 'max:200'],
             'address' => ['required','string', 'max:200'],
             'description' => ['required','string', 'max:1000'],
@@ -82,7 +82,7 @@ class AdminVendorController extends Controller
         $request->validate([
             'banner' => ['nullable', 'image', 'max:2048'],
             'name' => ['required','string', 'max:200'],
-            'phone' => ['required', 'numeric', 'max:500'],
+            'phone' => ['required', 'numeric'],
             'email' => ['Email', 'max:200'],
             'address' => ['required','string', 'max:200'],
             'description' => ['required','string', 'max:1000'],
@@ -120,6 +120,7 @@ class AdminVendorController extends Controller
     {
         if($imagePath != null){$vendor->banner = $imagePath;}
         $vendor->name = $request->name;
+        $vendor->user_id = $request->user_id;
         $vendor->phone = $request->phone;
         $vendor->email = $request->email;
         $vendor->address = $request->address;

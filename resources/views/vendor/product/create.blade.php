@@ -53,7 +53,7 @@
                                                 <select name="category_id" id="inputState" class="form-control main-category">
                                                     <option>Select Category</option>
                                                     @foreach($categories as $category)
-                                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                                        <option {{old('category_id') == $category->id? 'selected': ''}} value="{{$category->id}}">{{$category->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -62,7 +62,7 @@
                                             <div class="wsus__dash_pro_single">
                                                 <label for="inputState">Sub-Category</label>
                                                 <select name="sub_category_id" id="inputState" class="form-control sub-category">
-                                                    <option>Select Sub Category</option>
+                                                    <option value="">Select Sub Category</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@
                                             <div class="wsus__dash_pro_single">
                                                 <label for="inputState">Child-Category</label>
                                                 <select name="child_category_id" id="inputState" class="form-control child-category">
-                                                    <option>Select Child Category</option>
+                                                    <option value="">Select Child Category</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -80,7 +80,7 @@
                                                 <select name="brand_id" id="inputState" class="form-control">
                                                     <option>Select Brand</option>
                                                     @foreach($brands as $brand)
-                                                        <option value="{{$brand->id}}">{{$brand->name}}</option>
+                                                        <option {{old('brand_id') == $brand->id? 'selected': ''}} value="{{$brand->id}}">{{$brand->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -88,11 +88,11 @@
                                     </div>
                                     <div class="wsus__dash_pro_single">
                                         <label>Short Description</label>
-                                        <textarea name="short_description" class="summernote-simple"></textarea>
+                                        <textarea name="short_description" class="summernote-simple">{{old('short_description')}}</textarea>
                                     </div>
                                     <div class="form-group mb-4">
                                         <label class="mb-2">Long Description</label>
-                                        <textarea name="long_description" class="summernote"></textarea>
+                                        <textarea name="long_description" class="summernote">{{old('long_description')}}</textarea>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
@@ -104,7 +104,7 @@
                                                             $
                                                         </div>
                                                     </div>
-                                                    <input name="price" type="number" class="form-control currency" value="{{old('price')}}">
+                                                    <input name="price" type="text" class="form-control currency" value="{{old('price')}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -117,14 +117,14 @@
                                                             $
                                                         </div>
                                                     </div>
-                                                    <input name="offer_price" type="number" class="form-control currency" value="{{old('offer_price')}}">
+                                                    <input name="offer_price" type="text" class="form-control currency" value="{{old('offer_price')}}">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="wsus__dash_pro_single">
                                                 <label>Offer Start Date</label>
-                                                <input name="offer_start_date" type="text" class="form-control datepicker">
+                                                <input name="offer_start_date" type="text" class="form-control datepicker" value="{{old('offer_start_date')}}">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -140,10 +140,10 @@
                                                 <label for="inputState">Listing Type</label>
                                                 <select name="list_type" id="inputState" class="form-control">
                                                     <option value="">Select</option>
-                                                    <option value="new_arrival">New Arrival</option>
-                                                    <option value="featured_product">Featured</option>
-                                                    <option value="top_product">Top Product</option>
-                                                    <option value="best_product">Best Product</option>
+                                                    <option {{old('list_type') == 'new_arrival'? 'selected': ''}} value="new_arrival">New Arrival</option>
+                                                    <option {{old('list_type') == 'featured_product'? 'selected': ''}} value="featured_product">Featured</option>
+                                                    <option {{old('list_type') == 'top_product'? 'selected': ''}} value="top_product">Top Product</option>
+                                                    <option {{old('list_type') == 'best_product'? 'selected': ''}} value="best_product">Best Product</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -152,8 +152,8 @@
                                                 <label for="inputState" style="margin-right: 0.7rem">Status</label>
                                                 <select name="status" id="inputState" class="form-control">
                                                     <option value="">Select</option>
-                                                    <option value="1">Active</option>
-                                                    <option value="0">Inactive</option>
+                                                    <option {{old('status') === 1? 'selected': ''}} value="1">Active</option>
+                                                    <option {{old('status') === 0? 'selected': ''}} value="0">Inactive</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -164,7 +164,7 @@
                                     </div>
                                     <div class="wsus__dash_pro_single">
                                         <label>Product SEO Description</label>
-                                        <textarea name="seo_description" class="summernote-simple"></textarea>
+                                        <textarea name="seo_description" class="summernote-simple">{{old('seo_description')}}</textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Create</button>
                                 </form>
@@ -189,7 +189,7 @@
                         id: id,
                     },
                     success : function (data) {
-                        $('.sub-category').html(`<option>Select Sub Category</option>`)
+                        $('.sub-category').html(`<option value="">Select Sub Category</option>`)
                         $.each(data, function (i, item){
                             $('.sub-category').append(`<option value="${item.id}">${item.name}</option>`)
                         })
@@ -209,7 +209,7 @@
                         id: id,
                     },
                     success : function (data) {
-                        $('.child-category').html(`<option>Select Child Category</option>`)
+                        $('.child-category').html(`<option value="">Select Child Category</option>`)
                         $.each(data, function (i, item){
                             $('.child-category').append(`<option value="${item.id}">${item.name}</option>`)
                         })
