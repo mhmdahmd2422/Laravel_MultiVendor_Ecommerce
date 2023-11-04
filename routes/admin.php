@@ -5,6 +5,10 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\FlashSaleController;
+use App\Http\Controllers\Backend\FooterDataController;
+use App\Http\Controllers\Backend\FooterGridThreeController;
+use App\Http\Controllers\Backend\FooterGridTwoController;
+use App\Http\Controllers\Backend\FooterSocialController;
 use App\Http\Controllers\Backend\HomepageSettingsController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PaymentSettingsController;
@@ -157,6 +161,22 @@ Route::get('canceled-orders', [OrderController::class, 'canceledOrders'])
 Route::resource('order', OrderController::class);
 Route::get('transactions', [OrderController::class, 'transactions'])
     ->name('transactions.index');
+
+//footer routes
+Route::resource('footer-data', FooterDataController::class);
+Route::put('footer-social/change-status', [FooterSocialController::class, 'changeStatus'])
+    ->name('footer-social.change-status');
+Route::resource('footer-social', FooterSocialController::class);
+Route::put('footer-grid-two/change-status', [FooterGridTwoController::class, 'changeStatus'])
+    ->name('footer-grid-two.change-status');
+Route::put('footer-grid-two/change-title', [FooterGridTwoController::class, 'changeTitle'])
+    ->name('footer-grid-two.change-title');
+Route::resource('footer-grid-two', FooterGridTwoController::class);
+Route::put('footer-grid-three/change-status', [FooterGridThreeController::class, 'changeStatus'])
+    ->name('footer-grid-three.change-status');
+Route::put('footer-grid-three/change-title', [FooterGridThreeController::class, 'changeTitle'])
+    ->name('footer-grid-three.change-title');
+Route::resource('footer-grid-three', FooterGridThreeController::class);
 
 //payment settings routes
 Route::get('payment-settings', [PaymentSettingsController::class, 'index'])

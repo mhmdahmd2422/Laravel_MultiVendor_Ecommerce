@@ -14,6 +14,7 @@
             <li class="menu-header">Starter</li>
             <li class="dropdown {{setActive(
                 ['admin.slider.*',
+                 'admin.homepage-settings.*',
                  'admin.coupons.*',
                   'admin.shipping.*',
                   'admin.payment-settings.*',
@@ -21,7 +22,7 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Website</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.slider.*'])}}"><a class="nav-link" href="{{route('admin.slider.index')}}">Slider</a></li>
-                    <li class="{{setActive(['admin.slider.*'])}}"><a class="nav-link" href="{{route('admin.homepage-settings.index')}}">Homepage Settings</a></li>
+                    <li class="{{setActive(['admin.homepage-settings.*'])}}"><a class="nav-link" href="{{route('admin.homepage-settings.index')}}">Homepage Settings</a></li>
                     <li class="{{setActive(['admin.coupons.*'])}}"><a class="nav-link" href="{{route('admin.coupons.index')}}">Coupons</a></li>
                     <li class="{{setActive(['admin.shipping.*'])}}"><a class="nav-link" href="{{route('admin.shipping.index')}}">Shipping Methods</a></li>
                     <li class="{{setActive(['admin.payment-settings.*'])}}"><a class="nav-link" href="{{route('admin.payment-settings.index')}}">Payment Methods</a></li>
@@ -29,10 +30,18 @@
             </li>
             <li class="dropdown {{setActive(
                 [
-                  ])}}">
+                    'admin.footer-data.*',
+                    'admin.footer-social.*',
+                    'admin.footer-grid-two.*',
+                    'admin.footer-grid-three.*',
+                ]
+                )}}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i><span>Footer Data</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{setActive(['admin.slider.*'])}}"><a class="nav-link" href="{{route('admin.slider.index')}}">Contact Info</a></li>
+                    <li class="{{setActive(['admin.footer-data.*'])}}"><a class="nav-link" href="{{route('admin.footer-data.index')}}">Contact Info</a></li>
+                    <li class="{{setActive(['admin.footer-social.*'])}}"><a class="nav-link" href="{{route('admin.footer-social.index')}}">Social Links</a></li>
+                    <li class="{{setActive(['admin.footer-grid-two.*'])}}"><a class="nav-link" href="{{route('admin.footer-grid-two.index')}}">Grid Two</a></li>
+                    <li class="{{setActive(['admin.footer-grid-three.*'])}}"><a class="nav-link" href="{{route('admin.footer-grid-three.index')}}">Grid Three</a></li>
                 </ul>
             </li>
             <li class="dropdown {{setActive(['admin.order.*'])}}">
