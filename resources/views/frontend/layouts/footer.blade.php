@@ -55,9 +55,10 @@
                     <h3>Subscribe To Our Newsletter</h3>
                     <p>Get all the latest information on Events and Offers.
                     </p>
-                    <form>
-                        <input type="text" placeholder="Search...">
-                        <button type="submit" class="common_btn">subscribe</button>
+                    <form action="" method="" id="newsletter_request">
+                        @csrf
+                        <input name="email" type="text" placeholder="Email">
+                        <button type="submit" class="common_btn subscribe_btn">subscribe</button>
                     </form>
                     <div class="footer_payment">
                         <p>We're using safe payment for :</p>

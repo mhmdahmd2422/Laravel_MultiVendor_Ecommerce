@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\NewsletterController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FlashSaleController;
@@ -65,6 +66,12 @@ Route::get('calculate-coupon', [CartController::class, 'calculateCouponDiscount'
     ->name('calculate-coupon');
 Route::get('remove-coupon', [CartController::class, 'removeCoupon'])
     ->name('remove-coupon');
+
+//newsletter route
+Route::post('newsletter-request', [NewsletterController::class, 'newsletterRequest'])
+    ->name('newsletter.request');
+Route::get('newsletter-verify/{token}', [NewsletterController::class, 'newsletterEmailVerification'])
+    ->name('newsletter.verification');
 
 
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 'user.'], function (){

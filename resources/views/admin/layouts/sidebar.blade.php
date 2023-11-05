@@ -57,7 +57,6 @@
                     <li class="{{setActive(['admin.order.canceled'])}}"><a class="nav-link" href="{{route('admin.order.canceled')}}">Canceled Orders</a></li>
                     </ul>
             </li>
-            <li class="{{setActive(['admin.transactions.*'])}}"><a class="nav-link" href="{{route('admin.transactions.index')}}"><i class="fas fa-money-check-alt"></i>Transactions</a></li>
             <li class="dropdown {{setActive([
                 'admin.brand.*',
                 'admin.product.*',
@@ -90,6 +89,8 @@
                     <li class="{{setActive(['admin.child-category.*'])}}"><a class="nav-link" href="{{route('admin.child-category.index')}}">Child-Category</a></li>
                 </ul>
             </li>
+            <li class="{{setActive(['admin.transactions.*'])}}"><a class="nav-link" href="{{route('admin.transactions.index')}}"><i class="fas fa-money-check-alt"></i>Transactions</a></li>
+            <li class="{{setActive(['admin.newsletter.*'])}}"><a class="nav-link" href="{{route('admin.newsletter.index')}}"><i class="far fa-newspaper"></i>Newsletter Subscribers</a></li>
             <li class="{{setActive(['admin.settings.*'])}}"><a class="nav-link" href="{{route('admin.settings.index')}}"><i class="fas fa-wrench"></i>Settings</a></li>
         </ul>
 

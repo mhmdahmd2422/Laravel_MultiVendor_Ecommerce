@@ -4,12 +4,14 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\EmailConfigurationSettingController;
 use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\FooterDataController;
 use App\Http\Controllers\Backend\FooterGridThreeController;
 use App\Http\Controllers\Backend\FooterGridTwoController;
 use App\Http\Controllers\Backend\FooterSocialController;
 use App\Http\Controllers\Backend\HomepageSettingsController;
+use App\Http\Controllers\Backend\NewsletterSubscribersController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PaymentSettingsController;
 use App\Http\Controllers\Backend\PaypalSettingsController;
@@ -127,6 +129,8 @@ Route::resource('shipping', ShippingRuleController::class);
 //Settings Routes
 Route::put('general-settings-update', [SettingsController::class, 'generalSettingsUpdate'])
     ->name('general-settings.update');
+Route::put('email-settings-update', [SettingsController::class, 'emailSettingsUpdate'])
+    ->name('email-settings.update');
 Route::get('settings', [SettingsController::class, 'index'])
     ->name('settings.index');
 //home page settings routes
@@ -177,6 +181,14 @@ Route::put('footer-grid-three/change-status', [FooterGridThreeController::class,
 Route::put('footer-grid-three/change-title', [FooterGridThreeController::class, 'changeTitle'])
     ->name('footer-grid-three.change-title');
 Route::resource('footer-grid-three', FooterGridThreeController::class);
+
+//newsletter subscribers routes
+Route::get('newsletter-subscribers', [NewsletterSubscribersController::class, 'index'])
+    ->name('newsletter.index');
+Route::delete('newsletter-subscribers/{id}', [NewsletterSubscribersController::class, 'destroy'])
+    ->name('newsletter.destroy');
+Route::post('newsletter-send', [NewsletterSubscribersController::class, 'sendNewsletter'])
+    ->name('newsletter.send');
 
 //payment settings routes
 Route::get('payment-settings', [PaymentSettingsController::class, 'index'])
