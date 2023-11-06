@@ -91,9 +91,9 @@
             </li>
             <li class="{{setActive(['admin.transactions.*'])}}"><a class="nav-link" href="{{route('admin.transactions.index')}}"><i class="fas fa-money-check-alt"></i>Transactions</a></li>
             <li class="{{setActive(['admin.newsletter.*'])}}"><a class="nav-link" href="{{route('admin.newsletter.index')}}"><i class="far fa-newspaper"></i>Newsletter Subscribers</a></li>
+            <li class="{{setActive(['admin.advertisement.*'])}}"><a class="nav-link" href="{{route('admin.advertisement.index')}}"><i class="fab fa-font-awesome-flag"></i>Advertisement Banners</a></li>
             <li class="{{setActive(['admin.settings.*'])}}"><a class="nav-link" href="{{route('admin.settings.index')}}"><i class="fas fa-wrench"></i>Settings</a></li>
         </ul>
-
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
             <a href="{{route('home')}}" class="btn btn-primary btn-lg btn-block btn-icon-split">
                 <i class="fas fa-rocket"></i> FrontEnd

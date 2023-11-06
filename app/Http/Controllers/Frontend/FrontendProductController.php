@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Advertisment;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ChildCategory;
@@ -20,7 +21,7 @@ class FrontendProductController extends Controller
         return view('frontend.pages.product-details',
             compact(
                 'product',
-                'variants'
+                'variants',
             )
         );
     }
@@ -81,11 +82,14 @@ class FrontendProductController extends Controller
                 $brands = collect($selective_brands)->unique('id');
             }
         }
+        $products_banner_one = Advertisment::where('key', 'products_banner_one')->first();
+        $products_banner_one = json_decode($products_banner_one?->value);
         return view('frontend.pages.products',
             compact(
                 'products',
                 'categories',
                 'brands',
+                'products_banner_one',
             ));
     }
 

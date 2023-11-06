@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Advertisment;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\ProductVariantItem;
@@ -21,8 +22,18 @@ class CartController extends Controller
             toastr('Cart Is Cleared!', 'warning', 'Warning');
             return redirect()->route('home');
         }
+        $cart_banner_one = Advertisment::where('key', 'cart_banner_one')->first();
+        $cart_banner_one = json_decode($cart_banner_one?->value);
+        $cart_banner_two = Advertisment::where('key', 'cart_banner_two')->first();
+        $cart_banner_two = json_decode($cart_banner_two?->value);
 
-        return view('frontend.pages.cart-details',compact('cartItems'));
+        return view('frontend.pages.cart-details',
+            compact(
+                'cartItems',
+                'cart_banner_one',
+                'cart_banner_two'
+            )
+        );
     }
     public function addToCart(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {

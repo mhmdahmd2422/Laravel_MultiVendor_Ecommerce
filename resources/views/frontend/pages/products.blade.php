@@ -277,6 +277,15 @@
                 </section>
             </div>
         </div>
+        <div class="col-xl-12">
+            <div class="wsus__pro_page_bammer">
+                @if($products_banner_one->status ==1)
+                    <a href="{{$products_banner_one->banner_url}}">
+                        <img class="img-fluid" src="{{asset($products_banner_one->banner_image)}}" alt="Banner">
+                    </a>
+                @endif
+            </div>
+        </div>
     </div>
 </section>
 <!--============================

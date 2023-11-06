@@ -7,14 +7,11 @@
             <div class="col-xl-12 col-lg-12">
                 <div class="wsus__monthly_top_banner">
                     <div class="wsus__monthly_top_banner_img">
-                        <img src="{{asset('frontend/images/monthly_top_img3.jpg')}}" alt="img" class="img-fluid w-100">
-                        <span></span>
-                    </div>
-                    <div class="wsus__monthly_top_banner_text">
-                        <h4>Black Friday Sale</h4>
-                        <h3>Up To <span>70% Off</span></h3>
-                        <H6>Everything</H6>
-                        <a class="shop_btn" href="#">shop now</a>
+                        @if($banner_one->status ==1)
+                        <a href="{{$banner_one->banner_url}}">
+                            <img class="img-fluid w-100" src="{{asset($banner_one->banner_image)}}" alt="Banner">
+                        </a>
+                        @endif
                     </div>
                 </div>
             </div>

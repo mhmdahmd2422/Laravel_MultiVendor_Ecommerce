@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AdvertismentController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
@@ -189,6 +190,12 @@ Route::delete('newsletter-subscribers/{id}', [NewsletterSubscribersController::c
     ->name('newsletter.destroy');
 Route::post('newsletter-send', [NewsletterSubscribersController::class, 'sendNewsletter'])
     ->name('newsletter.send');
+
+//ad banners routes
+Route::get('advertisement', [AdvertismentController::class, 'index'])
+    ->name('advertisement.index');
+Route::put('advertisement/add-banner', [AdvertismentController::class, 'addBanner'])
+    ->name('advertisement.add-banner');
 
 //payment settings routes
 Route::get('payment-settings', [PaymentSettingsController::class, 'index'])
