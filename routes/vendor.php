@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Backend\VendorOrderController;
 use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\Backend\VendorProductImageGalleryController;
+use App\Http\Controllers\Backend\VendorProductsReviewController;
 use App\Http\Controllers\Backend\VendorProductVariantController;
 use App\Http\Controllers\Backend\VendorProductVariantItemController;
 use App\Http\Controllers\Backend\VendorProfileController;
@@ -60,4 +61,8 @@ Route::get('orders/show/{id}', [VendorOrderController::class, 'show'])
     ->name('orders.show');
 Route::get('orders/status', [VendorOrderController::class, 'orderStatus'])
     ->name('orders.status');
+
+//vendor Reviews
+Route::get('reviews', [VendorProductsReviewController::class, 'Index'])
+    ->name('reviews.index');
 

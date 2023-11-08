@@ -58,12 +58,16 @@
                                 <h4>{{$settings->currency_icon}}{{$product->price}}</h4>
                             @endif
                             <p class="review">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span>20 review</span>
+                                @php
+                                    $avg_rate = $product->reviews()->avg('rate');
+                                @endphp
+                                @for($i = 0; $i<$avg_rate; $i++)
+                                    <i class="fas fa-star"></i>
+                                @endfor
+                                @for($j = $i; $j<5; $j++)
+                                    <i class="far fa-star"></i>
+                                @endfor
+                                <span>({{$product->reviews->count()}} review)</span>
                             </p>
                             <p class="description" style="font-style: italic; font-size: large">{!! $product->short_description !!}</p>
                             <p class="brand_model"><span style="font-weight: bold">model :</span> {{$product->sku?? 'Not Provided'}}</p>
@@ -186,28 +190,28 @@
                         <div class="wsus__details_bg">
                             <ul class="nav nav-pills mb-3" id="pills-tab3" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="pills-home-tab7" data-bs-toggle="pill"
+                                    <button class="nav-link info-view {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'desc'? 'active show': ''}} {{!session()->has('product_info_view_style')? 'active': ''}}" data-id="desc" id="pills-home-tab7" data-bs-toggle="pill"
                                             data-bs-target="#pills-home22" type="button" role="tab"
                                             aria-controls="pills-home" aria-selected="true">Description</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                                    <button class="nav-link info-view {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'vendor'? 'active': ''}}" data-id="vendor" id="pills-contact-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-contact" type="button" role="tab"
                                             aria-controls="pills-contact" aria-selected="false">Vendor Info</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="pills-contact-tab2" data-bs-toggle="pill"
+                                    <button class="nav-link info-view {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'reviews'? 'active': ''}}" data-id="reviews" id="pills-contact-tab2" data-bs-toggle="pill"
                                             data-bs-target="#pills-contact2" type="button" role="tab"
                                             aria-controls="pills-contact2" aria-selected="false">Reviews</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="pills-contact-tab239" data-bs-toggle="pill"
+                                    <button class="nav-link info-view {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'faqs'? 'active': ''}}" data-id="faqs" id="pills-contact-tab239" data-bs-toggle="pill"
                                             data-bs-target="#pills-contact239" type="button" role="tab"
                                             aria-controls="pills-contact239" aria-selected="false">faqs</button>
                                 </li>
                             </ul>
                             <div class="tab-content" id="pills-tabContent4">
-                                <div class="tab-pane fade  show active " id="pills-home22" role="tabpanel"
+                                <div class="tab-pane fade {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'desc'? 'show active': ''}}}" id="pills-home22" role="tabpanel"
                                      aria-labelledby="pills-home-tab7">
                                     <div class="row">
                                         <div class="col-xl-12">
@@ -242,7 +246,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-contact" role="tabpanel"
+                                <div class="tab-pane fade {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'vendor'? 'show active': ''}}{{!session()->has('product_info_view_style')? 'show active': ''}}" id="pills-contact" role="tabpanel"
                                      aria-labelledby="pills-contact-tab">
                                     <div class="wsus__pro_det_vendor">
                                         <div class="row">
@@ -255,12 +259,16 @@
                                                 <div class="wsus__pro_det_vendor_text">
                                                     <h4>{{$product->vendor->user->name}}</h4>
                                                     <p class="rating">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <span>(41 review)</span>
+                                                        @php
+                                                            $avg_rate = $product->reviews()->avg('rate');
+                                                        @endphp
+                                                        @for($i = 0; $i<$avg_rate; $i++)
+                                                            <i class="fas fa-star"></i>
+                                                        @endfor
+                                                        @for($j = $i; $j<5; $j++)
+                                                            <i class="far fa-star"></i>
+                                                        @endfor
+                                                        <span>({{$product->reviews->count()}} review)</span>
                                                     </p>
                                                     <p><span>Store Name:</span>{{$product->vendor->name}}</p>
                                                     <p><span>Address:</span>{{$product->vendor->address}}</p>
@@ -278,178 +286,103 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-contact2" role="tabpanel"
+                                <div class="tab-pane fade {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'reviews'? 'show active': ''}}" id="pills-contact2" role="tabpanel"
                                      aria-labelledby="pills-contact-tab2">
                                     <div class="wsus__pro_det_review">
                                         <div class="wsus__pro_det_review_single">
                                             <div class="row">
-                                                <div class="col-xl-8 col-lg-7">
+                                                @php
+                                                    $isBought = false;
+                                                    $orders = \App\Models\Order::where(['user_id' => auth()->id(), 'order_status' => 'delivered'])->get();
+                                                    foreach($orders as $order){
+                                                        $item = $order->products()->where('product_id', $product->id)->first();
+                                                        if($item){
+                                                            $isBought = true;
+                                                        }
+                                                    }
+                                                @endphp
+                                                <div class="{{$isBought? 'col-xl-8 col-lg-7': 'col-xl-12 col-lg-12'}}">
                                                     <div class="wsus__comment_area">
-                                                        <h4>Reviews <span>02</span></h4>
-                                                        <div class="wsus__main_comment">
-                                                            <div class="wsus__comment_img">
-                                                                <img src="images/client_img_3.jpg" alt="user"
-                                                                     class="img-fluid w-100">
-                                                            </div>
-                                                            <div class="wsus__comment_text reply">
-                                                                <h6>Shopnil mahadi <span>4 <i
-                                                                            class="fas fa-star"></i></span></h6>
-                                                                <span>09 Jul 2021</span>
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                                    elit.
-                                                                    Cupiditate sint molestiae eos? Officia, fuga eaque.
-                                                                </p>
-                                                                <ul class="">
-                                                                    <li><img src="images/headphone_1.jpg" alt="product"
-                                                                             class="img-fluid w-100"></li>
-                                                                    <li><img src="images/headphone_2.jpg" alt="product"
-                                                                             class="img-fluid w-100"></li>
-                                                                    <li><img src="images/kids_1.jpg" alt="product"
-                                                                             class="img-fluid w-100"></li>
-                                                                </ul>
-                                                                <a href="#" data-bs-toggle="collapse"
-                                                                   data-bs-target="#flush-collapsetwo">reply</a>
-                                                                <div class="accordion accordion-flush"
-                                                                     id="accordionFlushExample2">
-                                                                    <div class="accordion-item">
-                                                                        <div id="flush-collapsetwo"
-                                                                             class="accordion-collapse collapse"
-                                                                             aria-labelledby="flush-collapsetwo"
-                                                                             data-bs-parent="#accordionFlushExample">
-                                                                            <div class="accordion-body">
-                                                                                <form>
-                                                                                    <div
-                                                                                        class="wsus__riv_edit_single text_area">
-                                                                                        <i class="far fa-edit"></i>
-                                                                                        <textarea cols="3" rows="1"
-                                                                                                  placeholder="Your Text"></textarea>
-                                                                                    </div>
-                                                                                    <button type="submit"
-                                                                                            class="common_btn">submit</button>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
+                                                        <h4>Reviews <span>{{$reviews->count()}}</span></h4>
+                                                        @foreach($reviews as $review)
+                                                            <div class="wsus__main_comment">
+                                                                    <div class="wsus__comment_img">
+                                                                        <img src="{{asset($review->user->image? : asset('frontend/images/avatar.png'))}}" alt="user"
+                                                                             class="img-fluid w-100">
                                                                     </div>
+                                                                <div class="wsus__comment_text reply">
+                                                                    <h6>{{$review->user->name}} <span>{{$review->rate}} <i
+                                                                                class="fas fa-star"></i></span></h6>
+                                                                    <span>{{date('d M Y', strtotime($review->created_at))}}</span>
+                                                                    <p>{{$review->review}}
+                                                                    </p>
+                                                                    <ul class="mb-4">
+                                                                        @foreach($review->images as $review_image)
+                                                                        <li><img src="{{asset($review_image->image)}}" alt="product"
+                                                                                 class="img-fluid w-100"></li>
+                                                                        @endforeach
+                                                                    </ul>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="wsus__main_comment">
-                                                            <div class="wsus__comment_img">
-                                                                <img src="images/client_img_1.jpg" alt="user"
-                                                                     class="img-fluid w-100">
-                                                            </div>
-                                                            <div class="wsus__comment_text reply">
-                                                                <h6>Smith jhon <span>5 <i
-                                                                            class="fas fa-star"></i></span>
-                                                                </h6>
-                                                                <span>09 Jul 2021</span>
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                                    elit.
-                                                                    Cupiditate sint molestiae eos? Officia, fuga eaque.
-                                                                </p>
-                                                                <a href="#" data-bs-toggle="collapse"
-                                                                   data-bs-target="#flush-collapsetwo2">reply</a>
-                                                                <div class="accordion accordion-flush"
-                                                                     id="accordionFlushExample2">
-                                                                    <div class="accordion-item">
-                                                                        <div id="flush-collapsetwo2"
-                                                                             class="accordion-collapse collapse"
-                                                                             aria-labelledby="flush-collapsetwo"
-                                                                             data-bs-parent="#accordionFlushExample">
-                                                                            <div class="accordion-body">
-                                                                                <form>
-                                                                                    <div
-                                                                                        class="wsus__riv_edit_single text_area">
-                                                                                        <i class="far fa-edit"></i>
-                                                                                        <textarea cols="3" rows="1"
-                                                                                                  placeholder="Your Text"></textarea>
-                                                                                    </div>
-                                                                                    <button type="submit"
-                                                                                            class="common_btn">submit</button>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="pagination">
-                                                            <nav aria-label="Page navigation example">
-                                                                <ul class="pagination">
-                                                                    <li class="page-item">
-                                                                        <a class="page-link" href="#"
-                                                                           aria-label="Previous">
-                                                                            <i class="fas fa-chevron-left"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="page-item"><a
-                                                                            class="page-link page_active" href="#">1</a>
-                                                                    </li>
-                                                                    <li class="page-item"><a class="page-link"
-                                                                                             href="#">2</a></li>
-                                                                    <li class="page-item"><a class="page-link"
-                                                                                             href="#">3</a></li>
-                                                                    <li class="page-item"><a class="page-link"
-                                                                                             href="#">4</a></li>
-                                                                    <li class="page-item">
-                                                                        <a class="page-link" href="#" aria-label="Next">
-                                                                            <i class="fas fa-chevron-right"></i>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </nav>
+                                                        @endforeach
+                                                        <div class="mt-5">
+                                                            @if($reviews->hasPages())
+                                                                {{$reviews->links()}}
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @if($isBought)
                                                 <div class="col-xl-4 col-lg-5 mt-4 mt-lg-0">
                                                     <div class="wsus__post_comment rev_mar" id="sticky_sidebar3">
                                                         <h4>write a Review</h4>
-                                                        <form action="#">
-                                                            <p class="rating">
+                                                        <form action="{{route('user.review.create')}}" method="post" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <p class="rating mb-1">
                                                                 <span>select your rating : </span>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
                                                             </p>
                                                             <div class="row">
-                                                                <div class="col-xl-12">
+                                                                <div class="col-xl-12 mb-2">
                                                                     <div class="wsus__single_com">
-                                                                        <input type="text" placeholder="Name">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xl-12">
-                                                                    <div class="wsus__single_com">
-                                                                        <input type="email" placeholder="Email">
+                                                                        <div class="rate">
+                                                                            <input type="radio" id="star5" name="rate" value="5" />
+                                                                            <label for="star5" title="text">5 stars</label>
+                                                                            <input type="radio" id="star4" name="rate" value="4" />
+                                                                            <label for="star4" title="text">4 stars</label>
+                                                                            <input type="radio" id="star3" name="rate" value="3" />
+                                                                            <label for="star3" title="text">3 stars</label>
+                                                                            <input type="radio" id="star2" name="rate" value="2" />
+                                                                            <label for="star2" title="text">2 stars</label>
+                                                                            <input type="radio" id="star1" name="rate" value="1" />
+                                                                            <label for="star1" title="text">1 star</label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-xl-12">
                                                                     <div class="col-xl-12">
                                                                         <div class="wsus__single_com">
-                                                                            <textarea cols="3" rows="3"
-                                                                                      placeholder="Write your review"></textarea>
+                                                                            <textarea name="review" cols="3" rows="3" placeholder="Write your review"></textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="img_upload">
-                                                                <div class="gallery">
-                                                                    <a class="cam" href="javascript:void(0)"><span><i
-                                                                                class="fas fa-image"></i></span>
-                                                                    </a>
-                                                                </div>
+                                                            <div class="custom__image-container mb-4">
+                                                                <label id="add-img-label" for="add-single-img">+</label>
+                                                                <input name="image" type="file" id="add-single-img" accept="image/jpeg" hidden />
                                                             </div>
+                                                            <input name="product_id" type="hidden" value="{{$product->id}}">
+                                                            <input name="vendor_id" type="hidden" value="{{$product->vendor_id}}">
                                                             <button class="common_btn" type="submit">submit
                                                                 review</button>
                                                         </form>
                                                     </div>
                                                 </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-contact239" role="tabpanel"
+                                <div class="tab-pane fade {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'faqs'? 'show active': ''}}" id="pills-contact239" role="tabpanel"
                                      aria-labelledby="pills-contact-tab239">
                                     <div class="row">
                                         <div class="col-12">
@@ -605,5 +538,57 @@
                 enableUtc: true
             });
         })
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('.info-view').on('click', function (event) {
+                let style = $(this).data('id');
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route('change-product-info-view')}}',
+                    data: {
+                        style: style
+                    },
+                    success: function (data) {
+
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                })
+            })
+        })
+    </script>
+    //add image to review
+    <script>
+        $(function(){
+            $("input[type='submit']").click(function(){
+                var $fileUpload = $("input[type='file']");
+                if (parseInt($fileUpload.get(0).files.length)>2){
+                    alert("You can only upload a maximum of 2 files");
+                }
+            });
+        });
+        const imgInputHelper = document.getElementById("add-single-img");
+        const imgInputHelperLabel = document.getElementById("add-img-label");
+        const imgContainer = document.querySelector(".custom__image-container");
+        const imgFiles = [];
+        const addImgHandler = () => {
+            const file = imgInputHelper.files[0];
+            if (!file) return;
+            // Generate img preview
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const newImg = document.createElement("img");
+                newImg.src = reader.result;
+                imgContainer.appendChild(newImg);
+            };
+            return;
+        };
+        imgInputHelper.addEventListener("change", function (){
+            addImgHandler();
+            imgInputHelperLabel.remove();
+        });
     </script>
 @endpush

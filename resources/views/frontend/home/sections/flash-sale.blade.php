@@ -16,6 +16,7 @@
         </div>
         <div class="row flash_sell_slider">
             @foreach($flash_sale_items as $item)
+                @if($item->product)
                 <div class="col-xl-3 col-sm-6 col-lg-4">
                     <div class="wsus__product_item">
                         @if(productListing($item->product))
@@ -41,12 +42,16 @@
                         <div class="wsus__product_details">
                             <a class="wsus__category" href="#">{{$item->product->category->name}}</a>
                             <p class="wsus__pro_rating">
+                                @php
+                                $avg_rate = $item->product->reviews()->avg('rate');
+                                 @endphp
+                                @for($i = 0; $i<$avg_rate; $i++)
                                 <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span>(133 review)</span>
+                                @endfor
+                                @for($j = $i; $j<5; $j++)
+                                    <i class="far fa-star"></i>
+                                @endfor
+                                <span>({{$item->product->reviews->count()}} review)</span>
                             </p>
                             <a class="wsus__pro_name" href="{{route('product-detail.index', $item->product->slug)}}">{{$item->product->name}}</a>
                             @if(checkDiscount($item->product))
@@ -74,7 +79,9 @@
                         </div>
                     </div>
                 </div>
+                @endif
             @endforeach
+
         </div>
     </div>
 </section>
@@ -83,6 +90,7 @@
   PRODUCT MODAL VIEW START
 ===========================-->
 @foreach($flash_sale_items as $item)
+    @if($item->product)
     <section class="product_popup_modal">
         <div class="modal fade" id="exampleModal-{{$item->product->id}}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
@@ -140,12 +148,16 @@
                                         <h4>{{$settings->currency_icon}}{{$item->product->price}}</h4>
                                     @endif
                                     <p class="review">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <span>20 review</span>
+                                        <@php
+                                            $avg_rate = $item->product->reviews()->avg('rate');
+                                        @endphp
+                                        @for($i = 0; $i<$avg_rate; $i++)
+                                            <i class="fas fa-star"></i>
+                                        @endfor
+                                        @for($j = $i; $j<5; $j++)
+                                            <i class="far fa-star"></i>
+                                        @endfor
+                                        <span>{{$item->product->reviews->count()}} review</span>
                                     </p>
                                     <p class="description" style="font-style: italic; font-size: large">“ {{$item->product->short_description}} ”</p>
                                     <p class="brand_model"><span style="font-weight: bold">model :</span> {{$item->product->sku?? 'Not Provided'}} </p>
@@ -203,6 +215,7 @@
             </div>
         </div>
     </section>
+    @endif
 @endforeach
 <!--==========================
   PRODUCT MODAL VIEW END

@@ -76,11 +76,15 @@
                                     <div class="wsus__hot_deals__single_text">
                                         <h5>{!! limitText($item->name) !!}</h5>
                                         <p class="wsus__rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
+                                            @php
+                                                $avg_rate = $item->reviews()->avg('rate');
+                                            @endphp
+                                            @for($i = 0; $i<$avg_rate; $i++)
+                                                <i class="fas fa-star"></i>
+                                            @endfor
+                                            @for($j = $i; $j<5; $j++)
+                                                <i class="far fa-star"></i>
+                                            @endfor
                                         </p>
                                         @if(checkDiscount($item))
                                             <p class="wsus__tk">{{$settings->currency_icon}}{{$item->offer_price}} <del class="text-danger">{{$settings->currency_icon}}{{$item->price}}</del></p>

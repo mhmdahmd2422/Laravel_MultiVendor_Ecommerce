@@ -8,9 +8,11 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\FrontendProductController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\UserAddressController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserOrderController;
+use App\Http\Controllers\Frontend\UserProductReviewController;
 use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ProfileController;
@@ -37,6 +39,8 @@ Route::get('flash-sale/all', [FlashSaleController::class, 'ShowAllFlashItems'])
 //products routes
 Route::get('product-detail/{slug}', [FrontendProductController::class, 'index'])
     ->name('product-detail.index');
+Route::get('change-product-info-view', [FrontendProductController::class, 'changeProductInfoView'])
+    ->name('change-product-info-view');
 Route::get('products', [FrontendProductController::class, 'productsIndex'])
     ->name('products.index');
 Route::get('change-product-view', [FrontendProductController::class, 'changeListView'])
@@ -90,6 +94,15 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
         ->name('wishlist.destroy');
     Route::post('wishlist/add-to-cart', [WishlistController::class, 'addToCartFromWishlist'])
         ->name('wishlist.add-to-cart');
+    //product review routes
+    Route::post('review', [ReviewController::class, 'createReview'])
+        ->name('review.create');
+    Route::get('my-reviews', [UserProductReviewController::class, 'index'])
+        ->name('review.index');
+    Route::delete('my-reviews/delete/{id}', [UserProductReviewController::class, 'destroy'])
+        ->name('review.destroy');
+    Route::post('my-reviews/edit/{id}', [UserProductReviewController::class, 'update'])
+        ->name('review.update');
     //User multiple addresses
     Route::resource('address', UserAddressController::class);
     //order routes

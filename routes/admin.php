@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AdminReviewsController;
 use App\Http\Controllers\Backend\AdvertismentController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -102,6 +103,12 @@ Route::get('seller-pending-products', [SellerProductController::class, 'pendingP
     ->name('seller-products.pending');
 Route::put('seller-pending-products/{product_id}', [SellerProductController::class, 'approveProduct'])
     ->name('seller-products.approve');
+
+//reviews routes
+Route::get('reviews', [AdminReviewsController::class, 'index'])
+    ->name('reviews.index');
+Route::put('reviews/approve/{id}', [AdminReviewsController::class, 'approveReview'])
+    ->name('reviews.approve');
 
 //Flash Sale Routes
 Route::get('flash-sale', [FlashSaleController::class, 'index'])

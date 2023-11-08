@@ -44,12 +44,16 @@
                         <div class="wsus__product_details">
                             <a class="wsus__category" href="#">{{$item->product->category->name}}</a>
                             <p class="wsus__pro_rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span>(120 review)</span>
+                                @php
+                                    $avg_rate = $item->product->reviews()->avg('rate');
+                                @endphp
+                                @for($i = 0; $i<$avg_rate; $i++)
+                                    <i class="fas fa-star"></i>
+                                @endfor
+                                @for($j = $i; $j<5; $j++)
+                                    <i class="far fa-star"></i>
+                                @endfor
+                                <span>({{$item->product->reviews->count()}} review)</span>
                             </p>
                             <a class="wsus__pro_name" href="{{route('product-detail.index', $item->product->slug)}}">{{$item->product->name}}</a>
                             @if(checkDiscount($item->product))

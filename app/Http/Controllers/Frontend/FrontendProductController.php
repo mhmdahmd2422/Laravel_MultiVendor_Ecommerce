@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ChildCategory;
 use App\Models\Product;
+use App\Models\ProductReview;
 use App\Models\ProductVariant;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
@@ -18,10 +19,12 @@ class FrontendProductController extends Controller
     public function index(string $slug){
         $product = Product::with(['vendor', 'category', 'gallery', 'brand'])->activeApproved()->where('slug', $slug)->first();
         $variants = ProductVariant::Active()->where('product_id', $product->id)->get();
+        $reviews = ProductReview::where(['product_id' => $product->id, 'status' => 1])->paginate(3);
         return view('frontend.pages.product-details',
             compact(
                 'product',
                 'variants',
+                'reviews'
             )
         );
     }
@@ -96,6 +99,12 @@ class FrontendProductController extends Controller
     public function changeListView(Request $request)
     {
         Session::put('product_view_style', $request->style);
+
+    }
+
+    public function changeProductInfoView(Request $request)
+    {
+        Session::put('product_info_view_style', $request->style);
 
     }
 }

@@ -151,12 +151,16 @@
                                             <div class="wsus__product_details">
                                                 <a class="wsus__category" href="#">{{$product->category->name}}</a>
                                                 <p class="wsus__pro_rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                    <span>(133 review)</span>
+                                                    @php
+                                                        $avg_rate = $product->reviews()->avg('rate');
+                                                    @endphp
+                                                    @for($i = 0; $i<$avg_rate; $i++)
+                                                        <i class="fas fa-star"></i>
+                                                    @endfor
+                                                    @for($j = $i; $j<5; $j++)
+                                                        <i class="far fa-star"></i>
+                                                    @endfor
+                                                    <span>({{$product->reviews->count()}} review)</span>
                                                 </p>
                                                 <a class="wsus__pro_name" href="{{route('product-detail.index', $product->slug)}}">{{limitText($product->name, 55)}}</a>
                                                 @if(checkDiscount($product))
@@ -219,12 +223,16 @@
                                             <div class="wsus__product_details">
                                                 <a class="wsus__category" href="#">{{$product->category->name}}</a>
                                                 <p class="wsus__pro_rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                    <span>(17 review)</span>
+                                                    @php
+                                                        $avg_rate = $product->reviews()->avg('rate');
+                                                    @endphp
+                                                    @for($i = 0; $i<$avg_rate; $i++)
+                                                        <i class="fas fa-star"></i>
+                                                    @endfor
+                                                    @for($j = $i; $j<5; $j++)
+                                                        <i class="far fa-star"></i>
+                                                    @endfor
+                                                    <span>({{$product->reviews->count()}} review)</span>
                                                 </p>
                                                 <a class="wsus__pro_name" href="{{route('product-detail.index', $product->slug)}}">{{$product->name}}</a>
                                                 @if(checkDiscount($product))
@@ -349,12 +357,16 @@
                                         <h4>{{$settings->currency_icon}}{{$product->price}}</h4>
                                     @endif
                                     <p class="review">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <span>20 review</span>
+                                        @php
+                                            $avg_rate = $product->reviews()->avg('rate');
+                                        @endphp
+                                        @for($i = 0; $i<$avg_rate; $i++)
+                                            <i class="fas fa-star"></i>
+                                        @endfor
+                                        @for($j = $i; $j<5; $j++)
+                                            <i class="far fa-star"></i>
+                                        @endfor
+                                        <span>({{$product->reviews->count()}} review)</span>
                                     </p>
                                     <p class="description" style="font-style: italic; font-size: large">“ {{$product->short_description}} ”</p>
                                     <p class="brand_model"><span style="font-weight: bold">model :</span> {{$product->sku?? 'Not Provided'}} </p>
