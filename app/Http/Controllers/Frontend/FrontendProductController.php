@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\ProductVariant;
 use App\Models\SubCategory;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -74,6 +75,19 @@ class FrontendProductController extends Controller
                 ->setEagerLoads([])
                 ->first();
             $products = Product::where('child_category_id', $child_category->id)
+                ->priceRange($request)
+                ->activeApproved()
+                ->setEagerLoads([])
+                ->paginate(12);
+            foreach($products as $product){
+                $selective_brands[] = Brand::find($product->brand->id);
+            }
+            if(!empty($selective_brands)){
+                $brands = collect($selective_brands)->unique('id');
+            }
+        }elseif ($request->has('vendor')){
+            $vendor = Vendor::where(['id' => $request->vendor, 'status' => 1])->first();
+            $products = Product::where('vendor_id', $vendor->id)
                 ->priceRange($request)
                 ->activeApproved()
                 ->setEagerLoads([])

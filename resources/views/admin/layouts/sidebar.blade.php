@@ -77,10 +77,11 @@
                     <li class="{{setActive(['admin.flash-sale.index'])}}"><a class="nav-link" href="{{route('admin.flash-sale.index')}}">Flash Sale</a></li>
                 </ul>
             </li>
-            <li class="dropdown {{setActive(['admin.vendor.*',])}}">
+            <li class="dropdown {{setActive(['admin.vendor.*','admin.vendor-request.*'])}}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Traders</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.vendor.*'])}}"><a class="nav-link" href="{{route('admin.vendor.index')}}">Vendors</a></li>
+                    <li class="{{setActive(['admin.vendor-request.*'])}}"><a class="nav-link" href="{{route('admin.vendor-request.index')}}">Pending Vendors</a></li>
                 </ul>
             </li>
             <li class="dropdown {{setActive(['admin.category.*', 'admin.sub-category.*', 'admin.child-category.*'])}}">

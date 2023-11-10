@@ -10,6 +10,7 @@ use App\Models\FlashSaleItem;
 use App\Models\HomepageSetting;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\Vendor;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,6 +85,13 @@ class HomeController extends Controller
         }
 
         return $typeBaseProducts;
+    }
+
+    public function vendorsPage()
+    {
+        $vendors = Vendor::where('status', 1)->paginate(6);
+
+        return view('frontend.pages.vendor', compact('vendors'));
     }
 
 }

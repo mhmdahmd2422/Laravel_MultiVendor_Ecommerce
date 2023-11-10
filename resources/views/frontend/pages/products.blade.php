@@ -3,12 +3,72 @@
     {{$settings->site_name}} || Products
 @endsection
 @section('content')
+@php
+if(request()->has('vendor')){
+    $vendor = \App\Models\Vendor::where(['id' => request()->get('vendor'), 'status' => 1])->first();
+}
+@endphp
 <!--============================
     PRODUCT PAGE START
 ==============================-->
 <section id="wsus__product_page">
     <div class="container">
         <div class="row">
+            @if(isset($vendor))
+                <div class="col-xl-12">
+                    <div class="wsus__pro_page_bammer vendor_det_banner">
+                        <img style="height: 15rem;" src="{{asset($vendor->banner)}}" alt="banner" class="img-fluid w-100">
+                        <div class="wsus__pro_page_bammer_text wsus__vendor_det_banner_text">
+                            <div class="wsus__vendor_text_center">
+                                <h4>{{$vendor->name}}</h4>
+                                @php
+                                    $reviews = array();
+                                    foreach ($vendor->products as $product){
+
+                                        foreach ($product->reviews as $review){
+                                            $reviews[] = $review->rate;
+                                        }
+                                    }
+                                    if(count($reviews)) {
+                                        $avg_rate = array_sum($reviews)/count($reviews);
+                                    }
+                                @endphp
+                                <p class="wsus__vendor_rating">
+                                    @if(isset($avg_rate))
+                                        @for($i = 0; $i<$avg_rate; $i++)
+                                            <i class="fas fa-star"></i>
+                                        @endfor
+                                        @for($j = $i; $j<5; $j++)
+                                            <i class="far fa-star"></i>
+                                        @endfor
+                                    @else
+                                        @for($i = 0; $i<5; $i++)
+                                            <i class="far fa-star"></i>
+                                        @endfor
+                                    @endif
+                                </p>
+                                <a href="callto:{{$vendor->phone}}"><i class="far fa-phone-alt"></i>
+                                    {{$vendor->phone}}</a>
+                                <a href="mailto:{{$vendor->email}}"><i class="fal fa-envelope"></i>
+                                    {{$vendor->email}}</a>
+                                <p class="wsus__vendor_location"><i class="fal fa-map-marker-alt"></i>{{$vendor->address}}</p>
+                                <ul class="d-flex">
+                                    @if($vendor->fb_link)
+                                        <li><a class="facebook" href="{{$vendor->fb_link}}"><i class="fab fa-facebook-f"></i></a></li>
+                                    @endif
+                                    @if($vendor->tw_link)
+                                        <li><a class="twitter" href="{{$vendor->tw_link}}"><i class="fab fa-twitter"></i></a></li>
+                                    @endif
+                                    @if($vendor->insta_link)
+                                        <li><a class="instagram" href="{{$vendor->insta_link}}"><i class="fab fa-instagram"></i></a></li>
+                                    @endif
+{{--                                    <li><a class="whatsapp" href="#"><i class="fab fa-whatsapp"></i></a></li>--}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="col-xl-3 col-lg-4">
                 <div class="wsus__sidebar_filter ">
                     <p>filter</p>
@@ -289,7 +349,7 @@
             <div class="wsus__pro_page_bammer">
                 @if($products_banner_one->status ==1)
                     <a href="{{$products_banner_one->banner_url}}">
-                        <img class="img-fluid" src="{{asset($products_banner_one->banner_image)}}" alt="Banner">
+                        <img class="img-fluid w-100" src="{{asset($products_banner_one->banner_image)}}" alt="Banner">
                     </a>
                 @endif
             </div>

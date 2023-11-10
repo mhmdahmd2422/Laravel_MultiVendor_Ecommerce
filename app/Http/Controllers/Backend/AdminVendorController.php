@@ -105,7 +105,10 @@ class AdminVendorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $vendor = Vendor::findOrFail($id);
+        $vendor->delete();
+
+        return response(['status' => 'success', 'message' => 'Vendor Is Deleted!']);
     }
 
     public function changeStatus(Request $request){

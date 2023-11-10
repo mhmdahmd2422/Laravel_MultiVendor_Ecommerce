@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminReviewsController;
+use App\Http\Controllers\Backend\AdminVendorRequestController;
 use App\Http\Controllers\Backend\AdvertismentController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\CustomersListController;
 use App\Http\Controllers\Backend\EmailConfigurationSettingController;
 use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\FooterDataController;
@@ -63,6 +65,18 @@ Route::resource('brand', BrandController::class);
 //Admin vendor routes
 Route::put('vendor/change-status', [AdminVendorController::class, 'changeStatus'])->name('vendor.change-status');
 Route::resource('vendor', AdminVendorController::class);
+Route::get('pending-vendors', [AdminVendorRequestController::class, 'index'])
+    ->name('vendor-request.index');
+Route::get('pending-vendor/show/{id}', [AdminVendorRequestController::class, 'show'])
+    ->name('vendor-request.show');
+Route::delete('pending-vendor/delete/{id}', [AdminVendorRequestController::class, 'destroy'])
+    ->name('vendor-request.destroy');
+Route::get('pending-vendor/approve', [AdminVendorRequestController::class, 'approve'])
+    ->name('vendor-request.approve');
+
+//admin customer list
+Route::get('customers', [CustomersListController::class, 'index'])
+    ->name('customers.index');
 
 //Admin products routes
 Route::get('get-childcategories', [ProductController::class, 'getChildCategories'])->name('get-childcategories');

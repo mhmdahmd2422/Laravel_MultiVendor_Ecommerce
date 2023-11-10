@@ -14,7 +14,7 @@
                                     @csrf
                                     <div class="col-xl-2 col-sm-6 col-md-6 mb-4">
                                         <div class="wsus__dash_pro_img">
-                                            <img src="{{asset($vendor->banner)}}"  alt="img" class="img-fluid w-100">
+                                            <img src="{{asset($vendor->banner)}}"  alt="img" class="img-fluid w-100 bg-dark">
                                             <input name="banner" type="file" class="form-control">
                                         </div>
                                     </div>
@@ -50,14 +50,6 @@
                                         <div class="wsus__dash_pro_single">
                                             <i class="fab fa-instagram" aria-hidden="true"></i>
                                             <input name="insta_url" type="text" class="form-control" value="{{$vendor->insta_link ? : 'None'}}">
-                                        </div>
-                                        <div class="wsus__dash_pro_single">
-                                            <i class="fas fa-toggle-on" aria-hidden="true"></i>
-                                            <select name="status" id="inputState" class="form-control">
-                                                <option value="">Select</option>
-                                                <option {{$vendor->status == 1 ? 'selected': ''}} value="1">Active</option>
-                                                <option {{$vendor->status == 0 ? 'selected': ''}} value="0">Inactive</option>
-                                            </select>                                        </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Update</button>
                                 </form>

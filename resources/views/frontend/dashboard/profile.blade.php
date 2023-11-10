@@ -32,7 +32,7 @@
                                                 <div class="col-xl-6 col-md-6">
                                                     <div class="wsus__dash_pro_single">
                                                         <i class="far fa-phone-alt"></i>
-                                                        <input name="phone" type="number" value="{{Auth::user()->phone}}" placeholder="Phone">
+                                                        <input name="phone" type="text" value="{{Auth::user()->phone}}" placeholder="Phone">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-md-6">

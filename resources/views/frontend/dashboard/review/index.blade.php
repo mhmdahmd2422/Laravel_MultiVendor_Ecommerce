@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
                     <div class="dashboard_content mt-2 mt-md-0">
-                        <h3><i class="far fa-star"></i>my reviews ({{@$reviews->count()}} reviews)</h3>
+                        <h3><i class="far fa-star"></i>my reviews {{$reviews != null? '('.$reviews->count().' reviews)' : ''}}</h3>
                         <div class="wsus__dashboard_review">
                             <div class="row">
                                 @foreach($reviews as $review)

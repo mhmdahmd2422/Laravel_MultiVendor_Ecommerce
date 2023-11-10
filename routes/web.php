@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserOrderController;
 use App\Http\Controllers\Frontend\UserProductReviewController;
 use App\Http\Controllers\Frontend\UserProfileController;
+use App\Http\Controllers\Frontend\UserVendorRequestController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,9 @@ Route::get('products', [FrontendProductController::class, 'productsIndex'])
 Route::get('change-product-view', [FrontendProductController::class, 'changeListView'])
     ->name('change-product-view');
 
+//vendors routes
+Route::get('vendors', [HomeController::class, 'vendorsPage'])
+    ->name('vendors.index');
 
 //Cart routes
 Route::post('add-to-cart', [CartController::class, 'addToCart'])
@@ -103,6 +107,11 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
         ->name('review.destroy');
     Route::post('my-reviews/edit/{id}', [UserProductReviewController::class, 'update'])
         ->name('review.update');
+    //vendor request routes
+    Route::get('vendor-request', [UserVendorRequestController::class, 'index'])
+        ->name('vendor-request.index');
+    Route::post('vendor-request/create', [UserVendorRequestController::class, 'create'])
+        ->name('vendor-request.create');
     //User multiple addresses
     Route::resource('address', UserAddressController::class);
     //order routes
