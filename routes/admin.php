@@ -69,7 +69,7 @@ Route::get('pending-vendors', [AdminVendorRequestController::class, 'index'])
     ->name('vendor-request.index');
 Route::get('pending-vendor/show/{id}', [AdminVendorRequestController::class, 'show'])
     ->name('vendor-request.show');
-Route::delete('pending-vendor/delete/{id}', [AdminVendorRequestController::class, 'destroy'])
+Route::delete('pending-vendor/vendor/{id}', [AdminVendorRequestController::class, 'destroy'])
     ->name('vendor-request.destroy');
 Route::get('pending-vendor/approve', [AdminVendorRequestController::class, 'approve'])
     ->name('vendor-request.approve');
@@ -77,6 +77,8 @@ Route::get('pending-vendor/approve', [AdminVendorRequestController::class, 'appr
 //admin customer list
 Route::get('customers', [CustomersListController::class, 'index'])
     ->name('customers.index');
+Route::put('customer/change-status', [CustomersListController::class, 'changeStatus'])
+    ->name('customer.change-status');
 
 //Admin products routes
 Route::get('get-childcategories', [ProductController::class, 'getChildCategories'])->name('get-childcategories');

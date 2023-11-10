@@ -2,7 +2,10 @@
 
 namespace App\DataTables;
 
-use App\Models\Vendor;
+use App\Models\CustomersList;
+use App\Models\Order;
+use App\Models\ProductReview;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +15,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class VendorDataTable extends DataTable
+class CustomersListDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,20 +25,6 @@ class VendorDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function ($query){
-                $editButton = "<a href='".route('admin.vendor.edit', $query->id)."' style='color: white;' class='btn-sm btn-warning'><i class='far fa-edit mr-1'></i></a>";
-                $deleteButton = "<a href='".route('admin.vendor.destroy', $query->id)."' style='color: white;' class='btn-sm btn-danger ml-1 delete-item'><i class='fas fa-trash-alt mr-1'></i></a>";
-                return $editButton.$deleteButton;
-            })
-            ->addColumn('banner', function ($query){
-                return $image = "<img class='bg-dark' style='height: 5rem; width: 7rem;' src='".asset($query->banner)."'>";
-            })
-            ->addColumn('user name', function ($query){
-                return $query->user->name;
-            })
-            ->addColumn('user email', function ($query){
-                return $query->user->email;
-            })
             ->addColumn('status', function ($query){
                 if($query->status){
                     $button = "<label class='custom-switch'>
@@ -50,18 +39,22 @@ class VendorDataTable extends DataTable
                 }
                 return $button;
             })
-
-
-            ->rawColumns(['banner', 'action', 'status', 'description'])
+            ->addColumn('orders', function ($query){
+                return Order::where('user_id', $query->id)->count();
+            })
+            ->addColumn('reviews', function ($query){
+                return ProductReview::where('user_id', $query->id)->count();
+            })
+            ->rawColumns(['status'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Vendor $model): QueryBuilder
+    public function query(User $model): QueryBuilder
     {
-        return $model->where('is_approved', 1)->newQuery();
+        return $model->where('role', 'user')->newQuery();
     }
 
     /**
@@ -70,11 +63,11 @@ class VendorDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('vendor-table')
+                    ->setTableId('customerslist-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -92,23 +85,16 @@ class VendorDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-        Column::make('id')->width(30),
-            Column::make('banner')->width(150),
+            Column::make('id'),
             Column::make('name'),
-            Column::make('phone'),
             Column::make('email'),
-            Column::make('address'),
-            Column::make('description'),
-            Column::make('user name'),
-            Column::make('user email'),
-            Column::make('status'),
-//            Column::make('created_at'),
-//            Column::make('updated_at'),
-            Column::computed('action')
+            Column::make('orders'),
+            Column::make('reviews'),
+            Column::computed('status')
                 ->exportable(false)
                 ->printable(false)
-                ->width(100)
-                ->addClass('text-center')
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
@@ -117,6 +103,6 @@ class VendorDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Vendor_' . date('YmdHis');
+        return 'CustomersList_' . date('YmdHis');
     }
 }
