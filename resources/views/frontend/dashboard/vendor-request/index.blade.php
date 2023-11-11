@@ -14,6 +14,7 @@
                         <h3><i class="fal fa-gift-card"></i>Become a Vendor Now!</h3>
                         <div class="wsus__dashboard_profile">
                             <div class="wsus__dash_pro_area">
+                                {!! @$condition->content !!}
                             </div>
                         </div>
                         <br>
@@ -76,6 +77,14 @@
                                                 <i class="fab fa-instagram"></i>
                                                 <input name="insta_link" type="text" placeholder="Instagram Link">
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="terms_area">
+                                        <div class="form-check">
+                                            <input name="conditions" class="form-check-input agree-terms" type="checkbox" value="1" id="flexCheckChecked3">
+                                            <label class="form-check-label" for="flexCheckChecked3">
+                                                I have read and agree to the Vendors terms and conditions
+                                            </label>
                                         </div>
                                     </div>
                                     <button type="submit" class="common_btn">Submit Request</button>

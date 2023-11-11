@@ -18,6 +18,9 @@
                  'admin.coupons.*',
                   'admin.shipping.*',
                   'admin.payment-settings.*',
+                  'admin.vendor-condition.*',
+                  'admin.about.*',
+                  'admin.terms-and-conditions.*'
                   ])}}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Website</span></a>
                 <ul class="dropdown-menu">
@@ -26,6 +29,10 @@
                     <li class="{{setActive(['admin.coupons.*'])}}"><a class="nav-link" href="{{route('admin.coupons.index')}}">Coupons</a></li>
                     <li class="{{setActive(['admin.shipping.*'])}}"><a class="nav-link" href="{{route('admin.shipping.index')}}">Shipping Methods</a></li>
                     <li class="{{setActive(['admin.payment-settings.*'])}}"><a class="nav-link" href="{{route('admin.payment-settings.index')}}">Payment Methods</a></li>
+                    <li class="{{setActive(['admin.vendor-condition.*'])}}"><a class="nav-link" href="{{route('admin.vendor-condition.index')}}">Vendor Conditions</a></li>
+                    <li class="{{setActive(['admin.about.*'])}}"><a class="nav-link" href="{{route('admin.about.index')}}">About Us</a></li>
+                    <li class="{{setActive(['admin.terms-and-conditions.*'])}}"><a class="nav-link" href="{{route('admin.terms-and-conditions.index')}}">Terms And Conditions</a></li>
+                    <li class="{{setActive(['admin.terms-and-conditions.*'])}}"><a class="nav-link" href="{{route('admin.terms-and-conditions.index')}}">Contact</a></li>
                 </ul>
             </li>
             <li class="dropdown {{setActive(

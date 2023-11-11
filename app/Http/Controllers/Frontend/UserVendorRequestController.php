@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
+use App\Models\VendorCondition;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,8 @@ class UserVendorRequestController extends Controller
 
     public function index()
     {
-        return view('frontend.dashboard.vendor-request.index');
+        $condition = VendorCondition::first();
+        return view('frontend.dashboard.vendor-request.index', compact('condition'));
     }
 
     public function create(Request $request)
@@ -30,6 +32,7 @@ class UserVendorRequestController extends Controller
             'banner' => ['required', 'image', 'max:2040'],
             'address' => ['required', 'string', 'max:150'],
             'description' => ['required', 'string', 'max:500'],
+            'conditions' => ['required', 'boolean'],
             'fb_link' => ['nullable'],
             'tw_link' => ['nullable'],
             'insta_link' => ['nullable'],

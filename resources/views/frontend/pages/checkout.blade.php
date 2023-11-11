@@ -68,7 +68,7 @@
                             <div class="form-check">
                                 <input class="form-check-input agree-terms" type="checkbox" value="" id="flexCheckChecked3">
                                 <label class="form-check-label" for="flexCheckChecked3">
-                                    I have read and agree to the website <a href="#">terms and conditions *</a>
+                                    I have read and agree to the website <a href="{{route('terms-and-conditions.index')}}">terms and conditions *</a>
                                 </label>
                             </div>
                         </div>

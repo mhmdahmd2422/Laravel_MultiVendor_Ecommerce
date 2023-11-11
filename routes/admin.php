@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\AdminReviewsController;
 use App\Http\Controllers\Backend\AdminVendorRequestController;
 use App\Http\Controllers\Backend\AdvertismentController;
@@ -31,6 +32,8 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\StripeSettingsController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\AdminVendorController;
+use App\Http\Controllers\Backend\TermsAndConditionsController;
+use App\Http\Controllers\Backend\VendorConditionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AdminController;
 
@@ -73,6 +76,23 @@ Route::delete('pending-vendor/vendor/{id}', [AdminVendorRequestController::class
     ->name('vendor-request.destroy');
 Route::get('pending-vendor/approve', [AdminVendorRequestController::class, 'approve'])
     ->name('vendor-request.approve');
+Route::get('vendor-condition', [VendorConditionController::class, 'index'])
+    ->name('vendor-condition.index');
+Route::put('vendor-condition/update', [VendorConditionController::class, 'update'])
+    ->name('vendor-condition.update');
+
+
+//about page routes
+Route::get('about', [AboutController::class, 'index'])
+    ->name('about.index');
+Route::put('about/update', [AboutController::class, 'update'])
+    ->name('about.update');
+
+//terms and conditions routes
+Route::get('terms-and-conditions', [TermsAndConditionsController::class, 'index'])
+    ->name('terms-and-conditions.index');
+Route::put('terms-and-conditions/update', [TermsAndConditionsController::class, 'update'])
+    ->name('terms-and-conditions.update');
 
 //admin customer list
 Route::get('customers', [CustomersListController::class, 'index'])

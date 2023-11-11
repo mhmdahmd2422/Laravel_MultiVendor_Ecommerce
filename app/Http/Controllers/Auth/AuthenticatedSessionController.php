@@ -29,6 +29,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if($request->user()->status === 'inactive'){
+            toastr('Your Account Has Been Banned! Please Contact Support.', 'error', 'Error');
+            flash('Your Account Has Been Banned! Please Contact Support.', 'error');
+            return $this->destroy($request);
+        }
+
         if($request->user()->role == 'admin'){
             return redirect()->intended('/admin/dashboard');
         }elseif ($request->user()->role == 'vendor'){

@@ -135,9 +135,15 @@
                         <li><a href="daily_deals.html">daily deals</a></li>
                     </ul>
                     <ul class="wsus__menu_item wsus__menu_item_right">
-                        <li><a href="contact.html">contact</a></li>
+                        <li><a href="{{route('contact.index')}}">contact us</a></li>
                         @if(\Illuminate\Support\Facades\Auth::check())
-                            <li><a href="{{route('user.dashboard')}}">my account</a></li>
+                            @if(auth()->user()->role === 'user')
+                                <li><a href="{{route('user.dashboard')}}">my account</a></li>
+                            @elseif(auth()->user()->role === 'vendor')
+                                <li><a href="{{route('vendor.dashboard')}}">my account</a></li>
+                            @else
+                                <li><a href="{{route('admin.dashboard')}}">my account</a></li>
+                            @endif
                             <li><form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();

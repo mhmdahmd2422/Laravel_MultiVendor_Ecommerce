@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\NewsletterController;
+use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FlashSaleController;
@@ -36,6 +37,14 @@ Route::get('wishlist/add', [WishlistController::class, 'addToWishlist'])
     ->name('wishlist.store');
 Route::get('flash-sale/all', [FlashSaleController::class, 'ShowAllFlashItems'])
     ->name('flash-sale.details');
+Route::get('about-us', [PageController::class, 'about'])
+    ->name('about.index');
+Route::get('terms-and-conditions', [PageController::class, 'termsAndConditions'])
+    ->name('terms-and-conditions.index');
+Route::get('contact-us', [PageController::class, 'contact'])
+    ->name('contact.index');
+Route::post('contact-form', [PageController::class, 'handleContactForm'])
+    ->name('contact.send');
 
 //products routes
 Route::get('product-detail/{slug}', [FrontendProductController::class, 'index'])
