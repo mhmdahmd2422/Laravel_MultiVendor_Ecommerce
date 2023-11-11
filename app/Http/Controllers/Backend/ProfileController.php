@@ -50,11 +50,14 @@ class ProfileController extends Controller
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
 
-        $request->user()->update([
-            'password' => bcrypt($request->password)
-        ]);
-
-        toastr()->success('You Had Changed Your Password!');
+        if(bcrypt($request->current_password) === $request->user()->password){
+            $request->user()->update([
+                'password' => bcrypt($request->password)
+            ]);
+            toastr()->success('You Had Changed Your Password!');
+            return redirect()->back();
+        }
+        toastr()->error('Wrong Credentials!');
         return redirect()->back();
     }
 }

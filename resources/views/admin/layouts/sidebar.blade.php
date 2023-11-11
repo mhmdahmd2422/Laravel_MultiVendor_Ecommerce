@@ -32,7 +32,6 @@
                     <li class="{{setActive(['admin.vendor-condition.*'])}}"><a class="nav-link" href="{{route('admin.vendor-condition.index')}}">Vendor Conditions</a></li>
                     <li class="{{setActive(['admin.about.*'])}}"><a class="nav-link" href="{{route('admin.about.index')}}">About Us</a></li>
                     <li class="{{setActive(['admin.terms-and-conditions.*'])}}"><a class="nav-link" href="{{route('admin.terms-and-conditions.index')}}">Terms And Conditions</a></li>
-                    <li class="{{setActive(['admin.terms-and-conditions.*'])}}"><a class="nav-link" href="{{route('admin.terms-and-conditions.index')}}">Contact</a></li>
                 </ul>
             </li>
             <li class="dropdown {{setActive(
@@ -87,13 +86,13 @@
             <li class="dropdown {{setActive([
                 'admin.vendor.*',
                 'admin.vendor-request.*',
-                'admin.customers.*',
+                'admin.users.*',
                 ])}}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Users</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.vendor.*'])}}"><a class="nav-link" href="{{route('admin.vendor.index')}}">Vendors</a></li>
                     <li class="{{setActive(['admin.vendor-request.*'])}}"><a class="nav-link" href="{{route('admin.vendor-request.index')}}">Pending Vendors</a></li>
-                    <li class="{{setActive(['admin.customers.*'])}}"><a class="nav-link" href="{{route('admin.customers.index')}}">Customers</a></li>
+                    <li class="{{setActive(['admin.users.*'])}}"><a class="nav-link" href="{{route('admin.users.index')}}">Users</a></li>
                 </ul>
             </li>
             <li class="dropdown {{setActive([

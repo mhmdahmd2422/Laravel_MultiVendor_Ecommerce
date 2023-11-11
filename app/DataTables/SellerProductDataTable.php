@@ -98,7 +98,7 @@ class SellerProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->where('vendor_id', '!=', Auth::user()->vendor->id)->where('is_approved', 1)->newQuery();
+        return $model->whereHas('vendor', function ($query){$query->where(['is_approved' => 1, 'status' => 1]);})->where('vendor_id', '!=', Auth::user()->vendor->id)->where('is_approved', 1)->newQuery();
     }
 
     /**

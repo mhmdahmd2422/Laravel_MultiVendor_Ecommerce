@@ -15,7 +15,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class CustomersListDataTable extends DataTable
+class UsersListDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -25,8 +25,13 @@ class CustomersListDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('action', function ($query){
+                $editButton = "<a href='".route('admin.user.edit', $query->id)."' style='color: white;' class='btn-sm btn-warning'><i class='far fa-edit mr-1'></i></a>";
+                $deleteButton = "<a href='".route('admin.user.destroy', $query->id)."' style='color: white;' class='btn-sm btn-danger ml-1 delete-item'><i class='fas fa-trash-alt mr-1'></i></a>";
+                return $editButton.$deleteButton;
+            })
             ->addColumn('status', function ($query){
-                if($query->status){
+                if($query->status === 'active'){
                     $button = "<label class='custom-switch'>
                           <input type='checkbox' name='custom-switch-checkbox' checked data-id='".$query->id."' class='custom-switch-input change-checkbox'>
                           <span class='custom-switch-indicator'></span>
@@ -39,13 +44,16 @@ class CustomersListDataTable extends DataTable
                 }
                 return $button;
             })
+            ->addColumn('user id', function ($query){
+                return $query->id;
+            })
             ->addColumn('orders', function ($query){
                 return Order::where('user_id', $query->id)->count();
             })
             ->addColumn('reviews', function ($query){
                 return ProductReview::where('user_id', $query->id)->count();
             })
-            ->rawColumns(['status'])
+            ->rawColumns(['status', 'action'])
             ->setRowId('id');
     }
 
@@ -86,14 +94,16 @@ class CustomersListDataTable extends DataTable
     {
         return [
             Column::make('id'),
+            Column::make('user id'),
             Column::make('name'),
             Column::make('email'),
             Column::make('orders'),
             Column::make('reviews'),
-            Column::computed('status')
+            Column::computed('status'),
+            Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                ->width(120)
                 ->addClass('text-center'),
         ];
     }

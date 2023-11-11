@@ -93,7 +93,7 @@ class SellerPendingProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->where('is_approved', 0)->newQuery();
+        return $model->whereHas('vendor', function ($query){$query->where(['is_approved' => 1, 'status' => 1]);})->where('is_approved', 0)->newQuery();
     }
 
     /**

@@ -19,7 +19,7 @@
                                 <input name="banner" type="file" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Shop Name</label>
+                                <label>Name</label>
                                 <input name="name" type="text" class="form-control" value="{{old('name')}}">
                             </div>
                             <div class="form-group">
