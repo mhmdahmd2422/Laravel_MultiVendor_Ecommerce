@@ -8,7 +8,7 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\CouponController;
-use App\Http\Controllers\Backend\CustomersListController;
+use App\Http\Controllers\Backend\UsersListController;
 use App\Http\Controllers\Backend\EmailConfigurationSettingController;
 use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\FooterDataController;
@@ -95,10 +95,16 @@ Route::put('terms-and-conditions/update', [TermsAndConditionsController::class, 
     ->name('terms-and-conditions.update');
 
 //admin customer list
-Route::get('customers', [CustomersListController::class, 'index'])
-    ->name('customers.index');
-Route::put('customer/change-status', [CustomersListController::class, 'changeStatus'])
-    ->name('customer.change-status');
+Route::get('users', [UsersListController::class, 'index'])
+    ->name('users.index');
+Route::get('users/{id}', [UsersListController::class, 'edit'])
+    ->name('user.edit');
+Route::put('users/update/{id}', [UsersListController::class, 'update'])
+    ->name('user.update');
+Route::delete('users/delete/{id}', [UsersListController::class, 'destroy'])
+    ->name('user.destroy');
+Route::put('users/change-status', [UsersListController::class, 'changeStatus'])
+    ->name('user.change-status');
 
 //Admin products routes
 Route::get('get-childcategories', [ProductController::class, 'getChildCategories'])->name('get-childcategories');
