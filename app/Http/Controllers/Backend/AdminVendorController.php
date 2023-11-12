@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\DataTables\VendorDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Vendor;
@@ -107,7 +108,7 @@ class AdminVendorController extends Controller
             $vendor->save();
             //check if vendor has another vendor instances
             $vendors = Vendor::where('user_id', $vendor->user->id)->get();
-            if($vendors->isEmpty()){
+            if($vendors->isEmpty() && $user->role != 'admin'){
                 $user->role = 'user';
                 $user->save();
                 return response(['status' => 'success', 'message' => 'Vendor Is Deleted!']);
@@ -138,12 +139,15 @@ class AdminVendorController extends Controller
     {
         $vendor = Vendor::findOrFail($id);
         $products = Product::where('vendor_id', $vendor->id)->get();
+        $orders = Order::where('user_id', $vendor->user->id)->where('order_status', '!=', 'delivered')->get();
         if($products->isNotEmpty()){
-            return response(['status' => 'error', 'message' => 'This Vendor Has Registered Products! Delete All Vendor Products to Delete This User.']);
-        }else{
+            return response(['status' => 'error', 'message' => 'This Vendor Has Registered Products! Delete All Vendor Products to Delete This Vendor Or Ban the Vendor Instead.']);
+        }else if($orders->isNotEmpty()){
+            return response(['status' => 'error', 'message' => 'This User Has Incomplete Orders! Delete All User Orders to Delete This User.']);
+        }else {
             $user = User::findOrFail($vendor->user->id);
             $vendors = Vendor::where('user_id', $user->id)->get();
-            if($vendors->isEmpty()){
+            if($vendors->isEmpty() && $user->role != 'admin'){
                 $user->role = 'user';
                 $user->save();
             }

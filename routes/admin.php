@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AboutController;
+use App\Http\Controllers\Backend\AdminListController;
 use App\Http\Controllers\Backend\AdminReviewsController;
 use App\Http\Controllers\Backend\AdminVendorRequestController;
 use App\Http\Controllers\Backend\AdvertismentController;
@@ -105,6 +106,14 @@ Route::delete('users/delete/{id}', [UsersListController::class, 'destroy'])
     ->name('user.destroy');
 Route::put('users/change-status', [UsersListController::class, 'changeStatus'])
     ->name('user.change-status');
+
+//admin users list
+Route::get('admins-list', [AdminListController::class, 'index'])
+    ->name('admins-list.index');
+Route::delete('admins-list/delete/{id}', [AdminListController::class, 'destroy'])
+    ->name('admins-list.destroy');
+Route::put('admins-list/change-status', [AdminListController::class, 'changeStatus'])
+    ->name('admins-list.change-status');
 
 //Admin products routes
 Route::get('get-childcategories', [ProductController::class, 'getChildCategories'])->name('get-childcategories');

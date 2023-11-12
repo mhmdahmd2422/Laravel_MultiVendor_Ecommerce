@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\NewsletterController;
+use App\Http\Controllers\Frontend\OrderTrackController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\CartController;
@@ -83,6 +84,12 @@ Route::get('calculate-coupon', [CartController::class, 'calculateCouponDiscount'
     ->name('calculate-coupon');
 Route::get('remove-coupon', [CartController::class, 'removeCoupon'])
     ->name('remove-coupon');
+
+//order Tracking
+Route::get('order-track', [OrderTrackController::class, 'index'])
+    ->name('order-track');
+Route::post('order-track/order', [OrderTrackController::class, 'track'])
+    ->name('order-track.track');
 
 //newsletter route
 Route::post('newsletter-request', [NewsletterController::class, 'newsletterRequest'])

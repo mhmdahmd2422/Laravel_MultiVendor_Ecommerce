@@ -55,7 +55,7 @@ class UsersListController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
-        $orders = Order::where('order_status', '!=', 'delivered')->get();
+        $orders = Order::where('user_id', $user->id)->where('order_status', '!=', 'delivered')->get();
         if($orders->isNotEmpty()){
             return response(['status' => 'error', 'message' => 'This User Has Incomplete Orders! Delete All User Orders to Delete This User.']);
         }else{
