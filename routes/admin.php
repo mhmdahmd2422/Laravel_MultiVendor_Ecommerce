@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\AdminReviewsController;
 use App\Http\Controllers\Backend\AdminVendorRequestController;
 use App\Http\Controllers\Backend\AdvertismentController;
 use App\Http\Controllers\Backend\BlogCategoryController;
+use App\Http\Controllers\Backend\BlogCommentController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -264,6 +265,12 @@ Route::resource('blog-category', BlogCategoryController::class);
 Route::put('blog/change-status', [BlogController::class, 'changeStatus'])
     ->name('blog.change-status');
 Route::resource('blog', BlogController::class);
+Route::get('blog-comments', [BlogCommentController::class, 'index'])
+    ->name('blog-comment.index');
+Route::delete('blog-comments/user/{id}', [BlogCommentController::class, 'ban'])
+    ->name('blog-comment.ban');
+Route::delete('blog-comments/delete/{id}', [BlogCommentController::class, 'destroy'])
+    ->name('blog-comment.destroy');
 
 //payment settings routes
 Route::get('payment-settings', [PaymentSettingsController::class, 'index'])

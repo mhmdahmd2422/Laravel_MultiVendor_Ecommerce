@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Advertisment;
+use App\Models\Blog;
 use App\Models\Brand;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
@@ -45,6 +46,7 @@ class HomeController extends Controller
         $banner_six = json_decode($banner_six?->value);
         $banner_seven = Advertisment::where('key', 'homepage_banner_seven')->first();
         $banner_seven = json_decode($banner_seven?->value);
+        $blogs = Blog::activeNewest()->take(8)->get();
         return view('frontend.home.home',
             compact(
                 'sliders',
@@ -63,6 +65,7 @@ class HomeController extends Controller
                 'banner_five',
                 'banner_six',
                 'banner_seven',
+                'blogs',
             ));
     }
 

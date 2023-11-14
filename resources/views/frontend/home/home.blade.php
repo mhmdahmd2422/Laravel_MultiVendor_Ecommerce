@@ -107,7 +107,7 @@
 <!--============================
     HOME BLOGS START
 ==============================-->
-{{--@include('frontend.home.sections.blog')--}}
+@include('frontend.home.sections.blog')
 <!--============================
     HOME BLOGS END
 ==============================-->

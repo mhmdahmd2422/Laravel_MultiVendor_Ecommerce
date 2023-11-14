@@ -38,7 +38,7 @@ class BlogController extends Controller
     {
         $request->validate([
            'image' => ['required', 'image', 'max:500'],
-            'title' => ['required', 'string', 'max:50', 'unique:blogs,title'],
+            'title' => ['required', 'string', 'max:200', 'unique:blogs,title'],
         ]);
 
         $imagePath = $this->uploadImage($request, 'image', 'uploads');
@@ -76,7 +76,7 @@ class BlogController extends Controller
     {
         $request->validate([
             'image' => ['nullable', 'image', 'max:500'],
-            'title' => ['required', 'string', 'max:50', 'unique:blogs,title,.$id'],
+            'title' => ['required', 'string', 'max:50', 'unique:blogs,title,'.$id],
         ]);
 
         $blog = Blog::findOrFail($id);
@@ -95,6 +95,7 @@ class BlogController extends Controller
     {
         $blog = Blog::findOrFail($id);
         $this->deleteImage($blog->image);
+        $blog->comments()->delete();
         $blog->delete();
 
         return response(['status' => 'success', 'message' => 'Blog Has Been Deleted']);
@@ -113,9 +114,9 @@ class BlogController extends Controller
     {
         $request->validate([
             'category_id' => ['required', 'integer', 'exists:blog_categories,id'],
-            'post_content' => ['required', 'string', 'max:1000'],
-            'seo_title' => ['required', 'string', 'max:50'],
-            'seo_description' => ['required', 'string', 'max:100'],
+            'post_content' => ['required', 'string', 'max:10000'],
+            'seo_title' => ['nullable', 'string', 'max:50'],
+            'seo_description' => ['nullable', 'string', 'max:100'],
             'status' => ['required', 'boolean'],
         ]);
 

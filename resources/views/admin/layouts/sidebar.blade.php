@@ -112,11 +112,13 @@
             <li class="dropdown {{setActive([
                     'admin.blog-category.*',
                     'admin.blog.*',
+                    'admin.blog-comment.*',
                 ])}}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Blog</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.blog-category.*'])}}"><a class="nav-link" href="{{route('admin.blog-category.index')}}">Categories</a></li>
                     <li class="{{setActive(['admin.blog.*'])}}"><a class="nav-link" href="{{route('admin.blog.index')}}">Posts</a></li>
+                    <li class="{{setActive(['admin.blog-comment.*'])}}"><a class="nav-link" href="{{route('admin.blog-comment.index')}}">Comments</a></li>
                 </ul>
             </li>
             <li class="{{setActive(['admin.transactions.*'])}}"><a class="nav-link" href="{{route('admin.transactions.index')}}"><i class="fas fa-money-check-alt"></i>Transactions</a></li>

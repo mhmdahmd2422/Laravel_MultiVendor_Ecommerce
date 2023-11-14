@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\BlogCategoryController;
+use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\NewsletterController;
 use App\Http\Controllers\Frontend\OrderTrackController;
@@ -98,6 +99,11 @@ Route::post('newsletter-request', [NewsletterController::class, 'newsletterReque
 Route::get('newsletter-verify/{token}', [NewsletterController::class, 'newsletterEmailVerification'])
     ->name('newsletter.verification');
 
+//blog routes
+Route::get('blog-details/{slug}', [BlogController::class, 'index'])
+    ->name('blog.index');
+Route::get('blog', [BlogController::class, 'blog'])
+    ->name('blog');
 
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 'user.'], function (){
     Route::get('/dashboard', [UserDashboardController::class, 'index'])
@@ -124,6 +130,9 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
         ->name('review.destroy');
     Route::post('my-reviews/edit/{id}', [UserProductReviewController::class, 'update'])
         ->name('review.update');
+    //blog comment
+    Route::post('blog-comment', [BlogController::class, 'comment'])
+        ->name('blog.comment');
     //vendor request routes
     Route::get('vendor-request', [UserVendorRequestController::class, 'index'])
         ->name('vendor-request.index');
