@@ -42,8 +42,12 @@
 ==============================-->
 <div class="wsus__dashboard_menu">
     <div class="wsusd__dashboard_user">
-        <img src="{{Auth::user()->image ? asset(Auth::user()->image) : asset('frontend/images/ts-2.jpg')}}" alt="img" class="img-fluid">
-        <p>{{Auth::user()->name}}</p>
+        <a href="{{route('vendor.shop-profile.index')}}">
+            <img src="{{Auth::user()->vendor->banner ? asset(Auth::user()->vendor->banner) : asset('frontend/images/ts-2.jpg')}}" alt="img" class="img-fluid">
+        </a>
+        <a href="{{route('vendor.shop-profile.index')}}">
+            <p>{{Auth::user()->vendor->name}}</p>
+        </a>
     </div>
 </div>
 <!--=============================

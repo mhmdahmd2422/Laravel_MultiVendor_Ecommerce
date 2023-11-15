@@ -19,6 +19,16 @@ class Blog extends Model
         return $query->where('status', 1);
     }
 
+    public function scopeBlogSearch($query, $request){
+        return $query->when($request->has('search'), function ($query) use ($request) {
+            return $query->where('title', 'like', '%'.$request->search.'%')
+                ->orWhere('content', 'like', '%'.$request->search.'%')
+                ->orWhereHas('category', function ($query) use ($request){
+                    $query->where('name', 'like', '%'.$request->search.'%');
+                });
+        });
+    }
+
     public function category()
     {
         return $this->belongsTo(BlogCategory::class);

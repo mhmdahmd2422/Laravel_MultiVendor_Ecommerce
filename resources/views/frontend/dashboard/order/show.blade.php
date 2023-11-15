@@ -42,7 +42,7 @@
                                                         <div class="col-xl-4 col-md-4">
                                                             <div class="wsus__invoice_single text-md-end">
                                                                 <h5>Order Details</h5>
-                                                                <h6>Order Status: <span id="order_status_label">{{config('order_status.order_status_vendor')[$order->order_status]['details']}}</span></h6>
+                                                                <h6>Order Status: <span id="order_status_label">{{config('order_status.order_status_admin')[$order->order_status]['details']}}</span></h6>
                                                                 <p>Invoice ID: #{{$order->invoice_id}}</p>
                                                                 <p>Payment Type: {{ucfirst($order->payment_method)}}</p>
                                                                 <p>Payment Status: {{$order->payment_status === 0? 'Pending': 'Completed'}}</p>
@@ -109,10 +109,12 @@
                                             </div>
                                             <div class="wsus__invoice_footer">
                                                 <p><span>Sub-total:</span> {{$order->currency_icon}}{{$order->sub_total}} </p>
-                                                <p><span>Discount:</span> @if($coupon->discount_type === 'amount')
+                                                <p><span>Discount:</span> @if($coupon?->discount_type === 'amount')
                                                         -{{$order->currency_icon}}{{@$coupon->discount_value}}
-                                                    @elseif($coupon->discount_type === 'percent')
+                                                    @elseif($coupon?->discount_type === 'percent')
                                                         -{{$order->currency_icon}}{{getDiscountValueFromPercent(@$coupon->discount_value, $order->sub_total)}}
+                                                    @else
+                                                        -{{$order->currency_icon}}0
                                                     @endif
                                                 </p>
                                                 <p><span>Shipping fee:</span> +{{$settings->currency_icon}}{{$shipping->cost}} ({{$shipping->name}}) </p>

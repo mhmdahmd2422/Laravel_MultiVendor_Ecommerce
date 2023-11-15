@@ -9,43 +9,56 @@
             @include('vendor.layouts.sidebar')
             <div class="row">
                 <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
+                    <h2 class="mb-4">Vendor Dashboard</h2>
                     <div class="dashboard_content">
                         <div class="wsus__dashboard">
                             <div class="row">
                                 <div class="col-xl-2 col-6 col-md-4">
-                                    <a class="wsus__dashboard_item red" href="dsahboard_order.html">
-                                        <i class="far fa-address-book"></i>
-                                        <p>order</p>
+                                    <a class="wsus__dashboard_item blue" href="{{route('vendor.orders')}}">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        <p>orders</p>
+                                        <p>Today: {{$todayTotalOrders}}</p>
+                                        <p>all: {{$totalOrders}}</p>
                                     </a>
                                 </div>
                                 <div class="col-xl-2 col-6 col-md-4">
-                                    <a class="wsus__dashboard_item green" href="dsahboard_download.html">
-                                        <i class="fal fa-cloud-download"></i>
-                                        <p>download</p>
+                                    <a class="wsus__dashboard_item red" href="{{route('vendor.orders')}}">
+                                        <i class="fas fa-spinner"></i>
+                                        <p>pending orders</p>
+                                        <p>Today: {{$todayPendingOrders}}</p>
+                                        <p>all: {{$totalPendingOrders}}</p>
                                     </a>
                                 </div>
                                 <div class="col-xl-2 col-6 col-md-4">
-                                    <a class="wsus__dashboard_item sky" href="dsahboard_review.html">
+                                    <a class="wsus__dashboard_item green" href="{{route('vendor.orders')}}">
+                                        <i class="fas fa-check-circle"></i>
+                                        <p>done orders</p>
+                                        <p>Today: {{$todayDoneOrders}}</p>
+                                        <p>all: {{$totalDoneOrders}}</p>
+                                    </a>
+                                </div>
+                                <div class="col-xl-2 col-6 col-md-4">
+                                    <a class="wsus__dashboard_item orange" href="{{route('vendor.orders')}}">
+                                        <i class="fas fa-money-check-alt"></i>
+                                        <p>Earnings</p>
+                                        <p>Month: {{$settings->currency_icon}}{{$totalMonthEarnings}}</p>
+                                        <p>all: {{$settings->currency_icon}}{{$totalEarnings}}</p>
+                                    </a>
+                                </div>
+                                <div class="col-xl-2 col-6 col-md-4">
+                                    <a class="wsus__dashboard_item sky" href="{{route('vendor.reviews.index')}}">
                                         <i class="fas fa-star"></i>
-                                        <p>review</p>
+                                        <p>reviews</p>
+                                        <p>all: {{$totalReviews}}</p>
+                                        <p>avg rate: {{round($totalReviewsAvg, 2)}}/5</p>
                                     </a>
                                 </div>
                                 <div class="col-xl-2 col-6 col-md-4">
-                                    <a class="wsus__dashboard_item blue" href="dsahboard_wishlist.html">
-                                        <i class="far fa-heart"></i>
-                                        <p>wishlist</p>
-                                    </a>
-                                </div>
-                                <div class="col-xl-2 col-6 col-md-4">
-                                    <a class="wsus__dashboard_item orange" href="dsahboard_profile.html">
-                                        <i class="fas fa-user-shield"></i>
-                                        <p>profile</p>
-                                    </a>
-                                </div>
-                                <div class="col-xl-2 col-6 col-md-4">
-                                    <a class="wsus__dashboard_item purple" href="dsahboard_address.html">
-                                        <i class="fal fa-map-marker-alt"></i>
-                                        <p>address</p>
+                                    <a class="wsus__dashboard_item purple" href="{{route('vendor.products.index')}}">
+                                        <i class="fas fa-list-ul"></i>
+                                        <p>products</p>
+                                        <p>Active: {{$totalActiveProducts}}</p>
+                                        <p>InActive: {{$totalInactiveProducts}}</p>
                                     </a>
                                 </div>
                             </div>

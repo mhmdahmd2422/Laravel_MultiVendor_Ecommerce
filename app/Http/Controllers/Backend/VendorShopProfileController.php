@@ -44,7 +44,6 @@ class VendorShopProfileController extends Controller
         'fb_link' => ['url'],
         'tw_link' => ['url'],
         'insta_link' => ['url'],
-        'status' => ['required', 'boolean'],
         ]);
 
         $vendor = Vendor::where('user_id', Auth::user()->id)->first();
@@ -98,7 +97,6 @@ class VendorShopProfileController extends Controller
         $vendor->fb_link = $request->fb_link;
         $vendor->tw_link = $request->tw_link;
         $vendor->insta_link = $request->insta_link;
-        $vendor->status = $request->status;
         $vendor->save();
 
         toastr()->success($alert);

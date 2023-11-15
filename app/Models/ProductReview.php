@@ -9,6 +9,16 @@ class ProductReview extends Model
 {
     use HasFactory;
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    public function scopeVendorIs($query, $vendor)
+    {
+        $query->where('vendor_id', $vendor);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

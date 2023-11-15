@@ -9,6 +9,16 @@ class OrderProduct extends Model
 {
     use HasFactory;
 
+    public function scopeVendorIs($query, $vendor)
+    {
+        $query->where('vendor_id', $vendor);
+    }
+
+    public function scopeCreatedAt($query, $date)
+    {
+        return $query->whereDate('created_at', $date);
+    }
+
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
@@ -17,5 +27,10 @@ class OrderProduct extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 }

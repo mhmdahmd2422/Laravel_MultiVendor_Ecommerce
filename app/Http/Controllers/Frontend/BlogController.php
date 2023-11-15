@@ -30,11 +30,11 @@ class BlogController extends Controller
     public function blog(Request $request)
     {
         if($request->has('search')){
-            $blogs = Blog::activeNewest()->where('title', 'like', '%'.$request->get('search').'%')->paginate(8);
+            $blogs = Blog::active()->blogSearch($request->get('search'))->paginate(8);
         }else if($request->has('category')){
             $category = BlogCategory::where('slug', $request->get('category'))->where('status', 1)->first();
             if($category){
-                $blogs = Blog::activeNewest()->where('category_id', $category->id)->paginate(8);
+                $blogs = Blog::active()->where('category_id', $category->id)->paginate(8);
             }else{
                 $blogs = collect([]); //as no search result
             }

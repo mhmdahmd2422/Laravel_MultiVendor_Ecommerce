@@ -13,6 +13,10 @@ class Product extends Model
         return $query->where('is_approved', 1)->where('status', 1);
     }
 
+    public function scopeInactiveOrUnapproved($query){
+        return $query->where('is_approved', 0)->orWhere('status', 0);
+    }
+
     public function scopePriceRange($query, $request){
         return $query->when($request->has('price_slider') && $request->price_slider != null, function ($query) use ($request) {
             $range = explode(';', $request->price_slider);
@@ -43,6 +47,11 @@ class Product extends Model
 
     public function scopeListType($query, $list_type){
         return $query->where('list_type', $list_type);
+    }
+
+    public function scopeVendorIs($query, $vendor)
+    {
+        $query->where('vendor_id', $vendor);
     }
 
     public function vendor(){

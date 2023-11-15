@@ -9,6 +9,11 @@ class Order extends Model
 {
     use HasFactory;
 
+    public function scopeWhereStatus($query, $status)
+    {
+        return $query->where('order_status', $status);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
