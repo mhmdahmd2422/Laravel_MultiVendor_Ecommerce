@@ -14,6 +14,11 @@ class Order extends Model
         return $query->where('order_status', $status);
     }
 
+    public function scopeOrWhereStatus($query, $status)
+    {
+        return $query->OrWhere('order_status', $status);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

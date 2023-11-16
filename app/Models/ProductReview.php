@@ -14,6 +14,11 @@ class ProductReview extends Model
         return $query->where('status', 1);
     }
 
+    public function scopeInactive($query)
+    {
+        return $query->where('status', 0);
+    }
+
     public function scopeVendorIs($query, $vendor)
     {
         $query->where('vendor_id', $vendor);

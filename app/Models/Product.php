@@ -13,6 +13,10 @@ class Product extends Model
         return $query->where('is_approved', 1)->where('status', 1);
     }
 
+    public function scopeInactive($query){
+        return $query->orWhere('status', 0);
+    }
+
     public function scopeInactiveOrUnapproved($query){
         return $query->where('is_approved', 0)->orWhere('status', 0);
     }
