@@ -45,7 +45,7 @@
                                                                        class="img-fluid w-50">
                                         </td>
                                         <td class="wsus__pro_name">
-                                            <p style="font-weight: bold">{{$cartItem->name}}</p>
+                                            <a href="{{route('product-detail.index', $cartItem->options->slug)}}" style="font-weight: bold">{{$cartItem->name}}</a>
                                             @foreach($cartItem->options->variants as $variantName => $variantDetails)
                                                 <span>{{$variantName}}: {{$variantDetails['name']}}
                                                     ({{$variantDetails['price'] != 0?

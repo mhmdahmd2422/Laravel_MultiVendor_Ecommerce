@@ -525,6 +525,7 @@
 @endsection
 
 @push('scripts')
+    @include('frontend.layouts.scripts')
     <script>
         var d = new Date(),
             countUpDate = new Date();

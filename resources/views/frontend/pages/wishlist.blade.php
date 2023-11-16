@@ -11,6 +11,17 @@
 <section id="wsus__cart_view">
     <div class="container">
         <div class="row">
+            @if($wishlist_items->isEmpty())
+                <div class="col-xl-12">
+                    <div class="wsus__cart_list cart_empty p-3 p-sm-5 text-center">
+                        <p class="mb-4">your wishlist is empty</p>
+                        <a href="{{route('products.index')}}" class="common_btn">
+                            <i class="fal fa-store me-2"></i>
+                            add products
+                        </a>
+                    </div>
+                </div>
+            @else
             <div class="col-12">
                 <div class="wsus__cart_list wishlist">
                     <div class="table-responsive">
@@ -98,6 +109,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </section>
 <!--============================

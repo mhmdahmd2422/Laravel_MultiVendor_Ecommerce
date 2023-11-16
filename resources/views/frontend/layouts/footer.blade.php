@@ -62,7 +62,7 @@
                     </form>
                     <div class="footer_payment">
                         <p>We're using safe payment for :</p>
-                        <img src="images/credit2.png" alt="card" class="img-fluid">
+                        <img style="height: 4rem; width: 20rem;" src="{{asset('frontend/images/credit.png')}}" alt="card" class="img-fluid">
                     </div>
                 </div>
             </div>
