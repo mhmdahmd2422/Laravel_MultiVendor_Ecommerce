@@ -152,7 +152,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
         ->name('apply-shipping');
     Route::post('checkout-submit', [CheckoutController::class, 'checkoutSubmit'])
         ->name('checkout-submit');
-    //payment
+    //payments
     Route::get('payment', [PaymentController::class, 'index'])
         ->name('payment');
     Route::get('payment-success', [PaymentController::class, 'paymentSuccess'])
@@ -167,4 +167,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'user', 'as' => 
     //stripe
     Route::post('stripe/payment', [PaymentController::class, 'payWithStripe'])
         ->name('stripe.payment');
+    //cod
+    Route::get('cod/payment', [PaymentController::class, 'payWithCod'])
+        ->name('cod.payment');
 });

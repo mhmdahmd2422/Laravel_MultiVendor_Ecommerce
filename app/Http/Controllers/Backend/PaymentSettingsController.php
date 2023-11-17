@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\CodSetting;
 use App\Models\PaypalSetting;
 use App\Models\StripeSetting;
 use Illuminate\Http\Request;
@@ -14,10 +15,12 @@ class PaymentSettingsController extends Controller
     {
         $paypal_settings = PaypalSetting::first();
         $stripe_settings = StripeSetting::first();
+        $cod_settings = CodSetting::first();
         return view('admin.payment-settings.index',
             compact(
                 'paypal_settings',
                 'stripe_settings',
+                'cod_settings',
             )
         );
     }

@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
+use App\Http\Controllers\Backend\CodSettingsController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\UsersListController;
 use App\Http\Controllers\Backend\EmailConfigurationSettingController;
@@ -279,6 +280,8 @@ Route::put('/paypal-setting/{id}', [PaypalSettingsController::class, 'update'])
     ->name('paypal-setting.update');
 Route::put('/stripe-setting/{id}', [StripeSettingsController::class, 'update'])
     ->name('stripe-setting.update');
+Route::put('/cod-setting/{id}', [CodSettingsController::class, 'update'])
+    ->name('cod-setting.update');
 
 
 

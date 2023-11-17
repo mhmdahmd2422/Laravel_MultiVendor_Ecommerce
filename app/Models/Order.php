@@ -14,6 +14,11 @@ class Order extends Model
         return $query->where('order_status', $status);
     }
 
+    public function scopeWhereStatusNot($query, $status)
+    {
+        return $query->where('order_status', '!=', $status);
+    }
+
     public function scopeOrWhereStatus($query, $status)
     {
         return $query->OrWhere('order_status', $status);

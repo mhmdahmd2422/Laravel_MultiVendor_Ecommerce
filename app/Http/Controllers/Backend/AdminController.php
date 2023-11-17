@@ -111,7 +111,7 @@ class AdminController extends Controller
         $sum = 0;
         $query = OrderProduct::whereHas('order', function ($order)
             {
-                $order->whereStatus('delivered');
+                $order->whereStatusNot('canceled')->where('payment_status', 1);
             });
         if($time === 'today'){
             $query->whereDate('created_at' ,'>=', Carbon::now());

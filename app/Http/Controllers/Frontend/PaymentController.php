@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Controller;
+use App\Models\CodSetting;
 use App\Models\GeneralSetting;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -227,5 +228,25 @@ class PaymentController extends Controller
             flasher('Something Went Wrong!', 'error');
             return redirect()->route('user.payment');
         }
+    }
+
+    public function payWithCod(Request $request)
+    {
+        $codSetting = CodSetting::first();
+        $settings = GeneralSetting::first();
+        if($codSetting->status == 0){
+            //redirect to purchase page with error message
+            toastr('Cash On Delivery Payment Is Unavailable Now', 'error', 'error');
+            flasher('Cash On Delivery Payment Is Unavailable Now', 'error');
+            return redirect()->route('user.payment');
+        }
+        //calculate payment amount depend on currency rate
+        $total = getPaymentAmount();
+        $payableAmount = round($total, 2);
+        //Add transaction data to DB and empty cart
+        $this->storeOrder('COD', 0, strtoupper(getToken(17)), $payableAmount, $settings->currency_name);
+        //clear session
+        $this->clearSession();
+        return redirect()->route('user.payment.success');
     }
 }
