@@ -205,8 +205,8 @@ if(request()->has('vendor')){
                                             <ul class="wsus__single_pro_icon">
                                                 <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal-{{$product->id}}"><i
                                                             class="far fa-eye"></i></a></li>
-                                                <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                                <li><a href="#"><i class="far fa-random"></i></a>
+                                                <li><a href="#" class="add-to-wishlist" data-id="{{$product->id}}"><i class="far fa-heart"></i></a></li>
+{{--                                                <li><a href="#"><i class="far fa-random"></i></a>--}}
                                             </ul>
                                             <div class="wsus__product_details">
                                                 <a class="wsus__category" href="#">{{$product->category->name}}</a>
@@ -303,15 +303,15 @@ if(request()->has('vendor')){
                                                     <p class="wsus__price">{{$settings->currency_icon}}{{$product->price}}
                                                     </p>
                                                 @endif
-                                                <p class="list_description">{{$product->short_description}} </p>
+                                                <p class="list_description">{!! $product->short_description !!} </p>
                                                 <ul class="wsus__single_pro_icon">
                                                     <form class="shopping-cart-form">
                                                         <input type="hidden" name="product_id" value="{{$product->id}}">
                                                         <input name="quantity" type="hidden" min="1" max="100" value="1" />
                                                         <button class="add_cart_list_view" href="#" type="submit">Add To Cart</button>
                                                     </form>
-                                                    <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                                    <li><a href="#"><i class="far fa-random"></i></a>
+                                                    <li><a href="#" class="add-to-wishlist" data-id="{{$product->id}}"><i class="far fa-heart"></i></a></li>
+{{--                                                    <li><a href="#"><i class="far fa-random"></i></a>--}}
                                                 </ul>
                                             </div>
                                         </div>
@@ -428,7 +428,7 @@ if(request()->has('vendor')){
                                         @endfor
                                         <span>({{$product->reviews->count()}} review)</span>
                                     </p>
-                                    <p class="description" style="font-style: italic; font-size: large">“ {{$product->short_description}} ”</p>
+                                    <p class="description" style="font-style: italic; font-size: large">“ {!! $product->short_description !!} ”</p>
                                     <p class="brand_model"><span style="font-weight: bold">model :</span> {{$product->sku?? 'Not Provided'}} </p>
                                     <p class="brand_model mb-4"><span style="font-weight: bold">brand :</span> {{$product->brand->name}}</p>
                                     @if(checkDiscount($product))
@@ -458,13 +458,12 @@ if(request()->has('vendor')){
                                             <div class="select_number">
                                                 <input name="quantity" class="number_area" type="text" min="1" max="{{$product->quantity}}" value="1" />
                                             </div>
-                                            <h3>$50.00</h3>
                                         </div>
                                         <ul class="wsus__button_area">
                                             <li><button type="submit" class="add_cart" href="#">add to cart</button></li>
                                             <li><a class="buy_now" href="#">buy now</a></li>
-                                            <li><a href="#"><i class="fal fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="far fa-random"></i></a></li>
+                                            <li><a href="#" class="add-to-wishlist" data-id="{{$product->id}}"><i class="fal fa-heart"></i></a></li>
+{{--                                            <li><a href="#"><i class="far fa-random"></i></a></li>--}}
                                         </ul>
                                     </form>
                                     <div class="wsus__pro_det_share">

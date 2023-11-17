@@ -7,7 +7,7 @@
             <div class="col-xl-12">
                 <div class="wsus__section_header">
                     <h3>recent blogs</h3>
-                    <a class="see_btn" href="#">see more <i class="fas fa-caret-right"></i></a>
+                    <a class="see_btn" href="{{route('blog')}}">see more <i class="fas fa-caret-right"></i></a>
                 </div>
             </div>
         </div>

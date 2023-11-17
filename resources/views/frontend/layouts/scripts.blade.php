@@ -112,10 +112,5 @@
                 }
             })
         }
-        //add product to wishlist
-        $('.add-to-wishlist').on('click', function (event) {
-            event.preventDefault();
-            alert('wishlisted');
-        })
     })
 </script>

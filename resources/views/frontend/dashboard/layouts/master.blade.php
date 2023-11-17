@@ -28,7 +28,9 @@
 
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/responsive.css')}}">
-    <!-- <link rel="stylesheet" href="css/rtl.css"> -->
+    @if(@$settings->layout === 'RTL')
+        <link rel="stylesheet" href="{{asset('frontend/css/rtl.css')}}">
+    @endif
 </head>
 
 <body>

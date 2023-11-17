@@ -27,7 +27,9 @@
 
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/responsive.css')}}">
-    <!-- <link rel="stylesheet" href="css/rtl.css"> -->
+    @if(@$settings->layout === 'RTL')
+    <link rel="stylesheet" href="{{asset('frontend/css/rtl.css')}}">
+    @endif
 </head>
 
 <body>
@@ -155,12 +157,6 @@
         $('.add-to-wishlist').on('click', function (event) {
             event.preventDefault();
             let id = $(this).data('id');
-            $('.product-increment').on('click', function(e){
-                e.preventDefault();
-                let input = $(this).siblings('.product-qty');
-                let qty = parseInt(input.val()) +1;
-                input.val(qty);
-            })
             $.ajax({
                 method: 'GET',
                 url: '{{route('wishlist.store')}}',

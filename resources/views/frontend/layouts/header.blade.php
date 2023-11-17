@@ -12,7 +12,7 @@
             <div class="col-xl-2 col-7 col-md-8 col-lg-2">
                 <div class="wsus_logo_area">
                     <a class="wsus__header_logo" href="{{route('home')}}">
-                        <img src="{{asset('frontend/images/logo_2.png')}}" alt="logo" class="img-fluid w-100">
+                        <img src="{{asset($info->logo)}}" alt="logo" class="img-fluid w-100">
                     </a>
                 </div>
             </div>
@@ -31,8 +31,8 @@
                             <i class="fas fa-user-headset"></i>
                         </div>
                         <div class="wsus__call_text">
-                            <p>example@gmail.com</p>
-                            <p>+569875544220</p>
+                            <p>{{$info->email}}</p>
+                            <p>{{$info->phone}}</p>
                         </div>
                     </div>
                     <ul class="wsus__icon_area">
