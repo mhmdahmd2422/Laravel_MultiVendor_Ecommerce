@@ -154,10 +154,7 @@
                                     'Failed To Delete',
                                     data.message,
                                     'error'
-                                ).then((result) => {
-                                    // Reload the Page
-                                    location.reload();
-                                });
+                                );
                             }
                         },
                         error: function (xhr, status, error) {

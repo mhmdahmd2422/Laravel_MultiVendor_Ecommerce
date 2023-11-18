@@ -90,7 +90,7 @@
 
 
 <!-- Page Specific JS File -->
-<script src="{{asset('backend/assets/js/page/index-0.js')}}"></script>
+{{--<script src="{{asset('backend/assets/js/page/index-0.js')}}"></script>--}}
 
 <!-- Template JS File -->
 <script src="{{asset('backend/assets/js/scripts.js')}}"></script>
@@ -144,10 +144,7 @@
                                     'Failed To Delete',
                                     data.message,
                                     'error'
-                                ).then((result) => {
-                                    // Reload the Page
-                                    location.reload();
-                                });
+                                );
                             }
                         },
                         error: function (xhr, status, error) {
@@ -191,10 +188,7 @@
                                     'Failed To Approve',
                                     data.message,
                                     'error'
-                                ).then((result) => {
-                                    // Reload the Page
-                                    location.reload();
-                                });
+                                );
                             }
                         },
                         error: function (xhr, status, error) {

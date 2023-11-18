@@ -1,17 +1,17 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Ecommerce</a>
+            <a href="{{route('admin.dashboard')}}">{{$settings->site_name}}</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">ECOM</a>
+            <a href="{{route('admin.dashboard')}}">{{$settings->site_name}}</a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="dropdown">
                 <a href="{{route('admin.dashboard')}}" class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
-            <li class="menu-header">Starter</li>
+            <li class="menu-header">controls</li>
             <li class="dropdown {{setActive(
                 ['admin.slider.*',
                  'admin.homepage-settings.*',
@@ -22,7 +22,7 @@
                   'admin.about.*',
                   'admin.terms-and-conditions.*'
                   ])}}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Website</span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-at"></i> <span>Website</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.slider.*'])}}"><a class="nav-link" href="{{route('admin.slider.index')}}">Slider</a></li>
                     <li class="{{setActive(['admin.homepage-settings.*'])}}"><a class="nav-link" href="{{route('admin.homepage-settings.index')}}">Homepage Settings</a></li>
@@ -51,7 +51,7 @@
                 </ul>
             </li>
             <li class="dropdown {{setActive(['admin.order.*'])}}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Orders</span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box-open"></i> <span>Orders</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.order.index'])}}"><a class="nav-link" href="{{route('admin.order.index')}}">All Orders</a></li>
                     <li class="{{setActive(['admin.order.pending'])}}"><a class="nav-link" href="{{route('admin.order.pending')}}">Pending Orders</a></li>
@@ -73,7 +73,7 @@
                 'admin.flash-sale.*',
                 'admin.reviews.*'
                 ])}}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Products</span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-tags"></i> <span>Products</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.brand.*'])}}"><a class="nav-link" href="{{route('admin.brand.index')}}">Brands</a></li>
                     <li class="{{setActive(['admin.product.*'])}}"><a class="nav-link" href="{{route('admin.product.index')}}">Products</a></li>
@@ -89,7 +89,7 @@
                 'admin.vendor-request.*',
                 'admin.users.*',
                 ])}}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Users</span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-users"></i> <span>Users</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.admins-list.*'])}}"><a class="nav-link" href="{{route('admin.admins-list.index')}}">Admins</a></li>
                     <li class="{{setActive(['admin.vendor.*'])}}"><a class="nav-link" href="{{route('admin.vendor.index')}}">Vendors</a></li>
@@ -102,7 +102,7 @@
                 'admin.sub-category.*',
                 'admin.child-category.*',
                 ])}}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Categories</span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-sitemap"></i> <span>Categories</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.category.*'])}}"><a class="nav-link" href="{{route('admin.category.index')}}">Category</a></li>
                     <li class="{{setActive(['admin.sub-category.*'])}}"><a class="nav-link" href="{{route('admin.sub-category.index')}}">Sub-Category</a></li>
@@ -114,17 +114,19 @@
                     'admin.blog.*',
                     'admin.blog-comment.*',
                 ])}}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Blog</span></a>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-rss-square"></i> <span>Blog</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{setActive(['admin.blog-category.*'])}}"><a class="nav-link" href="{{route('admin.blog-category.index')}}">Categories</a></li>
                     <li class="{{setActive(['admin.blog.*'])}}"><a class="nav-link" href="{{route('admin.blog.index')}}">Posts</a></li>
                     <li class="{{setActive(['admin.blog-comment.*'])}}"><a class="nav-link" href="{{route('admin.blog-comment.index')}}">Comments</a></li>
                 </ul>
             </li>
-            <li class="{{setActive(['admin.transactions.*'])}}"><a class="nav-link" href="{{route('admin.transactions.index')}}"><i class="fas fa-money-check-alt"></i>Transactions</a></li>
-            <li class="{{setActive(['admin.newsletter.*'])}}"><a class="nav-link" href="{{route('admin.newsletter.index')}}"><i class="far fa-newspaper"></i>Newsletter Subscribers</a></li>
-            <li class="{{setActive(['admin.advertisement.*'])}}"><a class="nav-link" href="{{route('admin.advertisement.index')}}"><i class="fab fa-font-awesome-flag"></i>Advertisement Banners</a></li>
-            <li class="{{setActive(['admin.settings.*'])}}"><a class="nav-link" href="{{route('admin.settings.index')}}"><i class="fas fa-wrench"></i>Settings</a></li>
+            <div class="hide-sidebar-mini">
+                <li class="{{setActive(['admin.transactions.*'])}}"><a class="nav-link" href="{{route('admin.transactions.index')}}"><i class="fas fa-money-check-alt"></i>Transactions</a></li>
+                <li class="{{setActive(['admin.newsletter.*'])}}"><a class="nav-link" href="{{route('admin.newsletter.index')}}"><i class="far fa-newspaper"></i>Newsletter Subscribers</a></li>
+                <li class="{{setActive(['admin.advertisement.*'])}}"><a class="nav-link" href="{{route('admin.advertisement.index')}}"><i class="fab fa-font-awesome-flag"></i>Advertisement Banners</a></li>
+                <li class="{{setActive(['admin.settings.*'])}}"><a class="nav-link" href="{{route('admin.settings.index')}}"><i class="fas fa-wrench"></i>Settings</a></li>
+            </div>
         </ul>
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
             <a href="{{route('home')}}" class="btn btn-primary btn-lg btn-block btn-icon-split">
