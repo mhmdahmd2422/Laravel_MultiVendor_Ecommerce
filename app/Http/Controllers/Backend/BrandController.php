@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\DataTables\BrandDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\Product;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -37,7 +38,7 @@ class BrandController extends Controller
     {
         $request->validate([
             'logo' => ['required', 'image', 'max:2048'],
-            'name' => ['required','string', 'max:200'],
+            'name' => ['required','string', 'max:200', 'unique:vendors'],
             'is_featured' => ['required', 'boolean'],
             'status' => ['required', 'boolean'],
         ]);
@@ -75,7 +76,7 @@ class BrandController extends Controller
     {
         $request->validate([
             'logo' => ['image', 'max:2048'],
-            'name' => ['required','string', 'max:200'],
+            'name' => ['required','string', 'max:200', 'unique:vendors,name'.$id],
             'is_featured' => ['required', 'boolean'],
             'status' => ['required', 'boolean'],
         ]);
@@ -94,6 +95,10 @@ class BrandController extends Controller
     public function destroy(string $id)
     {
         $brand = Brand::findOrFail($id);
+        $products = Product::where('brand_id', $brand->id)->get();
+        if($products->isNotEmpty()) {
+            return response(['status' => 'error', 'message' => 'This Brand Has Registered Products! Delete All Brand Products to Delete Or Ban the Brand Instead.']);
+        }
         $this->deleteImage($brand->logo);
         $brand->delete();
 
@@ -103,6 +108,7 @@ class BrandController extends Controller
     public function changeStatus(Request $request)
     {
         $brand = Brand::findOrFail($request->id);
+        $brand = changeRelatedProductsAdminStatus($brand, 'brand_id', $request->status);
         $brand->status = $request->status == 'true' ? 1 : 0;
         $brand->save();
 
@@ -125,7 +131,7 @@ class BrandController extends Controller
         $brand->name = $request->name;
         $brand->slug = Str::slug($request->name);
         $brand->is_featured = $request->is_featured;
-        $brand->status = $request->status;
+        $brand = changeRelatedProductsAdminStatus($brand, 'brand_id', $request->status);
         $brand->save();
 
         toastr()->success($alert);

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ChildCategory;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\ProductImageGallery;
 use App\Models\ProductVariant;
@@ -149,21 +150,31 @@ class VendorProductController extends Controller
         //Check if editor is product owner
         if($product->vendor_id != Auth::user()->vendor->id){
             abort(404);
-        }
-        $galleries = ProductImageGallery::where('product_id', $product->id)->get();
-        $variants = ProductVariant::where('product_id', $product->id)->get();
-        foreach ($galleries as $gallery){
-            $this->deleteImage($gallery->image);
-            $gallery->delete();
-        }
-        foreach ($variants as $variant) {
-            $variant->variantItems()->delete();
-            $variant->delete();
-        }
-        $this->deleteImage($product->thumb_image);
-        $product->delete();
+        }else{
+            $orders = OrderProduct::where('product_id', $product->id)
+                ->whereHas('order', function ($order){
+                    $order->where('order_status', '!=', 'delivered')->orWhere('order_status', '!=', 'canceled');
+                })->get();
+            if($orders->isNotEmpty()){
+                return response(['status' => 'error', 'message' => 'This Product Have Processing Orders! Deactivate The Product And Complete Its Orders To Delete.']);
+            }else{
+                $galleries = ProductImageGallery::where('product_id', $product->id)->get();
+                $variants = ProductVariant::where('product_id', $product->id)->get();
+                foreach ($galleries as $gallery){
+                    $this->deleteImage($gallery->image);
+                    $gallery->delete();
+                }
+                foreach ($variants as $variant) {
+                    $variant->variantItems()->delete();
+                    $variant->delete();
+                }
+                $this->deleteImage($product->thumb_image);
+                $product->delete();
 
-        return response(['status' => 'success', 'message' => 'Product Deleted Successfully!']);
+                return response(['status' => 'success', 'message' => 'Product Deleted Successfully!']);
+            }
+        }
+
     }
 
     public function getSubCategories(Request $request){

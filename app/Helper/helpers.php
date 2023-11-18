@@ -186,4 +186,45 @@ function limitText(string $text, $limit = 20)
     return Str::limit($text, $limit);
 }
 
+function changeRelatedProductsAdminStatus(\Illuminate\Database\Eloquent\Model $model, string $column_name, $status)
+{
+    $products = Product::where($column_name, $model->id)->get();
+    if($status === 'true' || $status == 1){
+        $model->status = 1;
+        foreach ($products as $product){
+            $product->admin_status = $product->admin_status_cache;
+            $product->save();
+        }
+    }else if($status === 'false' || $status == 0){
+        $model->status = 0;
+        foreach ($products as $product){
+            $product->admin_status = 0;
+            $product->save();
+        }
+    }
+
+    return $model;
+}
+
+function checkBeforeCategoryDelete(\Illuminate\Database\Eloquent\Model $category, string $column_name){
+    $products = Product::where($column_name, $category->id)->get();
+    if($products->isNotEmpty()) {
+        return response(['status' => 'error', 'message' => 'This Category Has Registered Products! Delete All Category Products to Delete Or Ban the Category Instead.']);
+    }
+    $homeSettings = \App\Models\HomepageSetting::all();
+    $flag = false;
+    foreach ($homeSettings as $homeSetting) {
+        $array = json_decode($homeSetting->value, true);
+        $collection = collect($array);
+        if($collection->contains(rtrim($column_name, '_id'), $category->id)){
+            $flag = true;
+        }
+    }
+    if($flag){
+        return response(['status' => 'error', 'message' => 'This Category Is Featured In Homepage!']);
+    }
+
+    return $category;
+}
+
 

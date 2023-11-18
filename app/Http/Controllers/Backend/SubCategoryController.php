@@ -6,6 +6,7 @@ use App\DataTables\SubCategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\ChildCategory;
+use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -92,14 +93,17 @@ class SubCategoryController extends Controller
     {
         $sub_category = SubCategory::findOrFail($id);
         $child_category = ChildCategory::where('sub_category_id', $sub_category->id)->count();
-        if($sub_category > 0){
-            toastr()->error('Sub-Category Cannot Be Deleted');
-
+        if($child_category > 0){
             return response(['status' => 'error', 'message' => 'This Category contains Sub-Items!!']);
         }
-        $sub_category->delete();
-
-        return response(['status' => 'success', 'message' => 'Sub-Category Has Been Deleted Successfully!']);
+        $response = checkBeforeCategoryDelete($sub_category, 'sub_category_id');
+        //method will return model or response if check resulted error
+        if(isset($response->id)){
+            $response->delete();
+            return response(['status' => 'success', 'message' => 'Sub-Category Has Been Deleted Successfully!']);
+        }else{
+            return $response;
+        }
     }
 
     public function submitForm(Request $request, $sub_category, $alert, $route): \Illuminate\Http\RedirectResponse
@@ -107,6 +111,7 @@ class SubCategoryController extends Controller
         $sub_category->category_id = $request->category_id;
         $sub_category->name = $request->name;
         $sub_category->slug = Str::slug($request->name);
+        $sub_category = changeRelatedProductsAdminStatus($sub_category, 'sub_category_id', $request->status);
         $sub_category->status = $request->status;
         $sub_category->save();
 
@@ -121,6 +126,7 @@ class SubCategoryController extends Controller
 
     public function changeStatus(Request $request){
         $sub_category = SubCategory::findOrFail($request->id);
+        $sub_category = changeRelatedProductsAdminStatus($sub_category, 'sub_category_id', $request->status);
         $sub_category->status = $request->status == 'true' ? 1 : 0;
         $sub_category->save();
 

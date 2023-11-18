@@ -49,8 +49,8 @@ class SellerProductDataTable extends DataTable
             ->addColumn('thumbnail', function ($query){
                 return $image = "<img style='height: 5rem; width: 5rem;' src='".asset($query->thumb_image)."'></img>";
             })
-            ->addColumn('status', function ($query){
-                if($query->status){
+            ->addColumn('admin status', function ($query){
+                if($query->admin_status){
                     $button = "<label class='custom-switch'>
                           <input type='checkbox' name='custom-switch-checkbox' checked data-id='".$query->id."' class='custom-switch-input change-checkbox'>
                           <span class='custom-switch-indicator'></span>
@@ -62,6 +62,14 @@ class SellerProductDataTable extends DataTable
                         </label>";
                 }
                 return $button;
+            })
+            ->addColumn('status', function ($query){
+                if($query->status == 1){
+                    $status = '<i class="badge badge-success">Active</i>';
+                }else{
+                    $status = '<i class="badge badge-success">AInactive</i>';
+                }
+                return $status;
             })
             ->addColumn('listing', function ($query){
                 switch($query->list_type){
@@ -86,10 +94,9 @@ class SellerProductDataTable extends DataTable
                 return $query->vendor->user->name;
             })
             ->addColumn('vendor username', function ($query){
-                return $query->vendor->user->username;
+                return $query->vendor->user->username? : 'Not Provided';
             })
-
-            ->rawColumns(['thumbnail', 'action', 'status', 'listing', 'approve'])
+            ->rawColumns(['thumbnail', 'action', 'status', 'listing', 'approve', 'admin status'])
             ->setRowId('id');
     }
 
@@ -98,7 +105,7 @@ class SellerProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->whereHas('vendor', function ($query){$query->where(['is_approved' => 1, 'status' => 1]);})->where('vendor_id', '!=', Auth::user()->vendor->id)->where('is_approved', 1)->newQuery();
+        return $model->where('vendor_id', '!=', Auth::user()->vendor->id)->where('is_approved', 1)->newQuery();
     }
 
     /**
@@ -137,6 +144,7 @@ class SellerProductDataTable extends DataTable
             Column::make('price'),
             Column::make('listing'),
             Column::make('status'),
+            Column::computed('admin status'),
             Column::make('approve'),
             Column::computed('action')
                 ->exportable(false)

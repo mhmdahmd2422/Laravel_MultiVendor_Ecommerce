@@ -39,9 +39,9 @@ class AdminController extends Controller
         $totalInactiveCategories = Category::inactive()->count();
         $totalActiveProducts = Product::activeApproved()->count();
         $totalInactiveProducts = Product::inactive()->count();
+        $totalUnapprovedProducts = $this->getApprovedProductsCount($approve = 0);
         $totalActiveBlogs = Blog::active()->count();
         $totalInactiveBlogs = Blog::inactive()->count();
-        $totalUnapprovedProducts = $this->getApprovedProductsCount($approve = 0);
         $totalActiveReviews = ProductReview::active()->count();
         $totalPendingReviews = ProductReview::inactive()->count();
         $totalActiveUsers = $this->getUsersCount($status = 'active');

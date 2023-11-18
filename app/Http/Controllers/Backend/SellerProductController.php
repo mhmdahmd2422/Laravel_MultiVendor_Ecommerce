@@ -25,8 +25,10 @@ class SellerProductController extends Controller
         }else{
             $product->is_approved = 1;
         }
+        $product->admin_status = 1;
+        $product->admin_status_cache = 1;
         $product->save();
 
-        return response(['status' => 'success', 'message' => 'Product Approval Has Been Updated']);
+        return response(['status' => 'success', 'message' => 'Product Approved And Activated']);
     }
 }

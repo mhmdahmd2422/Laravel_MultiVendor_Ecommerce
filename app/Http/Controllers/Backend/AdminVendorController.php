@@ -51,7 +51,14 @@ class AdminVendorController extends Controller
             'status' => ['required', 'boolean'],
         ]);
         $user = User::findOrFail($request->user_id);
-        $user->role = 'vendor';
+        $vendor = Vendor::where('user_id', $user->id)->get();
+        if($vendor->isNotEmpty){
+            toastr('This user has an existing vendor profile!', 'error', 'error');
+            return redirect()->back();
+        }
+        if($user->role != 'admin'){
+            $user->role = 'vendor';
+        }
         $user->save();
         $vendor = new Vendor();
         $imagePath = $this->uploadImage($request, 'banner', 'uploads');
@@ -100,31 +107,7 @@ class AdminVendorController extends Controller
             'status' => ['required', 'boolean'],
         ]);
 
-        $user = User::findOrFail($request->user_id);
         $vendor = Vendor::findOrFail($id);
-        if($vendor->user_id != $user->id){
-            $vendor->status = 0;
-            $vendor->is_approved = 0;
-            $vendor->save();
-            //check if vendor has another vendor instances
-            $vendors = Vendor::where('user_id', $vendor->user->id)->get();
-            if($vendors->isEmpty() && $user->role != 'admin'){
-                $user->role = 'user';
-                $user->save();
-                return response(['status' => 'success', 'message' => 'Vendor Is Deleted!']);
-            }
-            $products = Product::where('vendor_id', $vendor->id)->get();
-            if($products->isNotEmpty()){
-                foreach ($products as $product){
-                    $product->status = 0;
-                    $product->is_approved = 0;
-                    $product->save();
-                }
-            }else{
-                $vendor->delete();
-            }
-        }
-
         $imagePath = $this->updateImage($request, 'banner', 'uploads', $vendor->banner);
         $alert = 'Vendor Has Been Updated!';
         $route = 'admin.vendor.index';
@@ -141,13 +124,12 @@ class AdminVendorController extends Controller
         $products = Product::where('vendor_id', $vendor->id)->get();
         $orders = Order::where('user_id', $vendor->user->id)->where('order_status', '!=', 'delivered')->get();
         if($products->isNotEmpty()){
-            return response(['status' => 'error', 'message' => 'This Vendor Has Registered Products! Delete All Vendor Products to Delete This Vendor Or Ban the Vendor Instead.']);
+            return response(['status' => 'error', 'message' => 'This Vendor Has Registered Products! Delete All Vendor Products to Delete Or Ban the Vendor Instead.']);
         }else if($orders->isNotEmpty()){
-            return response(['status' => 'error', 'message' => 'This User Has Incomplete Orders! Delete All User Orders to Delete This User.']);
+            return response(['status' => 'error', 'message' => 'This User Has Incomplete Orders! Delete All User Orders to Delete.']);
         }else {
             $user = User::findOrFail($vendor->user->id);
-            $vendors = Vendor::where('user_id', $user->id)->get();
-            if($vendors->isEmpty() && $user->role != 'admin'){
+            if($user->role != 'admin'){
                 $user->role = 'user';
                 $user->save();
             }
@@ -158,20 +140,7 @@ class AdminVendorController extends Controller
 
     public function changeStatus(Request $request){
         $vendor = Vendor::findOrFail($request->id);
-        $products = Product::where('vendor_id', $vendor->id)->get();
-        if($request->status === 'true'){
-            $vendor->status = 1;
-            foreach ($products as $product){
-                $product->status = 1;
-                $product->save();
-            }
-        }else if($request->status === 'false'){
-            $vendor->status = 0;
-            foreach ($products as $product){
-                $product->status = 0;
-                $product->save();
-            }
-        }
+        $vendor = $vendor = changeRelatedProductsAdminStatus($vendor, 'vendor_id', $request->status);
         $vendor->save();
 
         return response(['message' => 'Status Has Been Changed']);
@@ -191,6 +160,7 @@ class AdminVendorController extends Controller
         $vendor->insta_link = $request->insta_link;
         $vendor->status = $request->status;
         $vendor->is_approved = 1;
+        $vendor = changeRelatedProductsAdminStatus($vendor, 'vendor_id', $request->status);
         $vendor->save();
 
         toastr()->success($alert);

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ChildCategory;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\ProductImageGallery;
 use App\Models\ProductVariant;
@@ -67,9 +68,13 @@ class ProductController extends Controller
         ]);
 
         $product = new Product();
+        if(Auth::user()->vendor->id) {
+            $product->vendor_id = Auth::user()->vendor->id;
+        }else {
+            toastr('Please Create A Vendor Profile To Add Products!', 'error', 'error');
+        }
         $imagePath = $this->uploadImage($request, 'thumb_image', 'uploads');
         $product->is_approved = 1;
-        $product->vendor_id = Auth::user()->vendor->id;
         $alert = 'New Product Has Been Created!';
         $route = 'admin.product.index';
 
@@ -137,20 +142,28 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         $product = Product::findOrFail($id);
-        $galleries = ProductImageGallery::where('product_id', $product->id)->get();
-        $variants = ProductVariant::where('product_id', $product->id)->get();
-        foreach ($galleries as $gallery){
-            $this->deleteImage($gallery->image);
-            $gallery->delete();
-        }
-        foreach ($variants as $variant) {
-            $variant->variantItems()->delete();
-            $variant->delete();
-        }
-        $this->deleteImage($product->thumb_image);
-        $product->delete();
+        $orders = OrderProduct::where('product_id', $product->id)
+            ->whereHas('order', function ($order){
+            $order->where('order_status', '!=', 'delivered')->orWhere('order_status', '!=', 'canceled');
+        })->get();
+        if($orders->isNotEmpty()){
+            return response(['status' => 'error', 'message' => 'This Product Have Processing Orders! Deactivate The Product And Complete Its Orders To Delete.']);
+        }else{
+            $galleries = ProductImageGallery::where('product_id', $product->id)->get();
+            $variants = ProductVariant::where('product_id', $product->id)->get();
+            foreach ($galleries as $gallery){
+                $this->deleteImage($gallery->image);
+                $gallery->delete();
+            }
+            foreach ($variants as $variant) {
+                $variant->variantItems()->delete();
+                $variant->delete();
+            }
+            $this->deleteImage($product->thumb_image);
+            $product->delete();
 
-        return response(['status' => 'success', 'message' => 'Product Deleted Successfully!']);
+            return response(['status' => 'success', 'message' => 'Product Deleted Successfully!']);
+        }
     }
 
     public function getChildCategories(Request $request){
@@ -186,13 +199,18 @@ class ProductController extends Controller
         $product->offer_start_date = $request->offer_start_date;
         $product->offer_end_date = $request->offer_end_date;
         $product->list_type = $request->list_type;
-        $product->status = $request->status;
+        $product->status = $product->status? : $request->status;
+        $product->admin_status = $request->status;
+        $product->admin_status_cache = $request->status;
         $product->seo_title = $request->seo_title;
         $product->seo_description = $request->seo_description;
         $product->save();
 
         toastr()->success($alert);
 
+        if($product->vendor->user->role != 'admin'){
+            return redirect()->route('admin.seller-products.index');
+        }
         if($route != null) {
             return redirect()->route($route);
         }else{
@@ -202,7 +220,8 @@ class ProductController extends Controller
 
     public function changeStatus(Request $request){
         $product = Product::findOrFail($request->id);
-        $product->status = $request->status == 'true' ? 1 : 0;
+        $product->admin_status = $request->status == 'true' ? 1 : 0;
+        $product->admin_status_cache = $request->status == 'true' ? 1 : 0;
         $product->save();
 
         return response(['message' => 'Status Has Been Changed']);

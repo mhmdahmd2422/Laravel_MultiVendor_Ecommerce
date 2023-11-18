@@ -11,7 +11,8 @@ class Blog extends Model
 
     public function scopeActiveNewest($query)
     {
-        return $query->where('status', 1)->orderBy('id', 'DESC');
+        return $query->where('status', 1)
+            ->orderBy('id', 'DESC');
     }
 
     public function scopeActive($query)

@@ -17,7 +17,8 @@ class FlashSaleItem extends Model
 
     public function product(){
         $instance = $this->belongsTo(Product::class);
-        $instance->getQuery()->where(['status' => 1, 'is_approved' => 1]);
+        $instance->getQuery()
+            ->where(['status' => 1, 'is_approved' => 1]);
         return $instance;
     }
 }

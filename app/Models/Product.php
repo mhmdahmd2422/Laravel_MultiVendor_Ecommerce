@@ -10,15 +10,17 @@ class Product extends Model
     use HasFactory;
 
     public function scopeActiveApproved($query){
-        return $query->where('is_approved', 1)->where('status', 1);
+        return $query->where('is_approved', 1)
+            ->where('status', 1)
+            ->where('admin_status', 1);
     }
 
     public function scopeInactive($query){
-        return $query->orWhere('status', 0);
+        return $query->where('status', 0)->where('admin_status', 0);
     }
 
     public function scopeInactiveOrUnapproved($query){
-        return $query->where('is_approved', 0)->orWhere('status', 0);
+        return $query->where('status', 0)->where('admin_status', 0)->orWhere('is_approved', 0);
     }
 
     public function scopePriceRange($query, $request){

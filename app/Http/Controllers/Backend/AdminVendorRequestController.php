@@ -27,7 +27,7 @@ class AdminVendorRequestController extends Controller
         $vendor = Vendor::findOrFail($id);
         $vendor->delete();
 
-        return response(['status' => 'success', 'message' => 'Vendor Is Deleted!']);
+        return response(['status' => 'success', 'message' => 'Vendor Request Is Deleted!']);
     }
 
     public function approve(Request $request)

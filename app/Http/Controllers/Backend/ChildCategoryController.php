@@ -6,8 +6,10 @@ use App\DataTables\ChildCategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\ChildCategory;
+use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class ChildCategoryController extends Controller
@@ -94,9 +96,14 @@ class ChildCategoryController extends Controller
     public function destroy(string $id)
     {
         $child_category = ChildCategory::findOrFail($id);
-        $child_category->delete();
-
-        return response(['status' => 'success', 'message' => 'Child-Category Has Been Deleted Successfully!']);
+        $response = checkBeforeCategoryDelete($child_category, 'child_category_id');
+        //method will return model or response if check resulted error
+        if(isset($response->id)){
+            $response->delete();
+            return response(['status' => 'success', 'message' => 'Child-Category Has Been Deleted Successfully!']);
+        }else{
+            return $response;
+        }
     }
 
     public function submitForm(Request $request, $child_category, $alert, $route): \Illuminate\Http\RedirectResponse
@@ -106,6 +113,7 @@ class ChildCategoryController extends Controller
         $child_category->name = $request->name;
         $child_category->slug = Str::slug($request->name);
         $child_category->status = $request->status;
+        $child_category = changeRelatedProductsAdminStatus($child_category, 'child_category_id', $request->status);
         $child_category->save();
 
         toastr()->success($alert);
@@ -125,6 +133,7 @@ class ChildCategoryController extends Controller
 
     public function changeStatus(Request $request){
         $child_category = ChildCategory::findOrFail($request->id);
+        $child_category = changeRelatedProductsAdminStatus($child_category, 'child_category_id', $request->status);
         $child_category->status = $request->status == 'true' ? 1 : 0;
         $child_category->save();
 

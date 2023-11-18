@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\DataTables\CategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -90,14 +91,17 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $sub_category = SubCategory::where('category_id', $category->id)->count();
         if($sub_category > 0){
-            toastr()->error('Category Cannot Be Deleted');
-
             return response(['status' => 'error', 'message' => 'This Category contains Sub-Items!!']);
         }
-        $category->delete();
-        toastr()->success('Category Has Been Deleted');
-
-        return response(['status' => 'success', 'message' => 'Category Has Been Deleted Successfully!']);
+        $products = Product::where('category_id', $category->id)->get();
+        $response = checkBeforeCategoryDelete($category, 'category_id');
+        //method will return model or response if check resulted error
+        if(isset($response->id)){
+            $response->delete();
+            return response(['status' => 'success', 'message' => 'Category Has Been Deleted Successfully!']);
+        }else{
+            return $response;
+        }
     }
 
     public function submitForm(Request $request, $category, $alert, $route): \Illuminate\Http\RedirectResponse
@@ -105,6 +109,7 @@ class CategoryController extends Controller
         $category->icon = $request->icon;
         $category->name = $request->name;
         $category->slug = Str::slug($request->name);
+        $category = changeRelatedProductsAdminStatus($category, 'category_id', $request->status);
         $category->status = $request->status;
         $category->save();
 
@@ -112,13 +117,14 @@ class CategoryController extends Controller
 
         if ($route != null) {
             return redirect()->route($route);
-        } else {
+        }else {
             return redirect()->back();
         }
     }
 
     public function changeStatus(Request $request){
         $category = Category::findOrFail($request->id);
+        $category = changeRelatedProductsAdminStatus($category, 'category_id', $request->status);
         $category->status = $request->status == 'true' ? 1 : 0;
         $category->save();
 

@@ -165,8 +165,8 @@
                                         <label for="inputState">Status</label>
                                         <select name="status" id="inputState" class="form-control">
                                             <option value="">Select</option>
-                                            <option {{$product->status == 1 ? 'selected': ''}} value="1">Active</option>
-                                            <option {{$product->status == 0 ? 'selected': ''}} value="0">Inactive</option>
+                                            <option {{$product->admin_status == 1 ? 'selected': ''}} value="1">Active</option>
+                                            <option {{$product->admin_status == 0 ? 'selected': ''}} value="0">Inactive</option>
                                         </select>
                                     </div>
                                 </div>

@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use App\DataTables\UsersListDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\BlogComment;
 use App\Models\Order;
 use App\Models\ProductReview;
 use App\Models\User;
 use App\Models\Wishlist;
 use App\Traits\ImageUploadTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class UsersListController extends Controller
@@ -60,8 +62,12 @@ class UsersListController extends Controller
             return response(['status' => 'error', 'message' => 'This User Has Incomplete Orders! Delete All User Orders to Delete This User.']);
         }else{
             $wishlists = Wishlist::where('user_id', $user->id)->get();
+            $blog_comments = BlogComment::where('user_id', $user->id)->get();
             foreach ($wishlists as $wishlist){
                 $wishlist->delete();
+            }
+            foreach ($blog_comments as $comment){
+                $comment->delete();
             }
             $user->delete();
             return response(['status' => 'success', 'message' => 'User Is Deleted!']);
@@ -70,20 +76,7 @@ class UsersListController extends Controller
 
     public function changeStatus(Request $request){
         $user = User::findOrFail($request->id);
-        $reviews = ProductReview::where('user_id', $user->id)->get();
-        if($request->status === 'true'){
-            $user->status = 'active';
-            foreach ($reviews as $review){
-                $review->status = 1;
-                $review->save();
-            }
-        }else if($request->status === 'false'){
-            $user->status = 'inactive';
-            foreach ($reviews as $review){
-                $review->status = 0;
-                $review->save();
-            }
-        }
+        $user = $this->changeUserRelatedItemsStatus($user, $request->status);
         $user->save();
 
         return response(['message' => 'Status Has Been Changed']);
@@ -97,6 +90,9 @@ class UsersListController extends Controller
         $user->phone = $request->phone;
         $user->email = $request->email;
         $user->status = $request->status;
+        if($request->status === 'inactive'){
+            $user = $this->changeUserRelatedItemsStatus($user, $request->status);
+        }
         $user->save();
 
         toastr()->success($alert);
@@ -106,5 +102,25 @@ class UsersListController extends Controller
         }else{
             return redirect()->back();
         }
+    }
+
+    public function changeUserRelatedItemsStatus(Model $user, $status)
+    {
+        $reviews = ProductReview::where('user_id', $user->id)->get();
+        if($status === 'true' || $status == 'active'){
+            $user->status = 'active';
+            foreach ($reviews as $review){
+                $review->status = 1;
+                $review->save();
+            }
+        }else if($status === 'false' || $status == 'inactive'){
+            $user->status = 'inactive';
+            foreach ($reviews as $review){
+                $review->status = 0;
+                $review->save();
+            }
+        }
+
+        return $user;
     }
 }

@@ -62,8 +62,8 @@
                                 <label for="inputState">Status</label>
                                 <select name="status" id="inputState" class="form-control">
                                     <option value="">Select</option>
-                                    <option {{$user->status == 'active' ? 'selected': ''}} value="1">Active</option>
-                                    <option {{$user->status == 'inactive' ? 'selected': ''}} value="0">Inactive</option>
+                                    <option {{$user->status == 'active' ? 'selected': ''}} value="active">Active</option>
+                                    <option {{$user->status == 'inactive' ? 'selected': ''}} value="inactive">Inactive</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Update</button>
