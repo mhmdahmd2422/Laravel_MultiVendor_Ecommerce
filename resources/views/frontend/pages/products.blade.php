@@ -134,7 +134,7 @@ if(request()->has('vendor')){
                                 <div class="accordion-body">
                                     <ul>
                                         @foreach($brands as $brand)
-                                            <li><a href="{{route('products.index', ['brand' => $brand->slug])}}">{{$brand->slug}}</a></li>
+                                            <li><a href="{{route('products.index', ['brand' => $brand->slug])}}">{{ucfirst($brand->name)}}</a></li>
                                         @endforeach
                                     </ul>
                                 </div>

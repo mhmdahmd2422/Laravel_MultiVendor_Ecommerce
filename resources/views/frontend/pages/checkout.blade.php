@@ -13,12 +13,16 @@
             <div class="row">
                 <div class="col-xl-8 col-lg-7">
                     <div class="wsus__check_form">
-                        <h5>Shipping Details <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">add
-                                new address</a></h5>
+                        <div class="d-flex">
+                            <h3>Shipping Details</h3>
+                            <a class="common_btn" href="" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-left: auto">
+                                Add New Address</a>
+                        </div>
                         <div class="row mb-5 saved-address">
                             @if($addresses->isEmpty())
-                                <p style="margin-top: 3rem;">No Saved Addrress! Please <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Add
-                                        New Address</a></p>
+                                <p style="margin-top: 2rem;">
+                                    No Saved Addresses! Please Add An Address
+                                </p>
                             @endif
                             @foreach($addresses as $address)
                             <div class="col-xl-6">

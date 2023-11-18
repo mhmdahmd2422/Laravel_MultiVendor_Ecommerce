@@ -10,6 +10,7 @@
     if(array_keys($lastKey)[0] === 'category'){
         $category = \App\Models\Category::find($lastKey['category']);
         $products = \App\Models\Product::setEagerLoads([])
+        ->activeApproved()
         ->where('category_id', $category->id)
         ->orderBy('id', 'DESC')
         ->take(12)
@@ -17,6 +18,7 @@
     }elseif(array_keys($lastKey)[0] === 'sub_category'){
         $category = \App\Models\SubCategory::find($lastKey['sub_category']);
         $products = \App\Models\Product::setEagerLoads([])
+        ->activeApproved()
         ->where('sub_category_id', $category->id)
         ->orderBy('id', 'DESC')
         ->take(12)
@@ -24,6 +26,7 @@
     }else{
         $category = \App\Models\ChildCategory::find($lastKey['child_category']);
         $products = \App\Models\Product::setEagerLoads([])
+        ->activeApproved()
         ->where('child_category_id', $category->id)
         ->orderBy('id', 'DESC')
         ->take(12)
@@ -39,7 +42,13 @@
             <div class="col-xl-12">
                 <div class="wsus__section_header">
                     <h3>{{$category->name}}</h3>
-                    <a class="see_btn" href="#">see more <i class="fas fa-caret-right"></i></a>
+                    <a class="see_btn" href=
+                        "@php
+                        if(array_keys($lastKey)[0] === 'category') echo route('products.index', ['category' => $category->slug]);
+                        elseif (array_keys($lastKey)[0] === 'sub_category') echo route('products.index', ['sub_category' => $category->slug]);
+                        else echo route('products.index', ['child_category' => $category->slug]);
+                        @endphp"
+                    >see more <i class="fas fa-caret-right"></i></a>
                 </div>
             </div>
         </div>

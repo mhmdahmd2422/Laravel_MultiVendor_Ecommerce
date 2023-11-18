@@ -37,6 +37,7 @@
                                 if(array_keys($lastKey)[0] === 'category'){
                                     $category = \App\Models\Category::find($lastKey['category']);
                                     $products[] = \App\Models\Product::setEagerLoads([])
+                                    ->activeApproved()
                                     ->where('category_id', $category->id)
                                     ->orderBy('id', 'DESC')
                                     ->take(12)
@@ -44,6 +45,7 @@
                                 }elseif(array_keys($lastKey)[0] === 'sub_category'){
                                     $category = \App\Models\SubCategory::find($lastKey['sub_category']);
                                     $products[] = \App\Models\Product::setEagerLoads([])
+                                    ->activeApproved()
                                     ->where('sub_category_id', $category->id)
                                     ->orderBy('id', 'DESC')
                                     ->take(12)
@@ -51,6 +53,7 @@
                                 }else{
                                     $category = \App\Models\ChildCategory::find($lastKey['child_category']);
                                     $products[] = \App\Models\Product::setEagerLoads([])
+                                    ->activeApproved()
                                     ->where('child_category_id', $category->id)
                                     ->orderBy('id', 'DESC')
                                     ->take(12)

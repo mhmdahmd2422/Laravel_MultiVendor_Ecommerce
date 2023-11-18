@@ -10,7 +10,7 @@
         <div class="container">
             <div class="wsus__details_bg">
                 <div class="row">
-                    <div class="col-xl-4 col-md-5 col-lg-5" style="z-index: 9999 !important;">
+                    <div class="col-xl-4 col-md-5 col-lg-5" style="z-index: 1 !important;">
                         <div id="sticky_pro_zoom">
                             <div class="exzoom hidden" id="exzoom">
                                 <div class="exzoom_img_box">
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-5 col-md-7 col-lg-7">
+                    <div class="col-xl-8 col-md-7 col-lg-7">
                         <div class="wsus__pro_details_text">
                             <a class="title" href="javascript:;">{{$product->name}}</a>
                             <p class="wsus__stock_area">
@@ -67,11 +67,11 @@
                                 @for($j = $i; $j<5; $j++)
                                     <i class="far fa-star"></i>
                                 @endfor
-                                <span>({{$product->reviews->count()}} review)</span>
+                                <span class="z-0">({{$product->reviews->count()}} review)</span>
                             </p>
                             <p class="description" style="font-style: italic; font-size: large">{!! $product->short_description !!}</p>
                             <p class="brand_model"><span style="font-weight: bold">model :</span> {{$product->sku?? 'Not Provided'}}</p>
-                            <p class="brand_model mb-4"><span style="font-weight: bold">brand :</span> {{$product->brand->name}}</p>
+                            <p class="brand_model mb-4"><span style="font-weight: bold">brand :</span> {{ucfirst($product->brand->name)}}</p>
 
                             @if(checkDiscount($product))
                                 <div class="wsus_pro_hot_deals">
@@ -79,26 +79,6 @@
                                     <div class="simply-countdown simply-countdown-one"></div>
                                 </div>
                             @endif
-{{--                            <div class="wsus_pro_det_color">--}}
-{{--                                <h5>color :</h5>--}}
-{{--                                <ul>--}}
-{{--                                    <li><a class="blue" href="#"><i class="far fa-check"></i></a></li>--}}
-{{--                                    <li><a class="orange" href="#"><i class="far fa-check"></i></a></li>--}}
-{{--                                    <li><a class="yellow" href="#"><i class="far fa-check"></i></a></li>--}}
-{{--                                    <li><a class="black" href="#"><i class="far fa-check"></i></a></li>--}}
-{{--                                    <li><a class="red" href="#"><i class="far fa-check"></i></a></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                            <div class="wsus_pro__det_size">--}}
-{{--                                <h5>size :</h5>--}}
-{{--                                <ul>--}}
-{{--                                    <li><a href="#">S</a></li>--}}
-{{--                                    <li><a href="#">M</a></li>--}}
-{{--                                    <li><a href="#">L</a></li>--}}
-{{--                                    <li><a href="#">XL</a></li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-
                             <form class="shopping-cart-form">
                                 <input type="hidden" name="product_id" value="{{$product->id}}">
                                 @foreach($variants as $variant)
@@ -120,65 +100,15 @@
                                     <div class="select_number">
                                         <input name="quantity" class="number_area" type="text" min="1" max="{{$product->quantity}}" value="1" />
                                     </div>
-                                    <h3 id="result">$50.00</h3>
                                 </div>
 
                                 <ul class="wsus__button_area">
                                     <li><button type="submit" class="add_cart" href="#">add to cart</button></li>
-                                    <li><a class="buy_now" href="#">buy now</a></li>
-                                    <li><a href="#"><i class="fal fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="far fa-random"></i></a></li>
+{{--                                    <li><a class="buy_now" href="#">buy now</a></li>--}}
+                                    <li><a href="#" class="add-to-wishlist" data-id="{{$product->id}}"><i class="fal fa-heart"></i></a></li>
+{{--                                    <li><a href="#"><i class="far fa-random"></i></a></li>--}}
                                 </ul>
                             </form>
-                            <div class="wsus__pro_det_share">
-                                <h5>share :</h5>
-                                <ul class="d-flex">
-                                    <li><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a class="whatsapp" href="#"><i class="fab fa-whatsapp"></i></a></li>
-                                    <li><a class="instagram" href="#"><i class="fab fa-instagram"></i></a></li>
-                                </ul>
-                            </div>
-                            <a class="wsus__pro_report" href="#" data-bs-toggle="modal"
-                               data-bs-target="#exampleModal"><i class="fal fa-comment-alt-smile"></i> Report incorrect
-                                product information.</a>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-12 mt-md-5 mt-lg-0">
-                        <div class="wsus_pro_det_sidebar" id="sticky_sidebar">
-                            <ul>
-                                <li>
-                                    <span><i class="fal fa-truck"></i></span>
-                                    <div class="text">
-                                        <h4>Return Available</h4>
-                                        <!-- <p>Lorem Ipsum is simply dummy text of the printing</p> -->
-                                    </div>
-                                </li>
-                                <li>
-                                    <span><i class="far fa-shield-check"></i></span>
-                                    <div class="text">
-                                        <h4>Secure Payment</h4>
-                                        <!-- <p>Lorem Ipsum is simply dummy text of the printing</p> -->
-                                    </div>
-                                </li>
-                                <li>
-                                    <span><i class="fal fa-envelope-open-dollar"></i></span>
-                                    <div class="text">
-                                        <h4>Warranty Available</h4>
-                                        <!-- <p>Lorem Ipsum is simply dummy text of the printing</p> -->
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="wsus__det_sidebar_banner">
-                                <img src="images/blog_1.jpg" alt="banner" class="img-fluid w-100">
-                                <div class="wsus__det_sidebar_banner_text_overlay">
-                                    <div class="wsus__det_sidebar_banner_text">
-                                        <p>Black Friday Sale</p>
-                                        <h4>Up To 70% Off</h4>
-                                        <a href="#" class="common_btn">shope now</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -211,7 +141,7 @@
                                 </li>
                             </ul>
                             <div class="tab-content" id="pills-tabContent4">
-                                <div class="tab-pane fade {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'desc'? 'show active': ''}}}" id="pills-home22" role="tabpanel"
+                                <div class="tab-pane fade {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'desc'? 'show active': ''}}{{!session()->has('product_info_view_style')? 'show active': ''}}" id="pills-home22" role="tabpanel"
                                      aria-labelledby="pills-home-tab7">
                                     <div class="row">
                                         <div class="col-xl-12">
@@ -246,7 +176,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'vendor'? 'show active': ''}}{{!session()->has('product_info_view_style')? 'show active': ''}}" id="pills-contact" role="tabpanel"
+                                <div class="tab-pane fade {{session()->has('product_info_view_style') && session()->get('product_info_view_style') === 'vendor'? 'show active': ''}}" id="pills-contact" role="tabpanel"
                                      aria-labelledby="pills-contact-tab">
                                     <div class="wsus__pro_det_vendor">
                                         <div class="row">
@@ -270,17 +200,16 @@
                                                         @endfor
                                                         <span>({{$product->reviews->count()}} review)</span>
                                                     </p>
+                                                    <p>{!!$product->vendor->description!!}</p>
                                                     <p><span>Store Name:</span>{{$product->vendor->name}}</p>
                                                     <p><span>Address:</span>{{$product->vendor->address}}</p>
                                                     <p><span>Phone:</span> {{$product->vendor->phone}}</p>
                                                     <p><span>mail:</span> {{$product->vendor->email}}</p>
-                                                    <a href="vendor_details.html" class="see_btn">visit store</a>
+                                                    <a href="{{route('products.index', ['vendor' => $product->vendor->id])}}" class="see_btn">visit store</a>
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
                                                 <div class="wsus__vendor_details">
-                                                    <p>{!!$product->vendor->description!!}
-                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -304,6 +233,9 @@
                                                 <div class="{{$isBought? 'col-xl-8 col-lg-7': 'col-xl-12 col-lg-12'}}">
                                                     <div class="wsus__comment_area">
                                                         <h4>Reviews <span>{{$reviews->count()}}</span></h4>
+                                                        @if($reviews->isEmpty())
+                                                            <h5 style="margin-top: 1.5rem">No Reviews Yet.</h5>
+                                                        @endif
                                                         @foreach($reviews as $review)
                                                             <div class="wsus__main_comment">
                                                                     <div class="wsus__comment_img">
