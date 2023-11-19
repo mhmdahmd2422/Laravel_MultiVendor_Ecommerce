@@ -59,7 +59,6 @@ class VendorProductController extends Controller
             'offer_price' => ['nullable', 'decimal:0,2'],
             'offer_start_date' => ['nullable', 'date'],
             'offer_end_date' => ['nullable', 'date'],
-            'list_type' => ['nullable', 'string'],
             'status' => ['required', 'boolean'],
             'seo_title' => ['nullable', 'string', 'max:200'],
             'seo_description' => ['nullable', 'string', 'max:1000'],
@@ -122,7 +121,6 @@ class VendorProductController extends Controller
             'offer_price' => ['nullable', 'decimal:0,2'],
             'offer_start_date' => ['nullable', 'date'],
             'offer_end_date' => ['nullable', 'date'],
-            'list_type' => ['nullable', 'string'],
             'status' => ['required', 'boolean'],
             'seo_title' => ['nullable', 'string', 'max:200'],
             'seo_description' => ['nullable', 'string', 'max:1000'],
@@ -200,7 +198,7 @@ class VendorProductController extends Controller
     {
         if($imagePath != null){$product->thumb_image = $imagePath;}
         $product->name = $request->name;
-        $product->slug = Str::slug($request->name);
+        $product->slug = Str::slug($request->name).'#'.$request->sku;
         $product->category_id = $request->category_id;
         if($request->sub_category_id == null){
             $product->sub_category_id = 0;

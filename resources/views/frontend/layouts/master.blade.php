@@ -8,7 +8,7 @@
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
-    <title>Sazao || e-Commerce HTML Template</title>
+    <title>@yield('title')</title>
     <link rel="icon" type="image/png" href="{{asset('frontend/images/favicon.png')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/bootstrap.min.css')}}">
@@ -151,81 +151,7 @@
         $('.auto_click').click();
     })
 </script>
-<script>
-    $(document).ready(function (){
-        //add product to wishlist
-        $('.add-to-wishlist').on('click', function (event) {
-            event.preventDefault();
-            let id = $(this).data('id');
-            $.ajax({
-                method: 'GET',
-                url: '{{route('wishlist.store')}}',
-                data: {
-                    productId: id,
-                },
-                success: function (data) {
-                    if(data.status === 'success'){
-                        $('.wishlist_count').text(data.wishlistCount)
-                        toastr.success(data.message);
-                    }else if(data.status === 'error'){
-                        toastr.error(data.message);
-                    }
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            })
-        })
-        //newsletter request
-        $('#newsletter_request').on('submit', function (event) {
-            event.preventDefault();
-            let formData = $(this).serialize();
-            let subscribeBtn = $('.subscribe_btn');
-            $.ajax({
-                method: 'POST',
-                url: '{{route('newsletter.request')}}',
-                data: formData,
-                beforeSend: function () {
-                    subscribeBtn.css({'background' : '#0088CC'});
-                    subscribeBtn.html('<i class="fas fa-spinner fa-spin fa-1x"></i>');
-                },
-                success: function (data) {
-                    if(data.status === 'success'){
-                        subscribeBtn.css({'background' : '#198754'});
-                        subscribeBtn.html('Sent!');
-                        toastr.success(data.message);
-                        resetSubscribeBtn();
-                    }else if(data.status === 'error'){
-                        subscribeBtn.css({'background' : '#dc3545'});
-                        subscribeBtn.html('Error');
-                        toastr.error(data.message);
-                        resetSubscribeBtn();
-                    }
-                },
-                error: function (data) {
-                    let errors = data.responseJSON.errors;
-                    if(errors){
-                        $.each(errors, function (key, value) {
-                            toastr.error(value);
-                        })
-                    }
-                    subscribeBtn.css({'background' : '#dc3545'});
-                    subscribeBtn.html('Error');
-                    resetSubscribeBtn();
-                }
-            })
-        })
-        function resetSubscribeBtn() {
-            setTimeout(
-                function()
-                {
-                    let subscribeBtn = $('.subscribe_btn');
-                    subscribeBtn.css({'background' : '#0088CC'});
-                    subscribeBtn.html('Subscribe');
-                }, 1500);
-        }
-    })
-</script>
+@include('frontend.layouts.scripts1')
 @stack('scripts')
 </body>
 

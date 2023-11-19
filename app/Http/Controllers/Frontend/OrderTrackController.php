@@ -24,9 +24,6 @@ class OrderTrackController extends Controller
         if($order === null || $order->user->email != $request->email){
             return response(['status' => 'error', 'message' => 'Please Check Submitted Order Details']);
         }else{
-//            foreach (config('order_status.order_status_admin') as $status){
-//                dd($status['pending']);
-//            }
             $status_array = config('order_status.order_status_admin');
             return response([
                 'status' => 'success',

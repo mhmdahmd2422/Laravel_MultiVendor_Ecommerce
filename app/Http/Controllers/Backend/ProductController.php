@@ -176,7 +176,7 @@ class ProductController extends Controller
     {
         if($imagePath != null){$product->thumb_image = $imagePath;}
         $product->name = $request->name;
-        $product->slug = Str::slug($request->name);
+        $product->slug = Str::slug($request->name).'#'.$request->sku;
         $product->category_id = $request->category_id;
         if($request->sub_category_id == null){
             $product->sub_category_id = 0;

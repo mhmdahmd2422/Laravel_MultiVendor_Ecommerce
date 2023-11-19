@@ -49,7 +49,7 @@
                                             </div>
                                         </div>
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="wsus__dash_pro_single">
                                                 <label for="inputState">Product Category</label>
                                                 <select name="category_id" id="inputState" class="form-control main-category">
@@ -60,7 +60,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="wsus__dash_pro_single">
                                                 <label for="inputState">Sub-Category</label>
                                                 <select name="sub_category_id" id="inputState" class="form-control sub-category">
@@ -70,7 +70,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="wsus__dash_pro_single">
                                                 <label for="inputState">Child-Category</label>
                                                 <select name="child_category_id" id="inputState" class="form-control child-category">
@@ -80,17 +80,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="wsus__dash_pro_single">
-                                                <label for="inputState">Product Brand</label>
-                                                <select name="brand_id" id="inputState" class="form-control">
-                                                    <option>Select Brand</option>
-                                                    @foreach($brands as $brand)
-                                                        <option {{$product->brand_id == $brand->id ? 'selected': ''}} value="{{$brand->id}}">{{$brand->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <div class="wsus__dash_pro_single">
                                         <label>Short Description</label>
@@ -143,13 +133,12 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="wsus__dash_pro_single">
-                                                <label for="inputState">Listing Type</label>
-                                                <select name="list_type" id="inputState" class="form-control">
-                                                    <option value="">Select</option>
-                                                    <option {{$product->list_type == 'new_arrival' ? 'selected': ''}} value="new_arrival">New Arrival</option>
-                                                    <option {{$product->list_type == 'featured_product' ? 'selected': ''}} value="featured_product">Featured</option>
-                                                    <option {{$product->list_type == 'top_product' ? 'selected': ''}} value="top_product">Top Product</option>
-                                                    <option {{$product->list_type == 'best_product' ? 'selected': ''}} value="best_product">Best Product</option>
+                                                <label for="inputState">Product Brand</label>
+                                                <select name="brand_id" id="inputState" class="form-control">
+                                                    <option>Select Brand</option>
+                                                    @foreach($brands as $brand)
+                                                        <option {{$product->brand_id == $brand->id ? 'selected': ''}} value="{{$brand->id}}">{{$brand->name}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

@@ -34,8 +34,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('admin/login', [AdminController::class, 'login'])
-    ->name('admin.login');
 Route::get('wishlist/add', [WishlistController::class, 'addToWishlist'])
     ->name('wishlist.store');
 Route::get('flash-sale/all', [FlashSaleController::class, 'ShowAllFlashItems'])

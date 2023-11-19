@@ -489,22 +489,6 @@ if(request()->has('vendor')){
 @push('scripts')
     <script>
         $(document).ready(function(){
-            $('.list-view').on('click', function (event) {
-                let style = $(this).data('id');
-                $.ajax({
-                    method: 'GET',
-                    url: '{{route('change-product-view')}}',
-                    data: {
-                        style: style
-                    },
-                    success: function (data) {
-
-                    },
-                    error: function (data) {
-                        console.log(data)
-                    }
-                })
-            })
             //*==========PRICE SLIDER=========
             @php
                 if(request()->price_slider){

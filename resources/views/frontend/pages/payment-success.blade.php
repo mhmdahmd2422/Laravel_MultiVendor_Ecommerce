@@ -19,6 +19,3 @@
     ==============================-->
 
 @endsection
-@push('scripts')
-
-@endpush

@@ -8,9 +8,4 @@
         </div>
     </div>
 </div>
-@php
-    $stripe_settings = \App\Models\StripeSetting::first();
-@endphp
-@push('scripts')
 
-@endpush

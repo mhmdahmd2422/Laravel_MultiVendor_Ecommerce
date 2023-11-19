@@ -32,8 +32,8 @@ class FrontendProductController extends Controller
 
     public function productsIndex(Request $request)
     {
-        $categories = Category::active()->setEagerLoads([])->get();
-        $brands = Brand::active()->get();
+        $categories = Category::active()->setEagerLoads([])->take(5)->get();
+        $brands = Brand::active()->take(5)->get();
         $products = Product::activeApproved()
             ->productSearch($request)
             ->selectedBrand($request)

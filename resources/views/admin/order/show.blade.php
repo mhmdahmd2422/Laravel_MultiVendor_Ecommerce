@@ -24,6 +24,7 @@
                                     <address>
                                         <strong>Payment Method:</strong><br>
                                         <div class="images mt-3">
+                                            @if($order->payment_method === 'paypal' && $order->payment_method === 'stripe')
                                             <img style="height: 2rem; width: 3rem;"
                                                 @if($order->payment_method === 'paypal')
                                                 {{"src=". url('backend/assets/img/paypal.png')}}
@@ -31,6 +32,10 @@
                                                     {{"src=". url('backend/assets/img/stripe.svg')}}
                                                 @endif
                                                 >
+                                            @endif
+                                            @if($order->payment_method != 'paypal' && $order->payment_method != 'stripe')
+                                                {{$order->payment_method}}
+                                            @endif
                                             <b style="margin-top: 1rem; display: block;">Transaction
                                                 ID: {{$order->transaction->transaction_id}}</b>
                                         </div>

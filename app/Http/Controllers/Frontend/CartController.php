@@ -7,8 +7,10 @@ use App\Models\Advertisment;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\ProductVariantItem;
+use App\Models\Wishlist;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use function PHPUnit\Framework\isEmpty;
 
@@ -37,6 +39,14 @@ class CartController extends Controller
     }
     public function addToCart(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
+        if($request->has('wishlist_id')){
+            $wishlist = Wishlist::findOrFail($request->wishlist_id);
+            if ($wishlist->user_id === Auth::id()) {
+                $wishlist->delete();
+            }else{
+                return response(['status' => 'error', 'message' => 'Something Went Wrong']);
+            }
+        }
         $product = Product::findOrFail($request->product_id);
         // Check if sufficient stock
         if($product->quantity === 0){

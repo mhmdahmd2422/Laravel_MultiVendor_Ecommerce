@@ -45,7 +45,15 @@ class SellerPendingProductDataTable extends DataTable
                 return $image = "<img style='height: 5rem; width: 5rem;' src='".asset($query->thumb_image)."'></img>";
             })
             ->addColumn('status', function ($query){
-                if($query->status){
+                if($query->status == 1){
+                    $status = '<i class="badge badge-success">Active</i>';
+                }else{
+                    $status = '<i class="badge badge-success">AInactive</i>';
+                }
+                return $status;
+            })
+            ->addColumn('admin status', function ($query){
+                if($query->admin_status){
                     $button = "<label class='custom-switch'>
                           <input type='checkbox' name='custom-switch-checkbox' checked data-id='".$query->id."' class='custom-switch-input change-checkbox'>
                           <span class='custom-switch-indicator'></span>
@@ -84,7 +92,7 @@ class SellerPendingProductDataTable extends DataTable
                 return $query->vendor->user->username;
             })
 
-            ->rawColumns(['thumbnail', 'action', 'status', 'listing', 'approve'])
+            ->rawColumns(['thumbnail', 'action', 'status', 'listing', 'approve', 'admin status'])
             ->setRowId('id');
     }
 
@@ -130,9 +138,9 @@ class SellerPendingProductDataTable extends DataTable
             Column::make('vendor name'),
             Column::make('vendor username'),
             Column::make('price'),
-            Column::make('listing'),
-            Column::make('status'),
-            Column::make('approve'),
+            Column::make('admin status'),
+            Column::computed('status'),
+            Column::computed('approve'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

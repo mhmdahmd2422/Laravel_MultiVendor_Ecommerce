@@ -55,8 +55,4 @@
 <!--============================
     BLOGS PAGE END
 ==============================-->
-
 @endsection
-@push('scripts')
-
-@endpush

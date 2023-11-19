@@ -143,8 +143,4 @@
 <!--============================
     BLOGS DETAILS END
 ==============================-->
-
 @endsection
-@push('scripts')
-
-@endpush

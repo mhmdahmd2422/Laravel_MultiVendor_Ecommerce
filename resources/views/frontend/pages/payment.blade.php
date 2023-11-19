@@ -117,12 +117,6 @@
 @endsection
 @push('scripts')
 <script>
-    $(document).ready(function() {
-        $('.pay_button').on('click', function (){
-            $(this).css({'background' : '#198754'});
-            $(this).html('<i class="fas fa-spinner fa-spin fa-1x"></i>');
-        })
-    })
 
 </script>
 @endpush

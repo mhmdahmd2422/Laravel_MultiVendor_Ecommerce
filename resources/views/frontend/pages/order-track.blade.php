@@ -106,7 +106,7 @@
                     if(data.status === 'success'){
                         sendBtn.css({'background' : '#198754'});
                         sendBtn.html('<i class="fas fa-check"></i>');
-                        resetSendBtn();
+                        resetTrackSendBtn();
                         $('.track-info').removeClass('d-none');
                         $('#order-date').text(data.order_at);
                         $('#order-name').text(data.order_by);
@@ -117,7 +117,7 @@
                         sendBtn.css({'background' : '#dc3545'});
                         sendBtn.html('Error');
                         toastr.error('Something Went Wrong!');
-                        resetSendBtn();
+                        resetTrackSendBtn();
                     }
                 },
                 error: function (data) {
@@ -128,7 +128,7 @@
                     })
                     sendBtn.css({'background' : '#dc3545'});
                     sendBtn.html('Error');
-                    resetSendBtn();
+                    resetTrackSendBtn();
                 }
             })
         })
@@ -154,7 +154,7 @@
                 $('.icon_four').addClass('check_mark');
             }
         }
-        function resetSendBtn() {
+        function resetTrackSendBtn() {
             setTimeout(
                 function()
                 {

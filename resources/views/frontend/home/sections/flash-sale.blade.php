@@ -189,24 +189,14 @@
                                             <div class="select_number">
                                                 <input name="quantity" class="number_area" type="text" min="1" max="{{$item->product->quantity}}" value="1" />
                                             </div>
-                                            <h3>$50.00</h3>
                                         </div>
                                         <ul class="wsus__button_area">
                                             <li><button type="submit" class="add_cart" href="#">add to cart</button></li>
-                                            <li><a class="buy_now" href="#">buy now</a></li>
+{{--                                            <li><a class="buy_now" href="#">buy now</a></li>--}}
                                             <li><a href="#" class="add-to-wishlist" data-id="{{$item->product->id}}"><i class="far fa-heart"></i></a></li>
 {{--                                            <li><a href="#"><i class="far fa-random"></i></a></li>--}}
                                         </ul>
                                     </form>
-                                    <div class="wsus__pro_det_share">
-                                        <h5>share :</h5>
-                                        <ul class="d-flex">
-                                            <li><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a class="whatsapp" href="#"><i class="fab fa-whatsapp"></i></a></li>
-                                            <li><a class="instagram" href="#"><i class="fab fa-instagram"></i></a></li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -232,101 +222,6 @@
             month: {{date('m', strtotime($flash_sale_date?->end_date))}},
             day: {{date('d', strtotime($flash_sale_date?->end_date))}},
         });
-    })
-</script>
-<script>
-    $(document).ready(function (){
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        //add product to cart
-        $('.shopping-cart-form').on('submit', function (e){
-            e.preventDefault();
-            let formData = $(this).serialize();
-            $.ajax({
-                method: 'POST',
-                data: formData,
-                url: '{{route('add-to-cart')}}',
-                success: function (data) {
-                    if(data.status == 'success'){
-                        getCartCount();
-                        fetchSidebarCartProducts();
-                        getSidebarCartSubtotal();
-                        toastr.success(data.message);
-                    }else if (data.status == 'error') {
-                        toastr.error(data.message);
-                    }
-                },
-                error: function (data) {
-                    toastr.error(data.message);
-                }
-            })
-        })
-        function getCartCount() {
-            $.ajax({
-                method: 'GET',
-                url: '{{route('cart-count')}}',
-                success: function (data) {
-                    $('#cart-count').text(data);
-                },
-                error: function (data) {
-                    console.log(data)
-                }
-            })
-        }
-        //update sidebar cart on change
-        function fetchSidebarCartProducts(){
-            $.ajax({
-                method: 'GET',
-                url: '{{route('cart-products')}}',
-                success: function (data) {
-                    let miniCart = $('.mini_cart_wrapper');
-                    miniCart.html('');
-                    var html = '';
-                    for(let item in data){
-                        let product = data[item];
-                        html += `<li>
-                                    <div class="wsus__cart_img">
-                                    <a href="{{url('product-detail')}}/${product.options.slug}"><img src="{{asset('/')}}${product.options.image}" alt="product" class="img-fluid w-100"></a>
-                                    <a id="${product.rowId}" class="wsis__del_icon remove-sidebar-item" href="#"><i class="fas fa-minus-circle"></i></a>
-                                    </div>
-                                    <div class="wsus__cart_text">
-                                    <a class="wsus__cart_title" href="{{url('product-detail')}}/${product.options.slug}">
-                                    ${product.name}
-                                    (${product.qty} item)
-                                    </a>
-                                    <p>{{$settings->currency_icon}}${product.price}</p>
-                                    <small>Variants Per Item: {{$settings->currency_icon}}${product.options.variants_totalPrice}</small>
-                                    </div>
-                                    </li>`
-                    }
-                    miniCart.html(html);
-                    if(miniCart.find('li').length === 0){
-                        $('.mini_cart_actions').addClass('d-none');
-                        miniCart.html('<li class="text-center">Cart Is Empty!</li>');
-                    }else{
-                        $('.mini_cart_actions').removeClass('d-none');
-                    }
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            })
-        }
-        function getSidebarCartSubtotal(){
-            $.ajax({
-                method: 'GET',
-                url: '{{route('cart-products-total')}}',
-                success: function (data) {
-                    $('#mini_cart_subtotal').text("{{$settings->currency_icon}}"+data);
-                },
-                error: function (data) {
-                    console.log(data)
-                }
-            })
-        }
     })
 </script>
 @endpush

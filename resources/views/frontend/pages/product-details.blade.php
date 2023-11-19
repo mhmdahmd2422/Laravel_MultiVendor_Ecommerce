@@ -14,7 +14,7 @@
                         <div id="sticky_pro_zoom">
                             <div class="exzoom hidden" id="exzoom">
                                 <div class="exzoom_img_box">
-                                    @if($product->video_link)
+                                    @if($product->video_link != null)
                                         <a class="venobox wsus__pro_det_video" data-autoplay="true" data-vbtype="video"
                                            href="{{$product->video_link}}">
                                             <i class="fas fa-play"></i>
@@ -457,7 +457,6 @@
 @endsection
 
 @push('scripts')
-    @include('frontend.layouts.scripts')
     <script>
         var d = new Date(),
             countUpDate = new Date();
@@ -473,27 +472,7 @@
         })
     </script>
     <script>
-        $(document).ready(function(){
-            $('.info-view').on('click', function (event) {
-                let style = $(this).data('id');
-                $.ajax({
-                    method: 'GET',
-                    url: '{{route('change-product-info-view')}}',
-                    data: {
-                        style: style
-                    },
-                    success: function (data) {
-
-                    },
-                    error: function (data) {
-                        console.log(data)
-                    }
-                })
-            })
-        })
-    </script>
-    //add image to review
-    <script>
+        //add image to review
         $(function(){
             $("input[type='submit']").click(function(){
                 var $fileUpload = $("input[type='file']");
