@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         //Set TimeZone
         Config::set('app.timezone', $generalSettings->timezone);
 //        //Set App name
-//        Config::set('app.name', $generalSettings->site_name);
+        Config::set('app.name', $generalSettings->site_name);
         //share currency to views
         View::composer('*', function ($view) use ($infoSettings, $generalSettings){
             $view->with(

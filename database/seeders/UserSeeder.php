@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'role' => 'admin',
                 'status' => 'active',
-                'password' => bcrypt('havokovo'),
+                'password' => bcrypt('password'),
             ],
             [
                 'name' => 'Vendor user',
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'email' => 'vendor@gmail.com',
                 'role' => 'vendor',
                 'status' => 'active',
-                'password' => bcrypt('havokovo'),
+                'password' => bcrypt('password'),
             ],
             [
                 'name' => 'user',
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
                 'email' => 'user@gmail.com',
                 'role' => 'user',
                 'status' => 'active',
-                'password' => bcrypt('havokovo'),
+                'password' => bcrypt('password'),
             ],
         ]);
     }

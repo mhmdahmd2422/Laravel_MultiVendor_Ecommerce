@@ -1,66 +1,106 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Sazao - Multi-Vendor Ecommerce
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sazao is an open-source multi-vendor ecommerce web application developed using the Laravel framework and MySQL database. It aims to provide a robust and scalable solution for individuals and businesses to create their online marketplace, enabling them to sell their products or services to a wide audience. With OpenMarket, vendors can easily set up their stores, manage inventory, process orders, track and collect payments through reliable payment gateways, and engage with customers in a seamless and efficient manner.
 
-## About Laravel
+- Live Demo : http://44.196.54.81/
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features Overview:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Multi-Vendor Support: Sazao allows multiple vendors to sign up and create their own storefronts within the platform, offering a diverse range of products or services.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Product Management: Vendors can add, edit, and manage their products listings, including product descriptions, images, pricing, and inventory levels, through a convenient dashboard.
 
-## Learning Laravel
+- Order Processing: Sazao facilitates the smooth processing of orders, including order placement, payment processing, order tracking, and order fulfillment, ensuring a seamless shopping experience for customers.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Payment Gateway Integration: The platform integrates with popular payment gateways, allowing secure online transactions and providing multiple payment options for customers.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Ratings and Reviews: Customers can leave ratings and reviews for products they have purchased, as well as save products in their wishlist for late, helping other users make informed decisions and fostering trust within the community.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Dynamic Homepage: Sazao provide a fully dynamic and customizable homepage to help promote hot items and vendors, as well as flash sales, popular products, and most-selling items on the marketplace.
 
-## Laravel Sponsors
+- Advanced Search and Filtering: Implementing advanced search and filtering options to help customers easily find the products they are looking for based on specific criteria.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- Blogs Section: Sazao incorporates a robust blogging feature designed to enhance engagement, educate users, and inspire interaction within the marketplace community. Blog posts are seamlessly integrated with social media platforms, allowing users to easily share articles across their social networks and expand the reach of the marketplace content. All blog content is optimized for search engines to enhance discoverability and attract organic traffic to the marketplace website.
 
-### Premium Partners
+- Newsletter Subscriptions: Users have the option to subscribe to the blog newsletter to receive regular updates, notifications, and curated content directly in their inbox. Newsletter subscribers stay informed about the latest blog posts, product releases, promotions, and events
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- Analytics and Reporting: The application provides vendors with valuable insights into their sales performance, customer behavior, and inventory management through comprehensive analytics and reporting tools.
 
+- Responsive Design: Sazao is built with a responsive design, ensuring that the platform is accessible and optimized for various devices and screen sizes, including desktops, tablets, and smartphones.
+
+- Scalability and Extensibility: The architecture of Sazao is designed to be highly scalable and extensible, allowing for easy customization and integration of additional features and functionalities as per the requirements of the users.
+
+## Functional Features
+
+- Vendor Management:
+
+1. Onboarding: Admins can review and approve vendor registration requests, ensuring compliance with platform policies and standards.
+2. Profile Management: Admins can view and manage vendor profiles, including contact information, store details, and verification status.
+3. Suspension and Termination: Admins have the authority to suspend or terminate vendor accounts for violations of terms of service or other infractions.
+
+- Product Management:
+
+1. Catalog Management: Admins can oversee the entire product catalog, including adding, editing, or removing products as needed.
+2. Inventory Management: Admins can monitor inventory levels, track stock movements, and receive alerts for low stock or out-of-stock items.
+3. Product Approval: Admins can review and approve new product listings submitted by vendors before they are published on the marketplace.
+4. Product Variations: Vendors can create product variations such as size, color, or style variants, enabling customers to choose from different options within the same product listing.
+5. Order Management: Vendors can view and manage orders placed by customers, including order status, payment verification, and fulfillment status, from a centralized dashboard.
+6. Promotions and Discounts: Admins can create and manage promotional offers, discounts, and coupon codes
+
+- User Management:
+
+1. User Roles and Permissions: Admins can assign different roles and permissions to users based on their responsibilities and access requirements, ensuring security and compliance.
+
+- Content Management:
+
+1. Website Content: Admins can manage website content, including static pages, banners, promotional materials, and announcements, to keep the platform up-to-date and engaging.
+2. Blog Management: Admins can publish, edit, or delete blog posts, manage comments, and monitor engagement on the blog section of the platform.
+
+- Secure Authentication:
+
+1. Remember Me Option: To enhance user convenience, Sazao offers a "Remember Me" option on the login page. Eliminating the need to re-enter credentials every time they visit the platform.
+2. Forgot Password Functionality: In case users forget their passwords, Sazao provides a "Forgot Password" feature. Users can reset their passwords by following a simple email-based verification process.
+3. Account Management: Logged-in users have access to their account settings, where they can update personal information, change passwords, and manage communication preferences.
+
+4. Security & Privacy: User passwords are hashed and stored securely, and login attempts are monitored for suspicious activity.
+
+## Sample Views
+
+- [Home Page Screenshot](https://i.imgur.com/aG5vNdL.jpg)
+- [Product Page Screenshot](https://i.imgur.com/gVPQiZe.png)
+- [Admin Dashboard Screenshot](https://i.imgur.com/bCOBojU.png)
+
+## Prerequisites:
+
+- Web server (Apache, Nginx, or any server supporting PHP)
+- PHP (>= 7.3.0)
+- Composer (PHP dependency manager)
+- MySQL or any other supported database
+
+## Installation
+
+1. Install Dependencies
+```php
+composer install
+```
+2. Environment Configuration
+   Duplicate the .env.example file and rename it to .env. Update the database configuration and any other environment variables as needed.
+```php
+cp .env.example .env
+```
+3. Generate Application Key
+```php
+php artisan key:generate
+```
+4. Run Migrations and Seeders
+```php
+php artisan migrate --seed
+```
+5. Serve Your Application
+```php
+php artisan serve --port={port}
+```
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
